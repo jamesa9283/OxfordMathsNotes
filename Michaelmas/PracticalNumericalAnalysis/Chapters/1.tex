@@ -11,18 +11,17 @@ We will study,
   \item ODEs
   \begin{itemize}
     \item Euler Schemes
-    \item Ruga Kutta
+    \item Runga Kutta
     \item Linear multistep
   \end{itemize}
   \item Parabolic PDEs - Heat Equation
 \end{itemize}
 
 \subsection{Root Finding (and optimisation)}
-The idea is simple. Find some $x$ such that $f(x) = 0$. We are being vague on purpose. The stating is simple, the solving isn't simple. Take the cubic, this isn't simple.
-%% Insert eqn here
-Then for the quintic, then it's only has closed form when its Galois group is solvable. These closed forms, may not exist, be unstable, require evaluation of special function. Hence we need numerical methods.
+The idea is simple. Find some $x$ such that $f(x) = 0$. We are being vague on purpose. The stating is simple, the solving isn't simple. The cubic formula isn't so simple. Then for the quintic, then it's only has closed form when its Galois group is solvable. These closed forms, may not exist, be unstable, require evaluation of special function. Hence we need numerical methods.\\
 
-The relation to optimisation is obvious. The max or min occurs at a turning point. That is,
+\noindent
+The relation to optimisation is quite nice. The max or min occurs at a turning point. That is,
 $$ f_i := \pd g {x_i} = 0 $$
 and then we have a root finding problem.
 
@@ -30,22 +29,37 @@ and then we have a root finding problem.
 In the 1D case, given $f: [a, b] \to \R$ then find $c \in [a, b]$ such that $f(c) =0$. The bisection algorithm uses the intermediate value theorem (See Analysis / Topology). Thus to find a root of $f(c)$ we find $a$ and $b$ such that $f(a)$ and $f(b)$ have opposite signs. Then let $c = (a + b)/2$. Then compute $f(c)$, check and repeat. \\
 
 \noindent
-We need to decide when to terminate the algotithm, the normal are,
+We need to decide when to terminate the algorithm, the normal are,
 \begin{itemize}
-  \item $|b - a| < \mathrm{tol}$,
+  \item $|b - a| < \mathrm{tol}$, or,
   \item $|f(c)| < \mathrm{tol}$.
 \end{itemize}
 
+\noindent
 For convergence, since $c \in [a, b]$ the maximum error is $b - a$. Since the step halves, the error at step $n$,
 $$ |c_n - c| \le \frac{b - a}{2^n}. $$
 Thus to achieve an accuracy of tolerance requires,
 $$ n \ge \frac{\log(b - a) - \log(\mathrm{tol})}{\log (2)} $$
 steps of bisection algorithm.\\
 
-Here is some pseudocode for this algorthm,
-%% Insert Pseudocode
+\noindent
+Here is some pseudocode for this algorithm,
+\begin{algorithm}
+\caption{Bisection Method}\label{alg:BisectMethod}
+\begin{algorithmic}
+\Require $a, b, f(x), \mathrm{tol}$
+\Ensure $c$
+\While{$|b - a| > \mathrm{tol}$}
+\State $c \gets (a + b)/2$
+\If{$f(a)f(c) < 0$}
+  \State{$b \gets c$}
+\Else
+  \State{$a \gets c$}
+\EndIf
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
 
-So can we do better? Well yes,
 \subsubsection{Regular Falsi}
 This algorithm finds a clever guess. We are going to approximate $f$ on $[a, b]$,
 $$ p_1(x) = \frac{x - a}{b - a} f(b) + \frac{b - x}{b - a} f(a)$$
@@ -66,7 +80,19 @@ Thus the newton raphson method requires an intial guess and then iterates,
 $$ x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)} $$
 until convergence is achieved. This is quicker, quadratic, if we have a guess sufficiently close.
 
-%% insert psuedocode here.
+\begin{algorithm}
+\caption{Newton-Raphson Method}\label{alg:NR}
+\begin{algorithmic}
+\Require $x_0, f(x), f'(x), \mathrm{tol}$
+\Ensure $x^*$
+\State{$k \gets 0$}
+\While{$|f(x_k)| > \mathrm{tol}$}
+\State $x_{k+1} \gets x_k - f(x_k)/f'(x_k)$
+\State $k \gets k + 1$
+\EndWhile
+\State $x^* \gets x_k$
+\end{algorithmic}
+\end{algorithm}
 
 We can variate this to secant method. The iterate is,
 $$ x_{k+1} = x_k - f(x_k)\frac{x_k - x_{k+1}}{f(x_k) - f(x_{k-1})} $$
