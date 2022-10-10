@@ -1,0 +1,20 @@
+\documentclass{article}
+\def\npart {4}
+\def\nterm {Michaelmas}
+\def\nyear {2022}
+\def\nlecturer {Dr Kathryn Gillow}
+\def\ncourse {Practical Numerical Analysis}
+
+\input{../../header}
+
+\begin{document}
+  \maketitle
+
+\foreach \i in {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, ...,12} {%
+    \edef\FileName{./Chapters/\i}%
+    \IfFileExists{\FileName}{%
+       \input{\FileName}%
+    }
+}
+
+\end{document}
