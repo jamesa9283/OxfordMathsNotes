@@ -1,0 +1,107 @@
+% !TEX root = ../notes.tex
+
+\section{Introduction}
+The goal of this course is to solve and understand problems using (usually non-square) matrices. The course will cover,
+\begin{enumerate}
+  \item SVD. Singular Value Decomposition, see Linear Algebra (Year 2). $A = U\Sigma V^T$.
+  \item Linear systems $Ax = b$ and eigenvalue problems $Ax = \l x$. Least square problems, $\min_x \norm {Ax - b}_2$.
+\end{enumerate}
+
+There are going to be three classes of approaches,
+\begin{itemize}
+  \item Direct Methods, classical approach. Not useful for very big matrices.
+  \item Iterative solvers, work even if matrix sizes are larger.
+  \item Randomised Algorithms, use some sense of randomisation in order to get an algorithm that works with high probability better than direct for very large matrices.
+\end{itemize}
+
+\subsection{Why do we care?}
+When we want to solve a non-linear equation a linear system pops out. Motivation: minimising a function, $\min_x f(x)$ where $f : \R^n \to \R$, where we let $n$ be large. One powerful way to find a minimum is to find a stationary point. So we find,
+$$ \nab f = \begin{pmatrix}
+  \pd f {x_1} \\ \dots \\ \pd f {x_n}
+\end{pmatrix} = 0$$
+if we have a nice (convex) function, then if we have a stationary point, we have a minimiser. This boils down to, letting $F = \nab f : \R^n \to \R^n$. We need to find zeros of this non-linear problem. Hence we now have a root-finding problem, and so we can use Newton's Method.
+$$ x_{\text{new}} = x_{\text{old}} - \mathcal{J}^{-1}F(x_{\text{old}}) $$
+and we see,
+$$ \mathcal{J}_{ij} = \pd {F_i} {x_j} $$
+and then this is the hessian of $f$. This is then a linear system,
+$$ \mathcal{J}\Delta x = F(x_{\text{old}}). $$
+
+\noindent
+\textbf{NB! Here $A^* = \bar A$ (instead of $A^* = \bar{A}^T$)}
+\noindent
+We are going to stay under real matrices because there are only two cases where the difference matters. Further, $m \ge n$ for most matrices in this course. For orthonormal matrices,
+$$ A^TA = I_n \qquad AA^T \ne I_m $$
+
+\subsection{Norms}
+We need norms to quantify how big matrices are. These help us when approximating matrices. Given some $\vec x \in \R^n$, we have
+$$ \norm{x}_2 = \sqrt{x_1^2 + x_2^2 + \dots + x_n^2} $$
+and 1-norm,
+$$ \norm{x}_1 = |x_1| + \dots + |x_n| $$
+and the p-norm,
+$$ \norm{x}_p = (|x_1|^p + \dots + |x_p|^p)^{\frac{1}{p}} $$
+and finally the $\infty$-norm,
+$$ \norm{x}_\infty = \max_i |x_i| $$
+
+\noindent
+\begin{ndefi}[Norm]
+  A norm satisfies three axioms,
+  \begin{itemize}
+    \item $\norm{\a x} = |\a|\norm{x}$
+    \item $\norm{x} \ge 0$ and $\norm{x} = 0 \iff x = 0$
+    \item $\norm{x + y} \le \norm{x} + \norm{y}$
+  \end{itemize}
+\end{ndefi}
+
+\begin{nlemma}[Holder's Inequality]
+  For $p > q$,
+  $$ \norm{x}_p \le \norm{x}_q $$
+\end{nlemma}
+
+\begin{ndefi}[Unitarily Invariant]
+  If $A$ is orthonormal, then $\norm{Ax}_2 = \norm{x}_2$.
+\end{ndefi}
+
+\begin{nlemma}[Cauchy-Schwartz]
+  For any $x, y \in \R^n$,
+  $$ |x^Ty| \le \norm{x}_2\norm{x}_2 $$
+\end{nlemma}
+\begin{proof}
+  For any scalar $c$, $\norm{x - cy}_2^2 = \norm{x}_2^2  - 2cc^Ty + \norm{y}_2^2$. Now we complete the square and we get,
+  \begin{align*}
+    \norm{x - cy}_2^2 &= \norm{x}_2^2  - 2cc^Ty + \norm{y}_2^2\\
+    &= \norm{y}^2_2 \left( c - \frac{x^Ty}{\norm{y}_2} \right)^2 + \norm{x}_2^2 - \frac{(x^Ty)^2}{\norm{y}_2^2}
+  \end{align*}
+  and so we now minimise by letting $c = \frac{x^Ty}{\norm{y}_2}$ and so we get Cauchy Schwartz.
+\end{proof}
+
+\noindent
+Now for matrix norms. We have the $p$-norm,
+$$ \norm{A}_p = \sup_{x \ne 0} \frac{\norm{Ax}_p}{\norm{x}_p} = \max_{\norm{x}_p = 1} \frac{\norm{Ax}_p}{\norm{x}_p}.$$
+The most important case is when $p = 2$, this is the spectrum norm. This is,
+$$ \norm{A}_2 = \max_{\norm{x}_2 = 1} \norm{Ax}_2 $$
+
+\begin{exercise}
+  Show,
+  $$ \norm{A}_1 = \text{maximum column sum} $$
+  $$ \norm{A}_\infty = \text{maximum row sum} $$
+\end{exercise}
+
+\begin{ndefi}[Frobenius Norm]
+  $$ \norm{A}_F = \sqrt{\sum_i\sum_j |A_{ij}|^2} = \sqrt{\vec A^T\vec A} = \sqrt{\tr(A^TA)}$$
+  where
+  $$ \vec A = \begin{pmatrix}
+    A_{11} \\ \vdots \\ A_{1n} \\ A_{21} \dots
+  \end{pmatrix} $$
+\end{ndefi}
+
+\begin{ndefi}[Trace Norm]
+  $$ \norm{A}_* = \sum_{i=1}^{\min(m, n)} \sigma_i(A) $$
+\end{ndefi}
+
+For most $p$-norms,
+$$ \norm{AB}_p \le \norm{A}_p\norm{B}_p $$
+and for the Frobenius norm,
+$$ \norm{AB}_F \le \norm{A}_F\norm{B}_F $$
+$$ \le \norm{A}_2\norm{B}_F $$
+this is the subordinate property. Where this goes wrong is,
+$$ \norm{A}_\infty = \max_{i, j} |A_{ij}  | $$
