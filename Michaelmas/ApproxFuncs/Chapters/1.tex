@@ -1,0 +1,32 @@
+% !TEX root = ../notes.tex
+
+\section{Introduction - Approximation Theory}
+This is the foundation of constructive analysis and the foundation of numerical analysis. The subject is 150 years old with Chebyshev and has 5 eras,
+\subsection*{Chebyshev Era, 1800 - 1899}
+This is in the 19th Century. Some names include, Jacobi, Chebyshev, Zolotarev, Weirstrass and Runge. The flavour were expansions and series (Taylor and Fourier), Orthogonal Polynomials and best approximations (approximations that are optimal in $\infty$-norm).
+
+\subsection*{Classical Era, 1900 - 1925}
+Some names include, Lebesgue, Bernstein, Jackson, De la Vallee Poussin, Faber, Fejer and Riesz. These are all names linked with analysis. These are the era of the foundation of analysis. We went from just formula and mapping from sets to sets. The approximation is how we bridge these ideas. This was all halted by the war.
+
+\subsection*{Neoclassical Era, 1950-1975}
+This was the era of computers. This changed everything. Hence the field became into its own. Some names are, Davis, Cheney, Meinardes, Riblin, Lorentz, Rice, de Boor. These are people that have died very recently. Most of these people wrote great textbooks and created journals. They studied, splines, rational approximation.
+
+\subsection*{Numerical Era, 1985 -}
+As time goes on, here we get proper computing. They studied, wavelets, radial basis functions, spectral methods, hp-finite element methods, chebfun.
+
+\subsection*{High-Dimensional Era, 2010 - }
+Compressed Sensing, randomised algorithms, data science, deep learning, low rank approximation.
+
+\section{Chebyshev Points and Interpolants}
+Chebyshev is the same a fourier, but not for periodic functions. Let $n \ge 0$ and $P_n$ is the set of polynomials of degree $n$ ($\le n$). Let $\{x_0, \dots, x_n\}$ be $n + 1$ distinct points in $[-1, 1]$. Suppose we have $\{f_0, \dots, f_n\}$ a set of $\R $ or $ \C$ numbers. We know,
+\begin{claim}
+  There exists a unique interpolant $p \in P_n$ to $\{f_i\}$ in $\{x_i\}$.
+\end{claim}
+
+\noindent
+This is true for arbitrary points. But we will ue Chebyshev points. That is,
+$$ x_j = \cos \left( \frac{j\pi }{n} \right) \qquad 0 \le j \le n $$
+and so Chebyshev points are projections of the unit circle. They get denser towards the edge of the unit. That is important because interpolants on these points go well. In chebfun, these are \texttt{chebpts(n+1)}. The contrast to Chebyshev points are ewqually spaced points, which are awful for interpolation. When we speak of a Chebyshev interpolant, we mean a unique polynomial that interpolates some data on the amount of Chebyshev points.
+
+\subsection{Clustering}
+This is what makes these points so good. The clustering has a beautiful property. Think of the Chebyshev points as electrons, they will find the minimal energy configuration. This is what Chebyshev points are. Take a point, then the geometric mean distance from any point to the others is approximately a half.

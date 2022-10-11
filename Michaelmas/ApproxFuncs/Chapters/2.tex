@@ -1,0 +1,92 @@
+% !TEX root = ../notes.tex
+
+\section{Fourier, Laurent, Chebyshev}
+Fourier, Laurent and Chebshev are three equivalent ways of doing things. Each one is useful in their own area, they all have their different areas.
+
+\subsection{Fourier Analysis}
+\begin{itemize}
+  \item We have some $\theta \in [-\pi, pi]$.
+  \item $F(\theta)$ with $F(\theta) = F(-\theta)$.
+  \item Analytic in a strip.
+  \item For interpolation, we need $2n$ equispaced points.
+  \item Trigonometric (Fourier) Polynomial,
+  $$ \frac{1}{2}\sum_{k=1}^n a_k (e^{i \theta k} + e^{-i \theta k}) $$
+  \item Forier Series,
+  $$ \frac{1}{2}\sum_{k=1}^\infty a_k (e^{i \theta k} + e^{-i \theta k}) $$
+\end{itemize}
+
+\subsection{Laurent Analysis}
+\begin{itemize}
+  \item We have some $z \in D(0, 1)$, where $z = e^{i\theta}$.
+  \item $\mathbb{F}(z)$ with $\mathbb{F}(z) = \mathbb{F}(z^{-1})$.
+  \item Analytic in some annulus
+  \item For interpolation, we need $2n$ roots of unity.
+  \item Laurent Polynomial,
+  $$ \frac{1}{2}\sum_{k=0}^n a_k (z^k + z^{-k}) $$
+  \item Laurent Series,
+  $$ \frac{1}{2}\sum_{k=0}^\infty a_k (z^k + z^{-k}) $$
+\end{itemize}
+
+\subsection{Chebyshev Analysis}
+\begin{itemize}
+  \item We have some $x \in [-1, 1]$ where $x = cos \theta = \frac{1}{2}(z + z^{-1})$.
+  \item We have some $f(x)$ not restriction.
+  \item Analytic in an ellipse (Bernstein Ellipse, which means focus at $\pm 1$).
+  \item For interpolation, we need $n+1$ Chebyshev points.
+  \item Polynomial,
+  $$ \sum_{k=0}^n a_kT_k(x)\footnote{$T_k(x)$ is the degree k Chebyshev polynomial} $$
+  \item Chebyshev Series,
+  $$ \sum_{k=0}^\infty a_kT_k(x) $$
+\end{itemize}
+
+\subsection{Chebyshev Series}
+\subsubsection{Chebychev Polynomials}
+It all comes from $z = e^{i \theta}$, which then says $z^k = e^{ik \theta}$ and $x = \frac{1}{2}(z + z^{-1}) = cos \theta$. Then we define, $T_k(x) = \frac{1}{2}(z^k + z^{-k}) = \cos k \theta$. Another way to spell that out is, $T_k(x) = \cos (k \arccos(x))$. \\
+
+\noindent
+Here is some examples,
+$$ T_0(x) = 1 \quad T_1(x) = x \quad T_2(x) = 2x^2 - 1 \quad T_3(x) = 4x^3 - 3x \quad T_4(x) = 8x^4 - 8x^2 + 1 $$
+and from this we can write the three term recurrance,
+$$ T_{k+1} = 2xT_k(x) - T_{k-1}(x) \quad k \ge 1$$
+To derive this, we note that
+\begin{align*}
+  T_{k+1}(x) &= \frac{1}{2}(z^{k+1} + z^{-k-1})\\
+  &= \frac{1}{2}(z^k + z^{-k})(z + z^{-1}) - \frac{1}{2}(z^{k-1} + z^{1-k}) \\
+  &= 2x T_k(x) - T_{k-1}(x)
+\end{align*}
+
+One last note is that these are Orthogonal polynomials.
+
+\begin{nthm}[]
+  If $f$ is Lipschitz continuous on $[-1, 1]$, it has a unique representation as a Chebyshev series,
+  $$ f(x) = \sum_{k=0}^\infty a_kT_k(x) $$
+  and this sum is absolutely and uniformly convergent. The coefficients $a_k$ are given by,
+  $$ a_k = \frac{2}{\pi}\int_{-1}^1 \frac{f(x)T_k(x)}{\sqrt{1 - x^2}}\mathrm{d}x \quad (k \ge 1) $$
+  and for $k = 0$,
+  $$ a_0 = \frac{1}{\pi} \int_{-1}^1 \frac{f(x)}{\sqrt{1 - x^2}}\mathrm{d}x $$
+\end{nthm}
+\begin{proof}
+  Transplant to $z$ or $\theta$ and use integrals. This is in the text.
+\end{proof}
+
+\begin{eg}[Exercise 3.6]
+  It happens,
+  $$ |x| = \sum_{k=0}^\infty a_kT_k(x)$$
+  where,
+  $$ a_k = \begin{cases}
+    a_k = 0 & k = 2n+1\\
+    a_k = \frac{4(-1)^n}{(2^n - 1)\pi }
+  \end{cases} $$
+\end{eg}
+
+\begin{eg}[Exercise 3.15]
+  What about $e^x$? We find, $a_0 = I_0(1)$ and then, $a_k = 2I_k(1)$ for $k \ge 1$.
+\end{eg}
+
+\textbf{How chebfun resolves a function}
+\begin{itemize}
+  \item Sample on grids of size, 17, 33, 65, 129,
+  \item On each grid, find coefficients $c_k$ of chebshev, interpolants (via FFT),
+  \item Stop when coefficients reach machine precision,
+  \item Trim the series to some degree $n$.
+\end{itemize}
