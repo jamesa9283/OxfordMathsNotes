@@ -1,0 +1,73 @@
+% !TEX root = ../notes.tex
+
+\section{Introduction}
+The basic idea is very simple. Suppose that $y$ is differentiable at $x \in \R$ then,
+$$ y' = \lim_{h \to 0} \frac{y(x + h) - y(x)}{h} $$
+and so,
+$$ \frac{y(x + h) - y(x)}{h} = y'(x) + o(1) \quad \text{as } h \to 0 $$
+This then motivates,
+$$ y'(x) \approx \frac{y(x + h) - y(x)}{h} $$
+and further if $y'$ is differentiable,
+$$ y''(x) \approx \frac{y(x+h) - 2y(x) + y(x - h)}{h^2} \quad \text{as } h \to 0. $$
+To check if this is a good approximation we use Taylor series and see what the other terms are (apart from $y'$ and $y''$) and then check these terms go to zero.
+
+\noindent
+\textbf{Euler's Method}
+Given $y'(x) = f(x, y(x))$ subject to $y(x_0) = y_0$. We write,
+$$ \frac{y(x_k + h) - y(x_k)}{h} \approx f(x_k, y(x_k)) \quad y(x_0) = y_0 \quad x_k = x_0 + kh \quad
+ k \in \Z $$
+
+\section{Measuring Smoothness}
+\subsection{Function Spaces}
+The accuracy of a numerical method for the aproximate solution of PDEs depends on its ability to capture the important feature of the analytic solution. One such feature is smoothness. To do this, we need some function spaces,
+\begin{itemize}
+  \item $C(\Omega)$, Continuous functions
+  \item $L_p(\Omega)$, Integrable Functions
+  \item $H^k(\Omega)$, Sobolev spaces.
+\end{itemize}
+
+\begin{notation}
+  We let $\N$ be the nonnegative integers, $\a = (\a_1, \a_2, \dots, \a_n) \in \N^n$ is called a multi-index. The nonnegative integer, $|\a| = \a_1 + \dots + \a_n$. We let,
+  $$ D^\a = \left( \pd{}{x_1} \right)^{\a_1}\dots \left( \pd{}{x_n} \right)^{\a_n} = \frac{\partial^{|\a|}}{\partial x_1^{\a_1}\dots \partial x_n^{\a_n}} $$
+\end{notation}
+
+\noindent
+\begin{ndefi}[$C^k(\Omega)$]
+  Let $\Omega$ be an open set in $\R^n$, and let $k \in \N$. WE denote $C^k(\Omega)$ the set of all continuous real-valued functions defined on $\Omega$ st, $D^\a u$ is continupus on $\Omega$ for all $\a = (\a_1, \a_2, \dots, \a_n)$ with $|\a| \le k$.
+\end{ndefi}
+
+
+\noindent
+\begin{ndefi}[$C^k(\Omega)$]
+  Assuming that $\Omega$ is a bounded open set, $C^k(\bar\Omega)$ will denote the set of all $u$ in $C^k(\bar\Omega)$ st $D^\a u$ can be extended from $\Omega$ to a continuous function on $\bar\Omega$, the closure of the set $\Omega$ for all $\a$ with $|\a| \le k$.
+\end{ndefi}
+
+\noindent
+The linear space $C^k(\bar\Omega)$ can then be equipped with the norm,
+$$ \norm{u}_{C^k(\bar\Omega)} := \sum_{|a| \le k} \sup_{x\in \Omega} |D^\a u(x)| $$
+Further, when $k = 0$ we just write $C(\Omega)$.
+
+\noindent
+The support, $\supp u$ of a continuous function $u$ on $\Omega$ is defined as the closure of the set,
+$$ \{x \in \Omega : u(x) \ne 0\} $$
+In other words, $\supp u$ is the smallest closed subset of $\Omega$ such that $u = 0$ in $\Omega \setminus u$,
+
+\noindent
+We denote $C_0^k(\Omega)$ the set of all $u \in C^k(\Omega)$ such that $\supp u \subset \Omega$ and $\supp u$ is bounded. Let,
+$$ C^\infty_0 (\Omega) = \bigcap_{k \ge 0} C_0^k(\Omega) $$
+
+\subsection{Spaces of integrable functions}
+Let $p \in \R$, $p \ge 1$, we denote $L_p(\Omega)$ the set of all real-valued functions defined on $\Omega$ such that,
+$$ \int_\Omega \left(|u(x)|^p\right)^{\frac{1}{p}} \, \mathrm{d}x $$
+Functions which equal almost everywhere on $\Omega$ are identified with eachother. \footnote{This is equivalent to saying they are equal except on a set of measure zero. A subset of $\R^n$ is said to be a set of measure zero if it can be contained in the union of countably many open balls of arbitrarily small volume.} The norm is,
+$$ \norm{u}_{L_p (\Omega)} = \left( \int_\Omega|u(x)|^2 \right)^{\frac{1}{2}} $$
+More specifically, we will focus on $L_2$,
+$$ (u, v) := \int_\Omega u(x)v(x) \mathrm{d}x $$
+\begin{nlemma}[Cauchy-Schwartz]
+  Let $u, v \in L_2(\Omega)$, then
+  $$ |(u, v)| \le \norm{u}_{L_2(\Omega)}\norm{v}_{L_2(\Omega)} $$
+\end{nlemma}
+
+\begin{remark}
+ The space $L_2(\Omega)$ equipped with the inner product $(\cdot, \cdot)$ is a Hilbert Space. This implies why the Sobolev spaces are denoted $H^k(\Omega)$
+\end{remark}
