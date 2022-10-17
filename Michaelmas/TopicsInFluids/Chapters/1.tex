@@ -1,0 +1,92 @@
+% !TEX root = ../notes.tex
+
+The course is split up as follows,
+\begin{itemize}
+  \item Thin Film and Lubrication Theory (5 Lectures)
+  \item Flow in porous media (6 Lectures)
+  \item Convection and Turbulence (5 Lectures)
+\end{itemize}
+4 Problem Sheets.
+
+\noindent
+We will have all our work revolving around the Navier Stokes equations,
+\begin{align*}
+  \rho( \vec u_t + (\vec u \cdot \nab)\vec u) &= -\nab p + \mu \nab^2 \vec u\\
+  \nab \cdot \vec u &= 0
+\end{align*}
+
+Then we can nondimensionalise $\vec x = L\hat{\vec x}$, $t = \frac{L}{U}\hat t$, $\vec u = U\hat{\vec u}$, $p = \frac{pU}{L}\hat p$. We nondimensionalise,
+\begin{align*}
+  \mathrm{Re} (\vec u_t + (\vec u \cdot \nab) u ) = -\nab p + \nab^2 \vec u
+\end{align*}
+
+A low Reynolds number is slow, sticky flows like honey, while high reynolds numers are fast and sloshy. However, for high reynolds number something goes wrong, we need to non-dimensionalise using, $p = \rho U^2 p$. Then we get,
+$$ \vec u_t + (\vec u \cdot \nab)\vec u = - \nab p + \frac{1}{\mathrm{Re}}\nab^2 \vec u $$
+
+\section{Thin Film and Lubrication Theory}
+\subsection{Slider Bearing}
+Consider some object sitting above some impermiable surface. This is a problem about flow in narrow gaps, so we have $\e = H/L << 1$. So we need to re-nondimensionalise our system. We have $x \sim 1$ and $z \sim \e$, so our incompressibility condition goes to,
+$$ u_x + w_z = 0 $$
+The pressure scales like $p \sim 1/\e^2$. Therefore the rest of our Navier Stokes equations goes to,
+$$ \e^2 \mathrm{Re} [\vec u_t + (\vec u \cdot \nab )\vec u] = -p_x + \e^2 u_{xx} + u_{zz} $$
+and the veritcal equation becomes,
+$$ \e^4 \mathrm{Re} [ w_t + (\vec u \cdot \nab) w] = -p_z + \e^4 w_{xx} + \e^2 w_{zz} $$
+
+The key assumption is \textbf{$\e$ is small, but also $\e^2 \mathrm{Re}$ is small}. \\
+
+\noindent
+Therefore, the governing equation becomes,
+\begin{align*}
+  u_{zz} &= p_x = p'(x)\\
+  p_z &= 0
+\end{align*}
+and the boundary conditions, we have the no slip condition, so $u = 0$ and the impermiablility, $w = 0$ on $z = 0$. On $z = h(x)$, we have the no slip says that $u = 1$ and $w = uh'(x)$. We also have atmospheric pressure, so $p = 0$ on $x = 0$ and $x = 1$.\\
+
+\noindent
+These equations are solvable, $u = \frac{1}{2}p' z(z - h) + z/h$ and mass conservation says, $u_x + w_z = 0$,
+\begin{align*}
+  \int_0^h u_x dz + [w]_0^h &= 0 \\
+  \pd{}{x}\int_0^h u dz - \left.uh'\right|_{z = h} + \left.uh'\right|_{z = h} &= 0 \\
+  \di{}{x} \int_0^h udz &= 0 \\
+  \di{}{x} \left[ \frac{1}{2}h + \frac{1}{2}p'(-\frac{1}{6}h^3)\right] &= 0
+\end{align*}
+Then this is solvable for $p$.
+
+\begin{exercise}
+  Do this for 3D.  We have $\nab_H = (\partial_x, \partial_y, 0)$ and then we get,
+  $$ \nab_H \cdot [h\vec i - \frac{1}{6}h^3 \nab_H p] $$
+  and suppose $\vec u = (1, 0, 0)$ on $z = h(x, y)$.
+\end{exercise}
+
+\subsection{Free Surface}
+The kinematic condition on the free boundary is,
+$$ \frac{D}{Dt}[S - z] = 0 \quad z = S$$
+what also about accumulation? Like rainfall or something being sprayed, then,
+$$ \frac{D}{Dt}[S - z] = a \quad z = S$$
+and so we have,
+$$ w = S_t + uS_x + vS_y - a \quad z = S. $$
+What if we apply similar to $z = b$ and define $h = S - b$, then we can integrate conservation of mass like before and get,
+$$ \pd h t + \nab_H \cdot \int_0^h \vec u_H dz = 0 $$
+where $\vec u_H = (u, v, 0)$.
+
+\subsection{Free Surface Stress}
+We consider the tangent and normal to the surface,
+$$ \hat{\vec n} = \frac{(-S_x, 1)}{(1 + S_x^2)^{\frac{1}{2}}} \quad \hat{\vec t} = \frac{(1, S_x)}{(1 + S_x^2)^{\frac{1}{2}}} $$
+Then we have continuous stress at $z= S(r)$ and we have for say, a droplet, as an example, $\s_{nn} = p_a$, $\s_{nt} = 0$. What are these defined as, $\s_{nn} = \s_{ij}n_in_j$, in suffix notation. We defined $\s_{ij} = -p\d_{ij} = \mu\left( \pd {u_i} {x_j} + \pd {u_j} {x_i}\right)$ and so,
+\begin{align*}
+  \s_{nn} &= \s_{11}n_1n_1 + \s_{13}n_1n_3 + \s_{31}n_3n_1 + \s_{33}n_3n_3\\
+  &= -p + [\t_1(S_x^2 - 1) - 2\t_3 S_x ] / (1 + S_x^2)
+\end{align*}
+where $\t_1 = 2\mu u_x$ and $\t_3 = \mu(u_z + w_x)$. Similarly,
+\begin{align*}
+  \s_{nt} &= \s_{11}n_1t_1 + \s_{13}n_1t_3 + \s_{31}n_3n_1 + \s_{33}n_3t_3 \\
+  &= \frac{[\t_3 (1 - S_x^2) - 2\t_1S_x]}{1 + S_x^2}
+\end{align*}
+
+We now consider dimensional scalings, $x \sim L$, $z \sim \e L, S \sim \e L= K$. We will scale stress by $\t^* = \frac{\mu U}{H}$, that is, $\t_1 \sim \e \t*^*, \t_3 \sim \t^*$ and $p - p_a \sim \frac{\mu U}{L\e^2} = \frac{\t^*}{\e}$.
+That means,
+$$ \s_{nn} = - \frac{p}{\e} + [\e \t_1 (\e^2 S_x^2 - 1) - 2\e \t_3 S_x] / (1 + \e^2 S_x^2) $$
+where $\t_1 = 2u_x$ and $\t_3 = u_z + \e^2 w_x$
+and similarly,
+$$ \s_{nt} = \frac{[t_3(1 - \e^2 S_x^2) - 2\e^2 \t_1 S_x]}{1 + \e^2S_x^2} $$
+and so $\t_3 = 0$ implies that $u_z = 0$ and $p = 0$ on $z = S$.

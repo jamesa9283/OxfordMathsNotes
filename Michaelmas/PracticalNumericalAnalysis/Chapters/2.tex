@@ -1,0 +1,90 @@
+% !TEX root = ../notes.tex
+
+\section{IVPs}
+
+\begin{nthm}[Picard]
+  Suppose that $f(t,u)$ is a continuous function of $t$ and $u$ in a region $\Omega = [0, T) \times [u_0 - \a, u_0 + \a]$ of the $(t, u)$ plane and that there exists an $L > 0$ such that,
+  $$ |f(t, u) - f(t, v)| \le L|u - v|, \qquad \forall (t, u), (t, v) \in \Omega $$
+  Suppose also that,
+  $$ MT \le \a $$
+  where $M = \max_\Omega |f|$. There is a unique continuously dufferentable function $u(t)$ defined on $[0, T)$ satisying,
+  \begin{align*}
+    \di u t = f(u, t) \\
+    u(0) = u_0
+  \end{align*}
+\end{nthm}
+
+Suppose we want to solve,
+\begin{align*}
+  \di u t = f(u, t) \quad t > 0\\
+  u(0) = u_0
+\end{align*}
+In order to solve this numerically over $[0, T]$ we define a set of time points at which we wish to approximate the solution. We set $t_n = n\Delta t$ for $n = 0, 1, \dots, N$ where $\Delta t = T/N$. Then we can integrate,
+$$ u(t_{n+1}) = u(t_n) + \int_{t_n}^{t_{n+1}} f(t, u(t_n))dt $$
+Using different approximatations of the integral lead to different numerical scheme
+
+\subsection{Euler Methods}
+Let $U_n$ be the numerical approximation to $u$ at $t_n$. For explicit (or forward) Euler we let,
+$$ \int_{t_n}^{t_{n+1}} f(t, u(t))dt \approx \Delta t f(t_n, u(t_n)) $$
+This gives,
+$$ U_{n+1} = U_n + \Delta tf(t,U_n)$$
+or,
+$$ \frac{U_{n+1} - U_n}{\Delta t} = f(t_n, U_n), $$
+for $n = 0, 1, \dots, N-1$ and $U_0 = u_0$.\\
+
+\noindent
+For implicit Euler, we use
+$$ \int_{t_n}^{t_{n+1}} f(t, u(t))dt \approx \Delta t f(t_{n+1}, u(t_{n+1})) $$
+and this gives...
+
+
+\noindent
+Explicit Euler is very simple, we can just computer the approximations. The implicit euler is more complication, as we get a non-linear equation. This then becomes a root finding method, but as the solutions are an iterated solution to an ODE so the initial guess should be just the previous $U_n$.\\
+
+\subsection{Trapezium Rule / Crank Nicolson Scheme}
+Another way to approximate is,
+$$ \int_{t_n}^{t_{n+1}} f(t, u(t))dt \approx \frac{\Delta t}{2} (f(t_n, u(t_n)) + f(t_{n+1}, u(t_{n+1}))) $$
+This then gives a numerical scheme,
+$$ U_{n+1} = U_n + \frac{\Delta t}{2} (f(t_n, U_n) + f(t_{n+1}, U_{n+1})) $$
+
+\subsection{Generalisation -- $\theta$-method}
+Both the implict and explicit euler methods as well as Crank Nicolson are specific $\theta$-methds,
+$$ \frac{U_{n+1} - U_n}{\Delta t} = \theta f(t_{n+1}, U_{n+1}) + (1 - \theta)f(t_n, U_n) $$
+and our special cases are,
+\begin{itemize}
+  \item $\theta = 0$, Explicit Euler
+  \item $\theta = 1$, Implicit Euler
+  \item $\theta = \frac{1}{2}$, Crank Nicolson.
+\end{itemize}
+For all non-zero $\theta$, the method is implicit and a non-linear equation must be solved at each time-step.
+
+\subsection{Euler via Taylor Series}
+THe explicit and implicit euler scheme can be motivated using Taylor series expansions. Consider expanding $u(t_{n+1})$ about $t_n$. We have,
+$$ u(t_{n+1}) = u(t_n) + \Delta tu'(t_n) $$
+and then rearranging and fidding,
+$$ \frac{u(t_{n+1} - u(t_n)}{\Delta t_n} + \mathcal{O}(\Delta t) = f(t_n, u(t_n))$$
+
+\subsection{Truncation Error}
+We have just seen that the Euler methods can be derived by truncating taylor series. The truncation for the $\theta$-method is defined as,
+$$ T_n = \frac{u_{n+1} - u_n}{\Delta t} = \theta f(t_{n+1}, u_{n+1}) - (1 - \theta)f(t_n, u_n) $$
+The truncation error can be computed by finding taylor series about some point. For $\theta = 0$, the expansions are usually about $t  =t_n$, while for $q = 1$ we usually go for $t = t_{n+1}$ and for anything else, it doesnt matter so we expand about $t_{n+1/2} = \frac{t_n + t_{n+1}}{2} = t_{n} + \Delta t/2$. For explicit we get,
+$$ T_n = u'(t_n) - f(t_n, u(t_n)) + \frac{1}{2}\Delta t u''(\t_n) $$
+Thwn we remember $u'(t) = f(t, u(t))$ and so,
+$$ T_n = \frac{1}{2}\Delta t u''(\t_n). $$
+
+Then for the theta method, it gets worse. Welcome to Taylor series hell...
+$$ T_n = \frac{\Delta t}{2} (1 - 2 \theta)u''(t_{n + 1/2}) + \mathcal{O}(\Delta t^2) $$
+We see that the $\mathcal{O}(\Delta t^2)$ never vanishes and so $T_n$ will never be zero. Thus,
+$$ \begin{cases}
+  \mathcal{O}(\Delta t) & \text{ for } \theta \ne 1/2 \\
+  \mathcal{O}(\Delta t^2) & \text{ for } \theta = 1/2
+\end{cases}. $$
+More precisely, we can show that,
+$$ T_n = \begin{cases}
+  \frac{\Delta t}{2}u''(\t_n^{(1)}) & \theta = 0\\
+  -\frac{\Delta t}{12}u'''(\t_n^{(2)}) & \theta = 1/2 \\
+  -\frac{\Delta}{2}u''(\t_n^{(2)}) & \theta = 1
+\end{cases} $$
+
+\noindent
+The order of a method is defined to be $p$ where $p$ is the largest integer such that $T_n = \mathcal{O}(\Delta t^p)$\\

@@ -1,0 +1,68 @@
+% !TEX root = ../notes.tex
+
+\subsection{Sobolev Spaces}
+
+Consider,
+$$ \begin{align*}
+  -u''(x) = f(x)\\
+  u(a) = A, \quad u(b) = B
+\end{align*} $$
+If we say that $u\in \mathcal{C}^2([a, b])$, then in the classical sense then this solution doesn't have a solution. However consider some $v$, that vanishes at the endpoints. Then,
+$$ \int_a^b u'(x)v'(x) \mathrm{d}x = \int_a^b f(x)v(x)\mathrm{d}x $$
+and then this is a new definition of a solution. This is a weak solution.\\
+
+\noindent
+Suppose that $u$ is locally integrable\footnote{This means that a function is integrable on every subset of $\o$.} on $\O$ for each bounded open set $\o$, with $\bar \o \sub \O$. Suppose also that there exists some $w_\a$ locally integrable on $\O$ such that,
+$$ \int_\O w_\a(x)v(x) \mathrm{d}x = (-1)^{|\a|}\int_\O u(x)D^\a v(x) \quad \forall v \in C_0^\infty (\O). $$
+Then $w_\a$ is called the weak derivative of $u$ (of order $|\a|$) and we write $w_\a = D^\a u(x)$.
+
+\begin{eg}
+  Let $\O = \R$ and let $u(x) = (1 - |x|)_+$ ($u(x) > 0$). Clearly $u$ isn't differentiable at $0, \pm 1$. However, $u$ is locally differentable and so will possibly have a weak derivative,
+  \begin{align*}
+    \int_{-\infty}^\infty uv' dx = \int_{-\infty}^\infty (1 - |x|)_+ v' dx &= \int_{-1}^1 (1 - |x|)v'(x) dx \\
+    &= \int_{-1}^0 (1 + x)v' dx + \int_0^1 (1 - x)v'(x) dx \\
+    &= \int_{-1}^0 (-1)v(x)dx + \int_0^1 v(x)dx \\
+    &= - \infty_{-\infty}^\infty w(x)v(x) dx
+  \end{align*}
+  where,
+  $$ w = \begin{cases}
+    0, & x < -1 \\
+    1, & x \in (-1, 0) \\
+    -1, & x \in (0, 1) \\
+    0, & x > 1
+  \end{cases} $$
+\end{eg}
+
+\noindent
+Let $k$ be a nonnegative integer. We define,
+$$ H^k(\O) := \{ u \in L_2(\O) : D^\a u \in L_2(\O), |\a| \le k\} $$
+$H^k(\O)$ is called a Sobolev space of order $k$; it is equipped with the Sobolev norm,
+$$ \norm{u}_{H^k(\O)} = \left( \sum_{|a| \le k} \norm{D^\a u}^2_{L_2(\O)} \right)^{\frac{1}{2}} $$
+and inner product,
+$$ (u, v)_{H^k(\O)} := \sum_{|a| \le k} (D^\a u, D^\a v) $$
+
+With this inner product, $H^k(\O)$ is a hilbert space. Letting,
+$$ |u|_{H^k(\O)} := \left( \sum_{|a| = k} \norm{D^\a u}^2_{L_2(\O)} \right) $$
+and we can write,
+$$ \norm{u}_{H^K(\O)} = \left( \sum_{j=0}^k |u|^2_{H^j(\O)} \right)^{\frac{1}{2}} $$
+and this is the Sobolev seminorm.
+
+\noindent
+We define a special sobolev space,
+$$ H_0^1(\O) := \{u \in H^1(\O) : u = 0 \text{ on } \partial\O\}. $$
+In Lesbegue you can change points on measure zero, the boundary is also measure zero. The trace theorems tell us what the implication of doing this happens.
+
+\begin{nlemma}[Poincar\'e-Friedrichs Inequality]
+  Suppose that $\O$ is a bounded open set in $\R^n$ and let $u \in H_0^1(\O)$, then, there exists a positive constant $c_*(\O)$ independent of $u$, such that,
+  $$ \int_\O u^2(x) dx \le c_*\sum_{i=1}^n \int_\O |\partial_{x_i} u(x)|^2 $$
+\end{nlemma}
+\begin{proof}[]
+  We shall the case for a square, that is, $\O = (a, b) \times (c, d)$. Then,
+  $$ u(x, y) = u(a, y) + \int_a^x \partial_x u(\xi, y)d\xi = \int_a^x \partial_x u(\xi, y)d\xi \quad c < y < d $$
+  Then from the Cauchy Schwartz, we get,
+  $$ \int_\O |u(x, y)|^2 \le \frac{1}{2}(b - a)^2 \int_\O |\partial_x u(x, y)|^2 dx dy  $$
+  and now we do it in the $y$ direction,
+  $$ \int_\O |u(x, y)|^2 \le \frac{1}{2}(d - c)^2 \int_\O |\partial_y u(x, y)|^2 dx dy  $$
+  Then we divide by the $(b - a)^2/2$ and $(d - c)^2/2$ and then just add them,
+  $$ \int_\O u^2(x) dx \le c_* \int_\O (|\partial_x u| ^2 + \partial_y u|^2)dxdy $$
+\end{proof}

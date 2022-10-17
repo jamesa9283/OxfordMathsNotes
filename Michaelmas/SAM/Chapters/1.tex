@@ -1,0 +1,210 @@
+% !TEX root = ../notes.tex
+
+
+\section{Introduction}
+Study methods for solving inhomogenous BVP of the following form,
+$$ Lu = f(x) \qquad a < x < b $$
+where $L$ is a linear differential operator,
+$$ Lu = a_n \din n u x + a_{n-1}\din {n-1} u x + \dots + a_1 \di u x + a_0 u  $$
+where $f(x)$ is a forcing function and some boundary conditions imposed at $x = a$ and $b$. \\
+
+\noindent
+The theory for linear boundary value problem is much richer than the theory for initial value problems, and there are many applications of linear boundary value problems. Some examples are,
+\begin{itemize}
+  \item Shooting an arrow
+  \item Tracking the melting of a block of ice
+  \item Propogation of vibrations on a suspension bridge
+\end{itemize}
+
+\noindent
+The sort of questions of interest when constructing solutions are,
+\begin{itemize}
+  \item Can we construct a solution for a given boundary value problem for an arbitrary function $f(x)$?
+  \item If there is a solution, is there always a solution? (Existence) Is it unique?
+  \item How do the choice of the boundary conditions affect the solutions?
+  \item Can we construct solutions when $a_k = a_k(x)$?
+\end{itemize}
+
+
+\section{Eigenfunction Methods}
+Consider a differential operator $L$. If there exists functions $y_i(x)$ such that,
+$$ \begin{cases}
+  Ly_i(x) = \l_i y_i(x) \\
+  y_i(a) = y_i(b) = 0
+\end{cases}. $$
+If we can do this, $y_i(x)$ is an \textbf{eigenfunction} and $\l_i$ the associated \textbf{eigenvalue} of $L$.
+\begin{idea}
+  We are talking about linear differential operator, we can exploit this by constructing a solution that is a superposition (or sum) of the eigenfunctions ($y_i$) of $L$. That is,
+  $$ y(x) = \sum_i c_iy_i(x) $$
+  for some $c_i$.
+\end{idea}
+
+\subsection{Function Spaces}
+There is a natural question on whether we can approximate $f$ as a sum of eigenfunctions of differential operator. Consider an infinite dimensional space of reasonably well-behaved functions on $[a, b]$. We can introduce a set of linearly independent basis functions $y_n$, such that, any reasonable $f$ in the space can be written as a sum of the basis functions,
+$$ f(x) = \sum_{k=1}^\infty f_ky_k(x). $$
+An example of this, are fourier series.
+
+\begin{ndefi}[Inner Product]
+  $$ \ip u v = \int_a^b u(x)\bar v(x)\mathrm{d}x $$
+\end{ndefi}
+
+\subsubsection{Weighting Functions}
+Consider the following eigenvalue problem,
+$$ Ly_i = \l_i \rho(x) y_i(x). $$
+Here $\rho(x)$ is a weighting function, $\rho(x) \in \R$ and one signed on $[a, b]$. Further,
+$$ \ip u v = \int_a^b \rho(x)u(x)\bar v(x)\mathrm{d}x $$
+
+\subsection{Adjoint Operator}
+\begin{ndefi}[]
+  For an operator, $L$, with homogenous BC, then the \textbf{adjoint problem} ($L^*, BC^*$) is defined by,
+  $$ \ip{Ly}{w} = \ip{y}{L^*w}. $$
+  The $BC^*$ are just the boundary conditions needed such that the above equality holds.
+\end{ndefi}
+
+\begin{note}
+  We use integration by parts to transfer derivatives from $y$ to $w$. Further, the choice of boundary conditions for $L^*$ will become clear.
+\end{note}
+
+\begin{eg}
+  Let,
+  $$ \begin{cases}
+    Ly = \dii y x + \a \di y x + \b y & \quad x \in (a, b) \\
+    y(a) = 0, \quad y_x(b) - y(b) = 0
+  \end{cases} $$
+  Then,
+  \begin{align*}
+    \ip {Ly}{w} &= \int_a^b (y_{xx} + \a y_x + \b y)w \mathrm{d}x\\
+    &= \left[ wy_x - w_xy + \a wy \right]_{x = a}^{b} + \int_a^b (w_{xx} - \a w_x + \b w)y \mathrm{d}x
+  \end{align*}
+  From this, we can write,
+  $$ \begin{cases}
+    L^*w = w_{xx} - \a w_x + \b w\\
+    [wy_x - w_xy + \a wy]_{x = a}^b = 0
+  \end{cases}. $$
+  We now need to exploit the boundary conditions from above to find the adjoint boundary conditions. We get,
+  $$ 0 = [w(b) - w_x(b) + \a w(b)]y(b) - w(a)y_x(a) $$
+  This must be true for any $y(b)$ and any $y_x(a)$. Hence we must let, $w(a) = 0$ and $w_x(b) = (1 + \a)w(b)$ as our adjoint boundary conditions.
+\end{eg}
+
+\begin{note}
+  If in the above, $\a = 0$, then $L^*w = w_{xx} + \b w$, which is just the same as $L$. Hence it is self-adjoint. Furthermore, the boundary conditions become, $w(a) = 0$ and $w_x(b) - w(b) = 0$, which are the same as the original problem.
+\end{note}
+
+\begin{ndefi}[Self-adjoint]
+  If $L = L^*$ and $BC = BC^*$, then the problem is called \textbf{self-adjoint}. Also if $L = L^*$ but $BC \ne BC^*$ then we call the operator self-adjoint.
+\end{ndefi}
+
+\noindent
+Here are some facts, which turn out to be useful,
+\begin{itemize}
+  \item Eigenfunctions of adjoint problems have the same eigenvalues as the original problem,
+  $$ Ly = \l y \implies \exists w, L^*w = \l w $$
+  \item Eigenfunctions corresponding to distinct eigenvalues are orthogonal, that is, if $Ly_j = \l_j y_j$ and $Ly_k = \l_ky_k$ then $\ip {y_j}{w_k} = 0$.
+  \begin{proof}
+    The proof goes as follows,
+    \begin{align*}
+      \l_k \ip{y_j}{w_k} &= \ip{y_j}{L^*w_k} \\
+      &= \ip{Ly_j}{w_k} = \l_j\ip{y_j}{w_k}.
+    \end{align*}
+    That is, we have,
+    $$ (\l_j - \l_k)\ip{y}{w_k} = 0 $$
+  \end{proof}
+\end{itemize}
+
+\subsection{Solution Process}
+Consider the BVP,
+$$ \begin{cases}
+  Lu = f(x) \\
+  BC_1(a) = 0, \quad BC_2(b) = 0
+\end{cases} $$
+What is the method?
+\begin{enumerate}
+  \item Solve the eigenvalue problem,
+  $$ Ly = \l y \qquad BC_1(a) = 0 = BC_2(b), $$
+  which will give $\{\l_j, y_j(x)\}$
+  \item Solve the adjoint eigenvalue problem,
+  $$ L^*w = \l w \qquad BC_1^*(a) = 0 = BC_2^*(b),$$
+  which will give $\{\l_j, w_j(x)\}$
+  \item Seek a solution to the boundary value problem of the form,
+  $$ y(x) = \sum_{j=1}^\infty c_iy_i(x), $$
+  where the coeffients $c_i$ are determined as follows:
+  \begin{align*}
+    Lu = f \implies \ip{f}{w_k} &= \ip{Ly}{w_k}\\
+     &=\ip{y}{L^*w_k}\\
+     &=\l_k\ip{y}{w_k} \\
+     &=\l_k \ip{ \sum_i c_iy_i}{w_k}  \\
+     &=\l_k c_k \ip{y_k}{w_k} \\
+  \end{align*}
+  and so we have, $c_k = \frac{\ip{f}{w_k}}{\l_k \ip{y_k}{w_k}}$
+\end{enumerate}
+
+
+\begin{eg}
+  Consider,
+  $$ \begin{cases}
+    Ly = y'' + 4y = f(x)\\
+    y(0) = y(1) = 0
+  \end{cases} $$
+  To solve,
+  \begin{enumerate}
+    \item Solve the eigenvalue problem,
+    $$ Ly = y'' + 4y = \l y, \text{ with } y(0) = 0 = y(1) $$
+    and this solves to, $y_n(x) = \sin (n\pi x)$, with $\l_n = n^2\pi^2 + 4$.
+    \item Solve the adjoint problem,
+    $$ L^*w = w'' + 4w = \l w, \text{ with } w(0) = 0 = w(1)$$
+    and this solves to, $w_n(x) = \sin (n\pi x)$, with $\l_n = n^2\pi^2 + 4$.
+    \item Seek a solution $y(x) = \sum_n c_ny_n(x)$ where, $c_n = \frac{\ip{f(x)}{w_n}}{\l_n\ip{y_n}{w_n}}$.
+  \end{enumerate}
+\end{eg}
+
+\begin{exercise}
+  Follow the same procedure for the BVP,
+  $$ \begin{cases}
+    Ly = x^2 y'' - 2xy' = f(x) \\
+    y(1) = 0 = y(1)
+  \end{cases} $$
+\end{exercise}
+
+\subsection{Solution Process for inhomogenous BC}
+The problem in question is,
+\begin{equation}
+  \begin{cases}
+    Lu = f(x) \\
+    B_i u = \g_i
+  \end{cases}\tag{$*$}\label{eqn:IBVP}
+\end{equation}
+There are two solution methods, one is decomposition and the other non-decomposition,
+\begin{enumerate}
+  \item Split the solution into two its, $u = u_1 + u_2$ where,
+  $$ Lu_1 = f(x) \quad B_iu_1 = 0 $$
+  $$ Lu_2 = 0 \quad B_iu_2 = \g_i $$
+  Then by linearity $u = u_1 + u_2$ solves our problem \eqref{eqn:IBVP}
+  \item We seek solutions of the form, $u = \sum c_ju_j$ where $\{\l_j, u_j\}$ are the eigensolutions of the linear operator with homogenous boundary conditions, i.e. $Lu_i = \l_i u_i$ and $B_1u_i = 0 = B_2u_i$. In this case, care is needed iwth BCs when using the inner product to determine the coefficients $c_j$.
+\end{enumerate}
+
+\begin{eg}
+  $$ \begin{cases}
+    y'' = f(x) & x \in (0, 1)\\
+    y(0) = \a, y(1) = \b
+  \end{cases}. $$
+  With option 2,
+  \begin{enumerate}
+    \item Solve the eigenvalue problem,
+    $$ Ly = y'' = \l y \quad y(0) = 0 = y(1), $$
+    which has solution $y_k(x) = \sin (k\pi x)$, where $\l_k = -k^2\pi^2$.
+    \item Solve the adjoint eigenvalue problem. The problem is self-adjoint,
+    $$ w_k = y_k = \sin(k\pi x) $$
+    \item Form an inner product of $y$ with $w_k$:
+    \begin{align*}
+      y'' = f(x) \implies \int_0^1 y''w_k\mathrm{d}x &= \int_0^1 f(x)w_k\mathrm{d}x \\
+      (y'w_k - yw_k')_{x=0}^1 + \int_0^1 w_k''y \mathrm{d}x &= \int_0^1 w_kf \mathrm{d}x \\
+      [y'w_k - yw_k']_{x=0}^1 + \l_k\int_0^1 yw_k \mathrm{d}x &= \int_0^1 w_kf\mathrm{d}x \\
+      [y'w_k - yw_k']_{x=0}^1 + \l_kc_k\int_0^1 y_kw_k \mathrm{d}x &= \int_0^1 w_kf\mathrm{d}x \\
+      [y'w_k - yw_k']_{x=0}^1 - k^2\pi^2c_k\int_0^1 \sin^2 (k\pi x) \mathrm{d}x &= \int_0^1 w_kf\mathrm{d}x \\
+    \end{align*}
+    Given $w_k(x) = \sin(k\pi x)$, we get,
+    $$ [y'w_k - yw_k']_{x=0}^1 = -k\pi (-1)^k \b + k\pi \a $$
+    and so,
+    $$ c_k = -\frac{2}{k^2\pi^2} \int_0^1 \int_0^1 f(x)\sin (k\pi x) + \frac{2}{k\pi} (\a - (-1)^k \b) $$
+  \end{enumerate}
+\end{eg}

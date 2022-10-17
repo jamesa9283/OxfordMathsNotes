@@ -1,0 +1,115 @@
+% !TEX root = ../notes.tex
+
+% The primary resource for this course is the Hitchin notes.
+
+\section{Manifolds}
+\textbf{Reading: Hitchin Chapter 2}\\
+\noindent
+Manifolds are just geometric spaces that hold other geometric structures.
+
+\subsection{Topological Manifolds}
+\begin{ndefi}[Topological Manifold]
+  A Topological space $X$, is a \textbf{topological manifold} of \textbf{dimension}, $n \in \N$ if,
+  \begin{enumerate}
+    \item $X$ is \textbf{Hausdorff},
+    \item $X$ is \textbf{second countable},
+    \item For all $x \in X$, there is an open neighbourhood $V \sub X$, and an open set $U \in \R^n$ and a homeomorphism, $\phi : U \to V$. That is, $X$ is \textbf{locally homeomorphic} to $\R^n$.
+  \end{enumerate}
+\end{ndefi}
+
+\noindent
+Hausdorff and Second Countable are global topological conditions.
+\begin{ndefi}[Hausdorff]
+  $X$ is Hausdorff if for all $x, y \in X$ where $x \ne y$, there is some open $U, V \sub X$ such that $x \in U$ and $y \in V$ then $U \cap V = \vn$.
+\end{ndefi}
+ Further,
+ \begin{ndefi}[Second Countable]
+   $X$ is second countable, if there exists a countable set $U_1, U_2, \dots$ open sets in $X$ such that every open set in $X$ is the union of some of the $U_i$'s.
+ \end{ndefi}
+
+ \noindent
+ What does this mean? Well, $X$ being second countable means $X$ is not `too big'. For instance, we need $X$ second countable to show that `every manifold is a submanifold of $\R^n$ for $n$ sufficiently large' (Whitney Embedding Theorem). Some authors assume $X$ is \textbf{paracompact} instead.\\
+
+ \noindent
+ We now show $\R^n$ is second countable. Take the $U_i$'s to be all the $B_r(x_1, \dots, x_n)$ for $x_1, \dots, x_n > 0$, rational. Hence as $\Q$ is dense, then every real is in a ball, but also $\Q$ is countable, we get the second countable result. If it is compact, then it is second countable.\\
+
+ \noindent
+ The only sensible notion of `morhpisms' of topological manifolds are continuous maps. Here are some examples / non-examples,
+ \begin{eg}
+   \begin{itemize}
+     \item $\R^n$ and $S^n$ with the induced topology are topological manifolds of dimension $n$.
+     \item (Non-example) The line with two origins, $\R \cup \R$ glued on $\R \sm \{0\}$. This has two open subsets homeomorphic to $\R$. This satisfies condition (2-3), but not (1) as it isn't countable. Limits in this set isn't unique.
+     \item Let $S$ be any set, make $S$ into a topological set with the discrete topology. Then $S$ is a topological manifold of dimension $0$, if and only if $S$ is countable (needed for $S$ to be a Second Countable). As we need these TS's to be second countable, we need countably many connected components.
+   \end{itemize}
+ \end{eg}
+
+ \subsection{Smooth Manifolds}
+In some sense, a manifold is general place where you can do calculus. We are trying to avoid using coordinates (this is the interesting bit for applied maths and geometry). On topological manifolds there is no meaningful notion of differentiable function. A \textbf{smooth structure} is an additional structure on a topological manifold which functions are differentiable. We express this in terms of an \textbf{atlas of charts}. There is an alternative way to do this via sheaves of smooth functions.
+
+\begin{ndefi}[Chart]
+  Let $X$ be a topological space. A \textbf{chart} of $X$, of dimension $n \in \N$, is a pair $(U, \phi)$ with $U \sub \R$ open and $\phi : U \to V$ is a continuous map, such that $\phi(U) \sub X$ is open, and $\phi : U \to \phi(U)$ is a homeomorphism.
+\end{ndefi}
+
+\noindent
+That is relatively boring. This tells us that $X$ is locally homeomorphic to $\R^n$. Here is a more interesting definition,
+\begin{ndefi}[Compatible]
+  Two charts $(U, \phi)$ and $(V, \psi)$ are compatible if $\psi^{-1} \circ \phi: \phi(\psi(v)) \to \psi^{-1}(\phi(v))$ is a smooth map between open subsets of $\R^n$.
+\end{ndefi}
+
+\begin{ndefi}[Smooth]
+  All partial derivatives exist. We call them $C^\infty$.
+\end{ndefi}
+
+\noindent
+It is automatic that $\psi^{-1} \circ \phi$ is a \textbf{homeomorphism} between open subsets of $\R^n$. We want smooth aswell.
+%TODO Insert diagram here.
+
+$$ \begin{tikzcd}
+	{\phi^{-1}(\psi(v)) \subseteq U \subseteq \R^n} \\
+	& X \\
+	{\phi^{-1}(\psi(v)) \subseteq U \subseteq \R^n}
+	\arrow["\phi", from=1-1, to=2-2]
+	\arrow["{\psi^{-1}}"{pos=0.3}, shift left=3, shorten >=7pt, dashed, from=2-2, to=3-1]
+	\arrow["\psi", shorten <=7pt, from=3-1, to=2-2]
+	\arrow["{\psi^{-1}\circ \phi}"', from=1-1, to=3-1]
+\end{tikzcd} $$
+
+\begin{ndefi}[Atlas]
+  An \textbf{atlas} on $X$ of dimension $n \in \N$ is a family $\{(U_i, \phi_i) : i \in \cI\}$ is a family of charts of dimension $n$ on $X$, such that,
+  \begin{enumerate}
+    \item $(U_i, \phi_i)$ and $(U_j, \phi_j)$ are compatable for all $i, j \in \cI$
+    \item $X = \bigcup_{i \in \cI} \phi_i(U_i)$
+  \end{enumerate}
+\end{ndefi}
+
+\begin{ndefi}[Maximal Atlas]
+  An atlas is called \textbf{maximal} if it is not a proper subset of any other atlas.
+\end{ndefi}
+
+If $\{(U_i, \phi_i) : i \in \cI\}$ is an atlas on $X$, then the set of all charts $(U, \phi)$ on $X$ that satisfy, they are compatible with $(U_i, \phi_i)$ for $i \in I$ is called a maximal atlas and is the unique maximal atlas containing the initial atlas.\\
+
+\noindent
+Now for the punchline, the defintion of a smooth manifold
+\begin{ndefi}[Smooth Manifold]
+  A (smooth) manifold, $(X, A)$ of dimension $n \in \N$, is a Hausdorff, second countable topological space $X$ together with a maximal atlas $A$ of dimension $n$. Then $X$ is a topological manifold. Usually we just call $X$ the manifold, leaving $A$ implicit. \footnote{We are embarrassed about $A$ as it is a really ugly piece of kit. Hence we leave it implicitly.}
+\end{ndefi}
+
+\noindent
+A \textbf{chart} on $X$ is an element of $(U, \phi)$ of $A$. Then $V = \phi(U)$ is open in $X$ and $\phi^{-1} = (x_1, \dots, x_n) : V \to \R^n$ is a \textbf{local coordinate system} on $X$.
+
+\begin{remark}
+   We can use basically the same definition to define,
+   \begin{itemize}
+     \item $C^k$ manifolds, modelled on $\R^n$ but the maps have $k$ continuous derivatives. ($C^0$ manifolds are topological manifolds)
+     \item Complex Manifolds, we just use $\C^n$ and holomorphic maps
+     \item Banach Manifolds, we model of Banach spaces.
+   \end{itemize}
+\end{remark}
+
+\begin{eg}
+  \begin{itemize}
+    \item The easiest example is $X = \R^n$, this has an atlas consisting of one chart $\{(\R^n, \id)\}$, which isn't maximal but extends to a unique maximal atlas making $\R^n$ into an $n$-manifold.
+    \item Let $X = S^n$. It has an atlas $\{(U_1, \phi_1), (U_2, \phi_2)\}$ where $U_1 = U_2 = \R^n$ and $\phi_1(U_1)$ is $S^n$ minus the north pole and $\phi_2(U_2)$ is $S^n$ minus the north pole.
+  \end{itemize}
+\end{eg}
+

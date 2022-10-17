@@ -1,0 +1,102 @@
+% !TEX root = ../notes.tex
+
+Another example of a manifold with an atlas,
+\begin{eg}
+  $X = T^n = \R^n \sm \Z^n$ is an $n$-manifold, with an atlas $\{(U_{\vec y}, \phi_{\vec y}) : \vec y \in Y\}$ where $Y = \{\vec y = (y_1, \dots, y_n) : y_i \in \{0, \frac{1}{2}\}\}$. Then $U_{\vec y} = (-1/3, 1/3)^n \subseteq \R^n$ for all $\vec y$ and $\phi_{\vec y} : (x_1, \dots, x_n) \mapsto (x_1 + y_1 + \Z, \dots, x_n + y_n + \Z)$.
+  The transition maps are,
+  $$ \phi_{\vec y_2}^{-1} \circ \phi_{\vec y_1} = x_i \mapsto \begin{cases}
+    x_i + 1/2 \\
+    x_i \\
+    x_i - 1/2
+  \end{cases} $$
+  locally smooth map with a smooth inverse.
+\end{eg}
+
+\subsection{Smooth maps between manifolds}
+\begin{ndefi}[]
+  Let $(X, A)$ and $(Y, B)$ be manifolds of dimension $m, n$ respectively and $f : X \to Y$ be a continuous map. We say that $f$ is smooth if whenever $(U, \phi) \in A$ and $(V, \psi) \in B$ then $\psi^{-1} \circ f \circ \phi : (f \circ \phi)^{-1} (\psi(v)) \to V$ is a smooth map between open subsets of $\R^m$, $\R^n$.
+\end{ndefi}
+
+$$ \begin{tikzcd}
+	U & {(f \circ \psi)^{-1}\psi(v)} & V \\
+	& X & Y
+	\arrow["\supseteq"{description}, draw=none, from=1-2, to=1-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=1-1, to=2-2]
+	\arrow["\psi", tail reversed, from=1-3, to=2-3]
+	\arrow[from=2-2, to=2-3]
+	\arrow["{\psi^{-1}\circ f \circ \phi}", from=1-2, to=1-3]
+\end{tikzcd} $$
+
+\begin{remark}
+  \begin{itemize}
+    \item We note $\psi^{-1}\circ f \circ \phi$ is continuous, as $f$ is continuous but we want it to be smooth.
+    \item If $f = \id_X$, then this is the definition of compatibility of charts.
+    \item You don't have to check this on all charts of $X$ and $Y$. It is enough to check this for some subsets of charts convering $X$ and $Y$, that is, for atlases not for maximal atlases.
+  \end{itemize}
+\end{remark}
+
+\begin{ndefi}[Diffeomorphism]
+  A \textbf{diffeomorphism} $f : X \to Y$ is a smooth map with smooth inverse. This is the natural notion of isomprohism of manifolds.
+\end{ndefi}
+
+\begin{nlemma}
+  If $f : X \to Y$ and $g : Y \to Z$ are smooth maps of manifolds, then $g \circ f : X \to Z$ is also a smooth map. Further, identities $id_X : X \to X$ are smooth. Therefore, manifolds and smooth maps form a category. \footnote{I got two lectures in before I met a category. RIP Applied Mathematician.}
+\end{nlemma}
+\begin{proof}
+  To show $g \circ f$ is smooth, let $(U, \phi)$, $(V, \psi)$ and $(W, \chi)$ be charts on $X, Y$ and $Z$. Then we have,
+  $$   \begin{tikzcd}
+  	{(f \circ \phi)^{-1}(\psi(v))\cap(g \circ f \circ \phi)^{-1}(\chi(w))} & {(g \circ\psi)^{-1}(\chi(w))} & W \\
+  	X & Y & Z
+  	\arrow["\chi", from=1-3, to=2-3]
+  	\arrow["g"', from=2-2, to=2-3]
+  	\arrow["f"', from=2-1, to=2-2]
+  	\arrow["{\chi^{-1}\circ g \circ \psi}", from=1-2, to=1-3]
+  	\arrow["\psi", from=1-2, to=2-2]
+  	\arrow["{\chi^{-1}\circ (g \circ f) \circ \phi}", curve={height=-30pt}, from=1-1, to=1-3]
+  \end{tikzcd} $$
+  Then we have shown that, $\chi^{-1} \circ (g \circ f) \circ \phi$ is smooth on the open set $(f \circ \phi)^{-1}(\psi(v))\cap(g \circ f \circ \phi)^{-1}(\chi(w))$. Of course\footnote{this is not obvious} this is not what we want. We want $\chi^{-1} \circ (g \circ f)\circ \phi$ to be smooth on $(g \circ f \circ \phi)^{-1} (\chi(w))$. Luckily, $Y$ is covered by $\phi(v)$ for charts $(V, \psi)$.
+  So $(g \circ f \circ \phi)^{-1} )(\chi(W))$ is covered by subsets $(f \circ \phi)^{-1}(\psi(v))\cap(g \circ f \circ \phi)^{-1}(\chi(w))$ over all charts $(U, \psi)$ on Y. Therefore $\chi^{-1} \circ( g \circ f)\circ \phi$ is smooth on the whole set. So $g \circ f$ is smooth. The rest is easy \footnote{ I bet a tenner it isn't.}
+\end{proof}
+
+\noindent
+Another cool fact is, manifolds and smooth maps behave nicely under \textbf{products}. If $X$ and $Y$ are smooth manifolds of dimensions $m$ and $n$, then there is a unique manifold structure on $X \times Y$ with dimension $m + n$, such that if $(U, \phi)$ and $(V, \psi)$ are charts of $X$ and $Y$. Then $(U\ti V, \phi \ti \psi)$ is a chart of $X \ti Y$.\\
+
+\noindent
+If $f : X \to Y$, $g : Y \to Z$ are smooth manifolds, then the direct product $(f, g) : X \to Y \times Z$ defined by $(f, g) : x \mapsto (f(x), g(x))$ is smooth. Further, if $f : W \to Y$ and $g : X \to Z$ are smooth, then the \textbf{product} $f \times g : W \times X \to Y \times Z$, defined by $(f \times g) (w, x) = (f(w), g(x))$ is also smooth.
+
+\section{Tangent Bundles and Cotangent Bundles}
+\subsection{The Algebra $C^\infty(X)$ of a manifold $X$}
+
+\begin{ndefi}[]
+  Let $X$ be a manifold. We write $C^\infty(X)$ for the set of smooth functions $f : X\to \R$. Then $f$ is an $\R$-algebra under pointwise addition, multiplication and scalar multiplication.
+\end{ndefi}
+
+\noindent
+If $\dim X > 0$ then $C^\infty(X)$ is infinitely dimensional. We can recover $X$ completely, up canonical diffeomorphism from the $\R$-algebra $C^\infty(X)$. The points $x \in X$ are in a one-to-one correspondance with the $\R$-algevra morphisms $C^\infty(X) \to \R$ defined by $x \mapsto (x_* : f \mapsto f(x))$. This determines, $X$ as a set.\\
+
+\noindent
+The topology on $X$ is the weakest such that $f : X \to \R$ is continuous for all $f \in C^{\infty}(X)$. There is then a unique manifold structure on $X$ such that $f : X \to \R$ is smooth for all $f \in C^\infty(X)$\footnote{This is a lie, there is apparently not a unique manifold structure}.\\
+
+\noindent
+Let $g : X \to Y$ be a smooth map an $g^* : C^\infty(Y) \to C^\infty(X)$ be an $\R$-algebra morphism. Coversely, any $\R$-algebra morphism $\g: C^\infty(Y) \to C^\infty(X)$ is $g^*$ for some unique smooth $g : X \to Y$.\\
+
+\noindent
+\textbf{Moral:} The $\R$-algebra knows everything about the manifold $X$.
+
+\begin{eg}[Example 2.1]
+  Define $a : \R \to \R$ by,
+  $$ a(t) = \begin{cases}
+    e^{-1/t} & t > 0 \\
+    0 & t \le 0
+  \end{cases} $$
+  This function is smooth. Now we define $b : \R \to \R$ by,
+  $$ b(t) = \frac{a(t)}{a(t) + a(1 - t)} $$
+  This function is smooth with $b(t) = 0$ for $t \le 0$ and $b(t) = 1$ for $t \ge 1$. Now let $X$ be an $n$-manifold $x \in X$ and we choose a chart $(U, \phi)$ on $X$ with $0 \in U \sub \R^n$ where $\phi(0) = x$. Now choose $\e > 0$ with $\bar{B_{\sqrt{2}\e}(0)} \subset U$.
+  Now define $c : X \to \R$ by,
+  $$ c(x) = \begin{cases}
+    b(2 - \frac{x_1^2 + \dots + x_n^2}{\e^2}) \text{ if} x' = \phi(x_1, \dots, x_n) \in U \\
+    0 & \text{ otherwise }
+  \end{cases} $$
+  and $\phi_{\vec y} : (x_1, \dots, x_n) \mapsto (x_1 + y_1 + \Z, \dots, x_n + y_n + \Z)$. WE can say that $c$ is a globally smooth function on $X$. It it $1$ near $x$ and $0$ away from $x$. Further, the $d_i$ are smooth on all of $x$ and $(d_1, \dots, d_n)$ are local coordinates on $X$ near $x$.
+\end{eg}
