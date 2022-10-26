@@ -1,0 +1,52 @@
+% !TEX root = ../notes.tex
+
+\subsection{$f \in L_2(\O)$}
+We now want to consider $f \in L_2(\O)$, where we have a jump in the source term. Hence we modify our left hand side. The idea is to replace $f(x_i, y_i)$ by a cell average,
+$$ Tf_{i,j} := \frac{1}{h^2}\int_{K_{i,j}} f(x, y)\rm x \rm y $$
+where, $K_{i,j} = [x - hi/2, x + hi/2] \times [y - hi/2, y + hi/2]$. Hence we now have the same FD method but with $T_{i,j}$ on the right hand side. Does a solution exist and is it unique? Yes, because of the same arguments as before.
+
+\begin{nthm}
+  The scheme is stable in the sense that,
+  $$\norm{U}_{1,h} \le \frac{1}{c_0}\norm{Tf}_{h}$$
+\end{nthm}
+\begin{proof}
+  Same as before.
+\end{proof}
+\noindent
+Now we consider $u - U$, to find the accuracy of this method.
+\begin{align*}
+  e &= u - U \\
+  Ae &= Au - AU \\
+  &= Au - Tf \\
+  &=Au - T(-\Delta u + cu) \\
+  &= (T\pdd u x - D_x^+D_x^- u)_{ij} + (T\pdd u y - D_x^+D_x^- u)_{ij} + (cu - T(cu))_{ij} \equiv \varphi
+\end{align*}
+This has six terms, to make this better we realise that the integral of $\pdd u x$ turns into a difference operator, similarly for $y$. Hence,
+$$ T\left( \pdd i x \right)(x_i, y_i) = D_x^+ \left[ \frac{1}{h}\int_{y_j-h/2}^{y_j + h/2} \pd u x (x_i - h/2, y)\rm d y \right] $$
+and,
+$$ T\left(\pd u y \right)(x_i, y_j) = D_y^+ \left[ \frac{1}{h}\int_{x_i-h/2}^{x_i + h/2} \pd u y (x, y_j - h/2) \rm d x \right] $$
+and so we can write,
+$$ Ae = D_x^+ \varphi_1 + D_y^+ \varphi_2 + \psi. $$
+Where,
+\begin{align*}
+  \varphi_1 &:=  \frac{1}{h}\int_{x_i-h/2}^{x_i + h/2} \pd u y (x, y_j - h/2) \rm d x - D_x^- u \\
+  \varphi &:= \frac{1}{h}\int_{x_i-h/2}^{x_i + h/2} \pd u y (x, y_j - h/2) \rm d x - D_y^-u \\
+  \psi := (cu)(x_i, y_i) - T(cu)(x_i, y_i)
+\end{align*}
+and we note that the usual stability bound can only give a crude bound. This makes no use of our new $\phi$ form. Hence,
+\begin{align*}
+  \frac{1}{c_0}\norm{e}^2_{1,h} &\le (Ae, e)_h = (\phi, e)_h \\
+  &= (D_x^+ \varphi_1, e)_h + (D_y^+ \varphi_2)_h + (\psi, e)_h \\
+  &= (\varphi_1, D_x^- e)_h + (\varphi_2, D_y^- e) + (\psi, e)_h \\
+  &\le \norm{\varphi_1}_x \| D_x^-e]|_x + \norm{\varphi_2}_y \| D_y^-e]|_y +  \norm{\phi}_h\norm{e}_h \\
+  &= (\|\varphi_1]|^2_x + \|\varphi_2|]^2_y + \norm{\psi}_h^2 )^{\frac{1}{2}} (\|D_x^- e]|_x^2 + \| D_y^- e]|_y^2 + \norm{e}_h^2 )^{\frac{1}{2}} \\
+  &= (\|\varphi_1]|^2_x + \|\varphi_2|]^2_y + \norm{\psi}_h^2 )^{\frac{1}{2}} \norm{e}_{1,h}
+\end{align*}
+
+\begin{nlemma}
+  The global error, $e$, of the finite difference scheme is,
+  $$ \norm{e}_{1, h} \le \frac{1}{c_0}\left( \|\varphi_1]|^2_x + \|\varphi_2|]^2_y + \norm{\psi}_h^2 \right) $$
+\end{nlemma}
+
+\noindent
+In fact we can see that we can bound $\phi$ by a third derivative, instead of a forth.

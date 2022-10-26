@@ -1,0 +1,90 @@
+% !TEX root = ../notes.tex
+
+\section{section name}
+\textbf{REMEMBER: Stability + Consistency, implies Convergence.}
+We will illustrate finite difference on a simple two point BVP,
+\begin{align*}
+  - u'' + c(x)u = f(x) \quad x \in (0, 1)\\
+  u(0) = 0, u(1) = 0
+\end{align*}
+Where $f, c$ are real valued and continuous on the interval and $c(x) \ge 0$ for all $x \in [0, 1]$. The first step is to define a mesh, we are choosing some $N$ such that, $h = (1 - 0)/N = 1/N$ and $x_i = ih$ where $i = 0, \dots, N$. We define the set of mesh points,
+$$ \O_h = \{x_i : i = 1, \dots, N-1\} $$
+the set of boundary mesh-points, $\Gamma_h := \{x_0, x_N\}$ and the set of all mesh-points, $\bar{\O_h} := \O_h \cup \Gamma_h$. Now we to fiddle with the equation. Suppose that $u$ is sufficiently smooth ($u \in \mathcal{C}^4([0, 1])$). Now we take the taylor series,
+$$ u(x_i \pm h) = u(x_i) \pm hu'(x_i) + \frac{h^2}{2}u''(x_i) \pm \frac{h^2}{6}u''(x_i) + \mathcal{O}(h^4)$$
+so that,
+$$ D_x^+ u(x_i) := \frac{u(x_{i+1}- u(x_i))}{h} = u'(x_i) + \mathcal{O}(h) $$
+$$ D_x^- u(x_i) := \frac{u(x_{i}- u(x_{i-1}))}{h} = u'(x_i) + \mathcal{O}(h) $$
+and,
+$$ D_x^+ D_x^- u(x_i) = D_x^-D_x^+ = \frac{u(x_{i+1}) - 2u(x_i) + u(x_{i-1})}{h^2} = u''(x_{i}) + \mathcal{O}(h^2) $$
+We call these $D_x^+$ the forward difference and $D_x^-$ the backward difference, and $D_x^+ D_x^-$ the symmetric difference. So we rewrite this equation,
+$$ -D_x^+D_x^- + c_i u(x_i) \approx f(x), \quad i = 1, \dots, N - 1 $$
+where $u(x_0) = 0$ and $u(x_N) = 0$. This now motivates the following equation,
+$$ -D_x^+D_x^-U_i + c_i(x) U_i = f(x), \quad i = 1, \dots, N-1$$
+where $U_0 = 0$ and $U_0 = N$. This is just a set of linear equations,
+$$ \begin{pmatrix}
+  \frac{2}{h^2} + c(x_1) & -\frac{1}{h^2} &&& \\
+  -\frac{1}{h^2} & \frac{2}{h^2} + c(x_2) & -\frac{1}{h^2} && \\
+  & \ddots & \ddots & \ddots & \\
+  && -\frac{1}{h^2} & \frac{2}{h^2} + c(x_{N-2})  &&
+\end{pmatrix} $$
+
+\subsection{Existence and Uniqueness of a solution}
+Q begin an analysis to help us how that the previous matrix is invertable. The iea is, take two functions $V$ and $W$ defined on the interior meshpoints, the inner product,
+$$ (V, W)_h = \sum_{i=1}^{N-1} hV_iW_i $$
+which is very siimilar to the $L_2$ inner product. Consider our $-u'' + cu = f(x)$, the analogous idea to solving $AU = 0$ is $-u'' + cu = 0$ where $u(0) = 0$ and $u(1) = 0$, this is to show that $u = 0$. If we can do this, then we want to replicate this in finite difference. To replicate,
+\begin{align*}
+  \int_0^1 -(- u'' + c(x)u(x))u(x) dx &= \int_0^1 |u'(x)|^2 + c(x)|u(x)|^2 dx \\
+  &\ge \int_0^1 |u'(x)|^2
+\end{align*}
+because $c(x) \ge 0$ for all $x \in [0, 1]$. As we know $-u'' + cu = 0$, we can say that $u' = 0$ on $[0, 1]$. We want to now do this for the finite difference scheme, hence we need a sum by parts,
+\begin{nlemma}
+  Suppose that $V$ is a function defined at the mesh points $x_i = 0, \dots, N$ and let $V_0 = V_N = 0$, then,
+  $$ (-D_x^+ D_x^-V, V)_h = \sum_{i=1}^N h \left| D_x^- V_i \right|^2 $$
+\end{nlemma}
+
+\noindent
+We now consider, $(AV, V)_h$,
+\begin{align*}
+  (AV, V)_h = (-D_x^+ D_x^-V + cV, V)_h \\
+  &= (-D_x^+D_x^-V, V)_h + (cV, V)_h \\
+  \ge \sum_{i=0}^h h\left| D_x^- V_i \right|^2
+\end{align*}
+and hence we have a non-singular matrix, and therefore we have a unique solution.
+\begin{nthm}
+  Suppose $c$ and $f$ are continuous real-valued functions defined on $[0, 1]$ and $c(x) \ge 0$ for all $x \in [0, 1]$. Then the finite difference scheme posesses a unique solution.
+\end{nthm}
+
+\subsection{Stability, Consistency and Convergence}
+We define a norm,
+$$ \norm{U}_h = \left( \sum_{i=1}^{N-1} h|U_i|^2 \right) $$
+and the discrete Sobolev norm,
+$$ |U|_{1, h} = (\norm{U}_h^2 + \|D_x^- U|]_h^2)^\frac{1}{2} $$
+Using thi we want to prove something like,
+$$ (AV, V)_h \ge c_0\norm{V}_{1, h}^2 $$
+and we can,
+\begin{nlemma}[Discrete Poincar\'e Friedrichs inequality]
+  Let $V$ be a function defined on the mesh $\{x_0 \dots, x_N\}$, and such that $V_0 = V_N = 0$; then, there exists a positive constant $c^*$, independent of $V$ and $h$, such that
+  $$ \norm{V}^2 \le c_* \| D_x^-V |]^2_h $$
+\end{nlemma}
+Further,
+$$ (AV, V)_h \ge c_0 \norm{V}_{1, h}^2 $$
+where $c_0 = (1 + c_*)^{-1}$. Now we state,
+\begin{nthm}
+  The scheme is stable in the sense that,
+  $$ \norm{U}_{1, h} \le \frac{1}{c_0}\norm{f}_h $$
+\end{nthm}
+Using the stability result we want to now go forward and look at convergence. Hence we consider the global error, $e_i := u(x_i) - U_i$. Now,
+\begin{align*}
+  Ae_i &= Au(x_i) - AU_i = Au(x_i) - f(x_i) \\
+  &= -D_x^+D_x^-u(x_i) + c(x_i)u(x_i)- f(x_i) \\
+  &= u''(x_i) - D_x^+D_x^- u(x_i), \quad i = 1, \dots, N-1
+\end{align*}
+and hence we have derived the consistency error. Thus,
+$$ Ae_i = \phi_i \qquad i = 1, \dots, N-1 $$
+where $e_0 = 0$ and $e_N = 0$. Now use the stability result,
+\begin{align*}
+  \norm{u - U}_{1, h} = \norm{e}_{1, h} \le \frac{1}{c_0}\norm{h}
+\end{align*}
+It remains to bound $\norm{\phi}_h$, so we can then bound it by a constant times $h^2$. Hence, $\norm{\phi}_h \le Ch^2$. We deduce,
+$$ \norm{u - U} \le \frac{C}{c_0}h^2. $$
+Hence we have quadratic convergence.

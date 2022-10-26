@@ -1,0 +1,57 @@
+% !TEX root = ../notes.tex
+
+\section{Finite Difference approximation for elliptic BVPs}
+
+\noindent
+We now want to start using the ideas from the PDE to the ODE, $-\left( \pdd u x + \pdd u y \right) + c(x, y)u = f(x, y)$ on the rectangle $\O = (a, b) \times (c, d)$ with $u = 0$ on $\partial \O$. We also remember $c(x) \ge 0$, we know how useful this now. Further assuming $f$ is continuous leads to the case where the error analysis proceeds in the last lecture.\\
+
+\noindent
+Let $N$ be an integer and let $h = 1/N$ the mesh points are $(x_i, y_i)$ where we defined them as expected ($x_i = ih$ and $y_i = ih$). Then again we have points in the interior and on the exterior. The whole,
+$$ \bar{\O_h} = \{(x_i, y_i) : i, j = 0, \dots, N\} $$
+To construct our finite difference method we note that there is now three points of finite difference in each direction. That is, if we take a point, then we have four points involved, North, South, East, West. Hence we have a five point finite difference scheme. This means our matrix looks different. Hence we get,
+$$ -(D_x^+D_x^- U_{i,j} + D_y^+D_y^-U_{i,j}) + c(x_i, y_i)U_{i,j} = f(x_i, x_j). $$
+Now we ask, how many unknowns we have, well it's $(n - 1)^2$. We then have a pentadiagonal matrix,
+% add matrix
+
+\subsection{Existence and Uniqueness}
+
+Now, is this unique and exists? We are going to follow similarly to yesterday,
+$$ (V, W)_h = \sum_{i=1}^{N-1}\sum_{j=1}^{N-1} h^2 V_{i, j}W_{i, j} $$
+which is very similar to the $L^2$ inner product. So,
+\begin{nlemma}
+  Suppose $V$ is a function defined on $\Oh_h$ such that $V = 0$ on $\Gamma_h$, then,
+  $$ (-D_x^+D_x^- V, V)_h + (-D_x^+D_x^- V, V)_h = \sum_{i=1}^{N-1}\sum_{j=1}^{N-1} h^2|D_x^- V_{i,j}|^2 + \sum_{i=1}^{N-1}\sum_{j=1}^{N-1} h^2 |D_y^-V_{i,j}|^2 $$
+\end{nlemma}
+
+Now we can go back and proceed to analysising this finite difference scheme,
+\begin{align*}
+  (AV, V)_h &= (-D_x^+D_x^- V, V)_h + (-D_y^+D_y^- V, V)_h + (cV, V)_h \\
+  &\ge\sum_{i=1}^{N-1}\sum_{j=1}^{N-1} h^2|D_x^- V_{i,j}|^2 + \sum_{i=1}^{N-1}\sum_{j=1}^{N-1} h^2 |D_y^-V_{i,j}|^2
+\end{align*}
+Hence, as $V = 0$ on $\Gamma_h$ we can now bound this by $0$.
+
+\subsection{Stability and Convergence}
+Again, we look towards norms, just generalised,
+$$ \norm{D_x^- U}_h = \left( \sum_{i=1}^{N-1}\sum_{j=1}^{N-1} h^2|D_x^- V_{i,j}|^2 \right), $$
+and similarly for $y$. We have hence proved,
+$$ (AV, V)_h \ge \|D_x^- V]|_x^2 + \|D_y^- V]|_y^2. $$
+Now we need to prove some Poincar\'e-Friedrichs Inequality, so then we can bound by a full norm.
+\begin{nlemma}[Discrete Poincar\'e-Friedrichs]
+  $$ \norm{V}_h^2 \le c_* (\|D_x^- V]|_h^2 + \|D_y^- V]|_h^2) $$
+\end{nlemma}
+and now we can bound the above inequality.
+\begin{nthm}
+  Our finite difference scheme is stable in the sense that,
+  $$ \norm{U}_{1, h} \le \frac{1}{c_0}\norm{f}_h $$
+\end{nthm}
+
+\noindent
+We defined $e_i = u(x_i, y_i) - U_{i, j}$ global error, so we use it again. Hence we put this into the finite difference method.
+\begin{align*}
+  Ae_{i,j} &= \Delta u(x_i, x_j) - (D_x^+D_x^- u(x_i, y_i) + D_x^+D_x^- u(x_i, y_i)) \\
+  &= \left[ \pdd u x - D_x^+D_x^- \right] + \left[ \pdd u y - D_y^+ D_x^- \right] \\
+  &= - \frac{h^2}{12}\frac{\partial^4 u}{\partial x^4}(\xi_i, y_i) - \frac{h^2}{12}\frac{\partial^4 u}{\partial y^4}(x_i, \eta_i)
+\end{align*}
+\noindent
+and hence,
+$$ \norm{e}_{1, h} \le \frac{1}{c_0}\norm{\phi}_h = \mathcal{O}(h^2) $$
