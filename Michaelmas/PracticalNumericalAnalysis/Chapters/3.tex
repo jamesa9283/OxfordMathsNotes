@@ -1,0 +1,55 @@
+% !TEX root = ../notes.tex
+
+\section{Runge-Kutta Schemes}
+We continue the study of,
+\begin{align*}
+  u'(t) = f(t, u) \\
+  u(0) = u_0
+\end{align*}
+
+\noindent
+We say if $\theta \ne 0$ we had to solve a non-linear equation, but we can avoid this with more complicated methods. We also saw that Crank Nicholson was very good on error. We now go from Crank Nicholson, using Explicit Euler. We call this improved euler,
+$$ \frac{U_{n+1} - U_n}{\Delta t} = \frac{1}{2}(f(t_{n+1}, U_{n}) + \Delta t f(t_n, U_n) + f(t_n, U_n)). $$
+
+\noindent
+We can write Runge-Kutta as,
+$$ \frac{U_{n+1} - U_n}{\Delta t} = \sum_{i=1}^s b_ik_i $$
+where, $k_1 = f(t_n, U_n)$ and,
+$$ k_i = f\left(t_n + c_i\Delta t, U_n + \Delta t \sum_{j=1}^{i-1} a_{i, j} k_j\right), $$
+for $i = 2, \dots, s$. Then $k_i$'s are known as the stages of the method and the method is often referred to as an $s$-stage method. We usually put the coefficients of explicit Runge-Kutta scheme in some Butcher Tableux.
+% draw Tableux
+The improved Euler Scheme can be written as,
+$$ \frac{U_{n+1} - U_n}{\Delta t} = \frac{1}{2}(k_1 + k_2) $$
+where $k_1 = f(y_n, U_n)$ and $k_2 = f(t_n + \Delta t, U_n + \Delta tk_1)$. Another is the modified Euler-Scheme,
+$$ \frac{U_{n+1} - U_n}{\Delta t} = f(t_n + \frac{1}{2}\Delta t, U_n + \frac{1}{2}\Delta t f(t_n, U_n)) $$
+The butcher table is,
+% BUTCHER TIME.
+\noindent
+\begin{remark}
+   We note that the $\vec b$ entries should sub to $1$.
+\end{remark}
+
+\subsection{Derivation of Explicit Runge-Kutta Scheme}
+The coefficients are chosen to make the methods as high order as possible, we can do this using Taylor series expansions of the truncation error. THe truncation error is,
+$$ T_n = \frac{u(t_{n+1}) - u(t_n)}{\Delta t} = \sum_{i=1}^s b_i \tilde k_i $$
+where $\tilde k_1 = f(t_n, u(t_n))$ and so on. Now death by taylor series. (I am not typing this. )
+\begin{nthm}
+  The order $p$ of an explicit $s$-stage Runge-Kutta method is bounded by $p \le s$. Further, it is possible to construct Runge-Kutta methods that achieve this maximal order.
+\end{nthm}
+
+\subsection{Stability}
+$u'(t) = \l u$. If $\l < 0$, the exact solution limits of $0$. The explicit euler scheme can be solved,
+$$ U_n = (1 + \l \Delta t)^n $$
+For $\l < 0$ we require it to limit to zero. Hence,
+$$ -1 < 1+ \l \Delta t < 1 $$
+and so,
+$$ \Delta t < \frac{2}{|\l|}. $$
+
+\noindent
+We can do a similar to improved euler. We solve,
+$$ U_n = (1 + \l \Delta t + \frac{1}{2}(\l \Delta t)^2) $$
+and we see again,
+$$ \Delta t < \frac{2}{|\l|}. $$
+
+\noindent
+The interval of absolute stability us the interval of values $\l \Delta t$ such that $\lim_{n \to \infty} U_n = 0$. Thus for both explicit and improved Euler, $\l \Delta t \in (-2, 0)$.
