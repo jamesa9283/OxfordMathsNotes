@@ -1,0 +1,74 @@
+% !TEX root = ../notes.tex
+
+\section{Convergence for differentiable functions}
+We look at the contral dogma of approximation theory. We talk about the smoothness of $f$ and that this corresponds to the rate of approximation of $f$. In this section we are going to consider $f$ has several derivatives and we will see that this relates to algebraic convergence, and in the next section we are going to see that if $f$ is analytic then we have exponential convergence.\\
+
+\noindent
+In classical approximation theory we usually take a conservative view on approximation, but we can do better. We will consider the variation of a function.
+\begin{ndefi}[Variation]
+  We define the variation of a function, $f$, on $[a, b]$ is,
+  $$ \mathcal{V}(f) = \sup \sum |f(x_{i+1}) - f(x_i)| $$
+  for $a \le x_1 < \dots < x_n \le b$.
+\end{ndefi}
+
+\noindent
+If $\mathcal{V}(f) < \infty$, then we say that $f$ has bounded variation, $f \in \mathrm{BV}$. We also can think about $f$ as the one-norm of the derivative. That is,
+$$ \mathcal{V}(f) = \int_a^b |f'(x)|\rm dx = \norm{f}_1$$
+This holds if $f$ has a continuous derivative. We can extend these ideas to non-continuous functions via Stieltjes Integration.
+\begin{eg}
+  \begin{itemize}
+    \item Let $f(x) = |x|$, then $\mathcal{V}(f) = \norm{f}_1 = 2$.
+    \item Let $f(x) = \sgn(x)$, then $\mathcal{V}(f) = 2$.
+  \end{itemize}
+\end{eg}
+
+\noindent
+We shall assume that for some $\nu \in \Z_{\ge 0}$, $f, f', \dots, f^{(\nu - 1)}$ are continuous and $f^{(\nu)}$ has $\mathcal{V}(f^{(\nu)}) < \infty$. We can now derive some theorems from this,
+\begin{nthm}
+  Assume $\mathcal{V}(f^{(\nu)}) < \infty$ for some $\nu \ge 0$. Then,
+  $$ |a_k| \le \frac{2\mathcal{V}(f^{(\nu)})}{\pi(k - \nu)^{\nu + 1}} \qquad k \ge \nu + 1$$
+\end{nthm}
+\noindent
+This is saying we decrease and the approximations converge by $\mathcal{O}(k^{-\nu-1})$.\\
+
+\begin{proof}[Idea (Too fiddly) Prof. S\"uli did it.]
+  Instead of doing the Chebyshev idea, we shall look at the Fourier analogue. Integration by parts. Given some $2\pi$-periodic function $F(\theta)$ and suppose $\V(f^{(\nu)}) < \infty$. We now see,
+  $$ F(\theta) &= \sum_{k=-\infty}^\infty a_k e^{ik \theta}, \quad a_k = \frac{1}{2\pi}\int_{-\pi}^\pi F(\theta) e^{-ik \theta}\rm d \theta $$
+  and look at the coefficients,
+  \begin{align*}
+    a_k &= \frac{1}{2\pi}\int_{-\pi}^\pi F(\theta) e^{-ik \theta}\rm d \theta \\
+    &= \frac{1}{2\pi}\int_{-\pi}^\pi \frac{F'(\theta)e^{-ik \theta}}{ik} \rm d \theta \\
+    &= \vdots \\
+    &= \frac{1}{2\pi}\int_{-\pi}^\pi \frac{F^{(\nu +1)}(\theta) e^{-ik \theta}}{(ik)^{\nu + 1}}
+  \end{align*}
+\end{proof}
+
+\noindent
+From the work in previous chapters, we can now say,
+\begin{nthm}
+  Assume that $\nu \ge 1$. Then,
+  $$ \norm{f - f_n} \le \frac{2\mathcal{V}(f^{(\nu)})}{\pi \nu (n - \nu)^\nu} \qquad \mathcal{O}(n^{-\nu})$$
+  and,
+  $$ \norm{f - p_n} \le \frac{4\mathcal{V}(f^{(\nu)})}{\pi\nu (n - \nu)^\nu} \qquad \mathcal{O}(n^{-\nu})$$
+\end{nthm}
+\begin{proof}
+  We know,
+  \begin{align*}
+    f - f_n &= a_{n+1}T_{n+1} + a_{n+2}T_{n+2} + \dots \qquad \norm{T_k} = 1 \\
+    \norm{f - f_n}_\infty &\le \sum_{n+1}^\infty |a_k|\\
+    &\le \frac{2\mathcal{V}(f^{(\nu)})}{\pi} \sum_{n+1}^\infty \frac{1}{(k - \nu)^{\nu + 1}} \\
+    &\le \frac{2\mathcal{V}}{\pi} \int_n^\infty \frac{\rm d s}{(s - \nu)^{\nu + 1}} \\
+    &= \frac{2\mathcal{V}}{\pi \nu (n - \nu)^\nu}
+  \end{align*}
+  and similarly for $\norm{f - p_n}$, there is just an extra constant.
+\end{proof}
+
+\begin{eg}
+  Consider $f(x) = \sgn(x)$, then we have $a_k = \mathcal{O}(k^{-1})$ and so we have $\norm{f - p_n} = \mathcal{O}(1)$. Hence we can't approximate this nicely. \\
+
+  \noindent
+  If $f(x) = |x|$, then $a_k = \mathcal{O}(k^{-2})$ and so $\norm{f - p_n} = \mathcal{O}(n^{-1})$.\\
+
+  \noindent
+  If $f(x) = |x|^3$, then $a_k = \mathcal{O}(k^{-4})$ and so $\norm{f - p_n} = \mathcal{O}(n^{-3})$
+\end{eg}

@@ -1,0 +1,53 @@
+% !TEX root = ../notes.tex
+
+\section{Barycentric Interpolation Formula}
+\begin{nthm}[Theorem 5.2 (Salzer 1972)]
+  The degree $n$ Chebyshev interpolant to data $f_0, \dots, f_n$ is given by,
+  $$ p(x) = \frac{\sum_{j = 0}^n {}^{'} (-1)^j f(j) / (x - x_j)}{\sum_{j=0}^n{}^{'} (-1)^j / x - x_j} $$
+  we note $\sum'$ means we multiply the $j = 0, n$ by a half. Further if $x = x_j$, then $p(x) = f_j$.\footnote{Nick Higham proved this was numerically stable (Special Topic?)}
+\end{nthm}
+
+What's the point? Well theres two good ways to compute polynomial interpolants,
+\begin{itemize}
+  \item By points, this is via the Barycentric Interpolation Formula. If we want to evaluate a interpolant at a point, we have $o(n)$.
+  \item By coeffs, for this we calculate $\{c_k\}$ via FFT, then we use the series. If we want to evaluate a interpolant at a point, we have $o(n\log (n))$.
+\end{itemize}
+
+\noindent
+We now look to a better formula,
+\begin{nthm}[Theorem 5.1 (Dupuy 1948)]
+  The degree $n$ interpolant $x_0, \dots, x_n$ is,
+  \begin{equation}
+    p(x) = \frac{\sum_{j=0}^n \frac{\l_j f_j}{x - x_j}}{\sum_{j=0}^n \frac{\l_j}{x - x_j}} \tag{$*$}\label{eq:iF}
+  \end{equation}
+  where, $\l_j = \frac{1}{\prod_{k \ne j} (x_j - x_k)}$ is the barycentric weight.
+\end{nthm}
+
+\begin{note}
+  We regard $|\l_j| = \frac{1}{(\text{geometric mean distance of $x_j$ to the other points})^n}$
+\end{note}
+
+\begin{proof}
+  We note that \ref{eq:iF} is in Lagrange form (the sum of $n + 1$ functions),
+  $$ p(x) = \sum_{j=0}^n f_j \ell_j(x) $$
+  where
+  $$ \ell_j(x) = \frac{\frac{\l_j}{x - x_j}}{\sum_{k=0}^n \frac{\l_k}{x - x_k}} $$
+  This is a sum of cardinal functions\footnote{a cardinal (or Lagrange) function is a function that is zero at all the grid points except one.}. We have to show this does what we expect, that is again, that $\ell_j(x)\in \mathcal{P}_n$ and
+  $$ \ell_j(x_k) = \begin{cases}
+    1 & k = j \\
+    0 & k \ne j
+  \end{cases}. $$
+  Now for the juicy derivation. We know (we probably don't), the lagrange interpolant,
+  $$ \ell_j(x) = \frac{\prod_{k \ne j} (x - x_k)}{\prod_{k \ne j} x_j - x_k}. $$
+  We define the node polynomial,
+  $$ \ell(x) = \prod_{k=0}^n (x - x_k). $$
+  Then,
+  \begin{align*}
+    \ell_j(x) &= \frac{\ell(x)}{(x - x_j)\prod_{j \ne k} (x_j - x_k)} \\
+    &= \frac{\ell(x)\l_i}{x - x_j}.
+  \end{align*}
+  Why is this the same as what we wrote before? Well just divide by one! Isn't this so trivial! The reason we do this is because,
+  $$ 1 = \sum_{k=0}^n \ell_k(x). $$
+  We find,
+  $$ \ell_j(x) = \frac{\ell(x) \frac{\l_j}{x - x_j}}{\ell(x) \sum_{k=0}^n \frac{\l_k}{x - x_k}} = \frac{\frac{\l_j}{x - x_j}}{ \sum_{k=0}^n \frac{\l_k}{x - x_k} }. $$
+\end{proof}

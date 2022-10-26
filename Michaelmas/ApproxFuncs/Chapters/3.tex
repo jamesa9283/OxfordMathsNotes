@@ -1,0 +1,43 @@
+% !TEX root = ../notes.tex
+
+\section{Interpolants, Projections and Aliasing}
+Our setting is we are given some $f$ that is Lipschitz continuous on $[-1, 1]$ and given some $n \ge 0$. There are two main ways to approximate $f$ by a polynomial.
+$$ p_n(x) = \sum_{k=0}^n x_kT_k(x), $$
+the Chebyshev interpolant, (we have already talked this), and,
+$$ f_n(x) = \sum_{k = 0}^n a_k x_kT_k(x) $$
+here we take the infinite series and then truncate it at $n$. This is the Chebyshev projection or truncation. The interpolant is natural for computation because it's a finite problem, while the truncation results in integrals and hence is infinite. We also call the interpolant `by values' and the projection `by projection'. We are going to see how $c_k$ relate to $a_k$ and they are basically the same.\\
+
+\noindent
+\subsection{Aliasing}
+\begin{nthm}
+  For any $n \ge 1$ and any $0 \le m \le n$ the following Chebyshev polynomials take the same values on the $(n + 1)$ point Chebyshev grid,
+  $$ T_m, \quad T_{2n-m}, \quad T_{2n+m}, \quad T_{4n - m}, \quad T_{4n+m}, \quad T_{6n - m}, \dots $$
+\end{nthm}
+\begin{proof}
+  Transplant to $z$. These polynomials are just $\frac{1}{2}$ times,
+  $$ z^m + z^{-m}, \quad z^{2n-m} + z^{m - 2n}, \quad z^{2n + m} + z^{-2n-m}, \dots $$
+  and further, $z^{2n} = 1$ on the $2n^{th}$ roots of unity and these are just the Chebyshev points. So all these are the same at the roots of unity of $1$ and that implies all the Chebyshev polynomials are the same at the Chebyshev points.
+\end{proof}
+
+\noindent
+Theorem 4.1 implies,
+\begin{nthm}
+  If $f$ is Lipschitz continuous on $[-1, 1]$, then $c_0 = a_0 + a_{2n} + a_{4n} + \dots$ and $ c_{n} = a_n + a_{3n} + a_{5n} + \dots $ and for $0 < k < n$,
+  \begin{align*}
+    c_k &= a_k + a_{k+2n} + a_{k+2n} + \dots \\
+    &\quad + a_{-k+2n} + a_{-k + 4n} + \dots
+  \end{align*}
+\end{nthm}
+\begin{proof}
+  If $f$ is Lipschitz, then the Chebyshev series converges absolutely. Therefore, all of the above series converge, hence they define some degree $n$ polynomial, $q \in \mathcal{P}_n$. At a gridpoint $x_j$ we write,
+  $$ f(x_j) = \sum_{k=0}^\infty a_kT_k(x_j) \quad q(x_j) = \sum_{k=0}^n c_kT_k(x_j) $$
+  At $x_j$ these are the same numbers in different order! (Note Thm 4.1). Therefore $f(x_j) = q(x_j)$ for all $x_j$. Therefore $q$ is indeed the Chebyshev interpolant $p$.
+\end{proof}
+
+\begin{ncor}
+   The difference between $f$ and $f_n$ is,
+   $$ f(x) - f_n(x) = \sum_{k = n+1}^\infty a_k T_k(x), $$
+   and the difference between $p_n$ and $f$ is,
+   $$ f(x) - p_n(x) = \sum_{k = n+1}^\infty a_k(T_k(x) - T_{m}(x)), $$
+   where $m = |(k + n - 1)(\mathrm{mod}\, 2n) - (n - 1)|$
+\end{ncor}
