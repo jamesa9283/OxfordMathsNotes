@@ -1,0 +1,72 @@
+% !TEX root = ../notes.tex
+
+\noindent
+We note that the SVD can be written in the form of an outer product, $A = U\Sigma V^T = \sum_{i=1}^k \s_i U_i V_i^T$. We also note that $Av_i = \s_i u_i$. Let's prove this,
+\begin{align*}
+  Av_i &= \left( \sum_{j=0}^n \s_j u_jv_i^T\right) v_i \\
+  &= \s_i u_i
+\end{align*}
+and similarly, $u_i^T A = \s_i v_i^T$. Further we can show if $A = U \Sigma V^T$ we can say,
+\begin{equation}
+  A^TA = V\Sigma^2 V^T \label{eq:SVD1}
+\end{equation}
+or
+\begin{equation}
+  AA^T = U \Sigma^2 U^T \label{eq:SVD2}
+\end{equation}
+Further for any \ref{eq:SVD1} such that $A = \tilde U \Sigma V^T$ and $A = U\Sigma \tilde V^T$ then \textbf{some result}.
+
+\noindent
+We call a triplet a singular triple if $Av_i = \s_i u_i$ and $u_i^T A = \s_i v_i^T$ both hold. We now ask whether the SVD is unique. We can see,
+\begin{align*}
+  A &= U\Sigma V^T \\
+  &= USS^{-1} \Sigma SS^{-1} V^T \\
+  &= (US)(S\Sigma S)(SV^T)
+\end{align*}
+where we just let $S$ be diagonal with $\pm 1$. We see that the grouped terms retain the structure that we need to have a new SVD. Further this SVD is different, but $\Sigma$ is the same ($S = S^{-1}$ and $\Sigma$ is diagonal). When $\s_i = \s_j$, we have larger degree og freedom, i.e. $\s_1 = \s_2$. We can write the first two diagonals as $\s_1 QQ^T$. We then have,
+$$ A = U \begin{pmatrix}
+  Q & \\
+  & I_{n-2}
+\end{pmatrix} \Sigma \begin{pmatrix}
+  Q^T & \\ & I_{n-2}
+\end{pmatrix} V^T $$
+If $A$ is orthogonal, we can say the following are SVD's of $A$,
+$$ A = AII = IIA = (AQ)IQ^T. $$
+
+\begin{nlemma}
+  $$ \norm{A}_{2} = \s_1(A) $$
+\end{nlemma}
+\begin{proof}
+  Use SVD,
+  \begin{align*}
+    \norm{Ax}_2 &= \norm{U \Sigma V^T x}_2 \\
+    &= \norm{\Sigma V^T x} \\
+    &= \norm{\Sigma y}_2 \\
+  \end{align*}
+  \begin{align*}
+    &= \sqrt{\sum_{i=1}^n \s_i^2 y_i^2} \\
+    &\le \sqrt{\sum_{i=1}^n \s_1^2 y_i^2} = \s_1\norm{y}_2^2 = \s_1
+  \end{align*}
+\end{proof}
+
+\subsection{Applications}
+\subsubsection{Low-rank approximations}
+Given some $A \in \R^{m \times n}$, we want to find some sort of $A_r$ such that $A = \approx A_r = U_r \S_r V_r^T$. You may ask why?
+\begin{itemize}
+  \item Let $A$ be stupidly large, then this saves storage.
+  \item Matrix multiplication is of order $\mathcal{O}(mn)$, but in terms of this approximation we have something of the order of $\mathcal{O}((m + n)r)$, which is a massive saving.
+\end{itemize}
+
+\noindent
+\textbf{Low-rank Matrices}
+When talking about low-rank matrices, we say some $\rank(B) \le r$. If this is true we can write it as, $B = xy^T$. Let's prove this,
+\begin{proof}
+  We know $B = U\S V^T$, then we can truncate $\S = \mathrm{diag}(\s_1, \dots, \s_r)$ and then let $U_r\S = X$ and $Y = V$. Conversely, if $B = XY^T$, then $B = U_X\S_X V_X^T$ then $Y = U_Y \S_Y V_Y^T$, then we look at $XY^T = U_X\S)X V_X^T V_Y \S_Y U_Y^T$. Now we SVD AGAIN!!!!! $V = U_X \tilde{U} \tilde \S \tilde V^T U_Y^T$ AND AGAIN! $\tilde{\tilde U} \tilde{\tilde \S} \tilde{\tilde V^T}$.
+  Then we can say that $V$ can have at most $r$ positive singular values.
+\end{proof}
+
+\noindent
+Now we want to find $B$ such that $\rank(B) \le r$. So we want to minimise $\norm{A - B}_2$ given $A$. We see $\norm{A - B}_2 \le \norm{A - C}_2$ for all $\rank C \le r$. That is, we want to solve,
+$$ A = U\Sigma V^T = \sum_{n=1}^n s_i u_i v_i $$
+and then truncating $B$,
+$$ B = U_r\S_r V_r^T = \sum_{i=0}^r \s_i u_i v_i^T $$w

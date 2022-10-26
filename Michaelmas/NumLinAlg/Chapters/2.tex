@@ -1,0 +1,79 @@
+% !TEX root = ../notes.tex
+
+\noindent
+Here is a result on subspaces,
+\begin{nlemma}
+  $\mathcal{S}_1 = \spn (V_1)$ and $\mathcal{S}_2 = \spn (V_2)$ where $V_1 \in \R^{n \times d_1}$ and $V_2 \in \R^{n \times d_2}$, with $d_1 + d_2 > n$. Then $\exists x \in 0 \in \mathcal{S}_1 \cap \mathcal{S}_2$.
+\end{nlemma}
+
+\section{SVD}
+We already know of the symmetric eigenvalue decomposition $A = V \Lambda ^T V$ for a symmetric $A \in \R^{n \times n}$ where $V^T V = I_n$ and $\Lambda = \mathrm{diag}(\l_1, \dots \l_n)$. Now we learn about the Singular Value Decomposition (SVD). This is for any $A \in \R^{m \times n}$ for $m \ge n$. Here $U^T U = V^T V = I_n$, $\Sigma = \mathrm{diag}(\s_1, \dots, \s_n)$ where $\s_1 \ge \s_2 \ge \dots \ge \s_n \ge 0$. We now want to prove this always exists,
+\begin{proof}
+  Take some $A^TA$ (Gram Matrix) symmetric positive semi-definite. That is, all the eigenvalues are nonnegative. We then have an eigenvalue decomposition,
+  $$ A^TA = V\begin{pmatrix}
+    \l_1 && \\
+    & \ddots & \\
+    && \l_n
+  \end{pmatrix}V^T $$
+Now we let $B = AV$. Then,
+\begin{align*}
+  B^TB &= V^T A^T A V\\
+  &= \begin{pmatrix}
+    \l_1 && \\
+    & \ddots & \\
+    && \l_n
+  \end{pmatrix} = \Sigma^2
+\end{align*}
+Suppose $\l_n > 0$. Then let,
+$$ U = B \begin{pmatrix}
+  \l_1^{\frac{1}{2}} && \\
+  & \ddots & \\
+  && \l_n^{\frac{1}{2}}
+\end{pmatrix} $$
+and $U^TU = \Sigma^{-1} B^T B \Sigma^{-1} = I_n$. Now $A = BV^T$ and $B = U\Sigma$ and so $A = U\Sigma V^T$.
+Now consider when $\l_{r+1} = 0$. We have,
+$$ \Sigma = \begin{pmatrix}
+  \l_1 &&&&& \\
+  & \ddots &&&& \\
+  && \l_r &&& \\
+  &&& 0 && \\
+  &&&& \ddots & \\
+  &&&&& 0
+\end{pmatrix} $$
+and now we can do something sensible. We do,
+$$ \begin{pmatrix}
+  U_r & 0
+\end{pmatrix} =  B \begin{pmatrix}
+  \l_1^{\frac{1}{2}} &&&&& \\
+  & \ddots &&&& \\
+  && \l_r^{\frac{1}{2}} &&& \\
+  &&& 1 && \\
+  &&&& \ddots & \\
+  &&&&& 1
+\end{pmatrix} $$
+instead of 0's. We still have $A = BV^T$, but,
+$$ U = BV^T = \begin{pmatrix}
+  U_r & 0
+\end{pmatrix} \begin{pmatrix}
+  \Sigma_r & \\ & I
+\end{pmatrix}\begin{pmatrix}
+   V_r^T \\ V_\bot^T
+\end{pmatrix} = U\Sigma_r V^T $$
+This is the economical SVD.
+\end{proof}
+
+\noindent
+We also have the full SVD where, $A = \begin{pmatrix}
+  U & U_\bot
+\end{pmatrix} \begin{pmatrix}
+  \Sigma \\ 0
+\end{pmatrix} V^T$ where $U \in \R^{m \times m}$ orthogonal.\\
+
+\noindent
+From the SVD we get,
+\begin{itemize}
+  \item rank $r$ of $A \in \R^{m \times n}$, number of nonzero singular values $\s_i(A)$. We can always write $A = \sum_{i=1}^{\rank(A)} \s_i u_iv_i^T$,
+  \item Column Space, span of $U = [u_1, \dots, u_r]$,
+  \item row spane, row span of $v_1^T, \dots, v_r^T$,
+  \item null space, $v_{r+1}, \dots, v_n$.
+\end{itemize}
