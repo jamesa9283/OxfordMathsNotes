@@ -1,0 +1,108 @@
+% !TEX root = ../notes.tex
+
+\section{Vector Fields}
+Let $X$ be a smooth manifold with tangent bundle $TX$. Then by definition, a \textbf{vector field} is a smooth section $v$ of $TX$, $v \in \G^\infty(TX)$. This gives a vector $v_x \in T_xX$ for each $x \in X$ which vary smoothly with $x \in X$.\\
+
+\noindent
+Think of $v$ as the velocity as the velocity of a fluid in motion on $X$. Let $X = S^2$, the surface of the earth and $v$ as the velocity of the wind.
+
+\subsection{Vector field as derivations, the Lie Bracket.}
+\begin{nprop}\label{prop:oneOne}
+   Let $X$ be a manifold. Then there is a natural one-to-one correspondence between vector fields $v \in \G^\infty (TX)$ and linear maps $\d : C^\infty(X) \to C^\infty(X)$ satisfying \eqref{eq:dprop}
+   \begin{equation}
+     \d (ab) = a \d(b) + \d(a) b\, \forall\, a, b \in C^\infty(X)\tag{$*$}\label{eq:dprop}
+   \end{equation}
+   such that,
+   $$ v_x(a) = (\d(a))(x) \text{ for all } x\in X $$
+   such maps $\d$ are called derivations.
+\end{nprop}
+\begin{proof}
+  Recall that a vector $v_x \in TX$ is a linear map $v_x : C^\infty(X) \to \R$ satisfying,
+  \begin{equation}
+    v_x(ab) = a(x)v_x(b) + b(x)v_x(a) \, \forall\, a, b \in C^\infty(X)\tag{$**$}\label{eq:deriv_two}
+  \end{equation}
+  If $\d : C^\infty(X) \to C^\infty(X)$ is a derivation, then restricting \eqref{eq:dprop} to $x$ gives,
+  $$ \d(ab)|_x = a(x)\d(b)|_x + b(x)\d(a)|_x $$
+  so,
+  $$ v_x : C^\infty \to \R, \quad v_x(a) = \d(a)|_x, $$
+  lies in $T_xX$. Hence $X \to TX$, $v : x \mapsto (x, v_x)$ is a map such that $\pi \circ v = \id$. Working in coordinates we see $v$ is a smooth map, so $v \in \G^\infty(TX)$.\\
+
+  \noindent
+  If $v \in \G^\infty(TX)$ we define $\d : C^\infty(X) \to C^\infty(X)$ by $\d(a)(x) = v_x(a)$. Then working in coordinates we see that $\d(a) : X \to \R$ is smooth and so, $\d(a) \in C^\infty(X)$ and \eqref{eq:deriv_two} for each $x \in X$ implies \eqref{eq:dprop}.
+\end{proof}
+
+This correspondence buys us something. We can't compose vector fields, but we can compose derivations. Take $\d, \e : C^\infty(X) \to C^\infty(X)$ to be derivations and let $a, b \in C^\infty(X)$. Then
+\begin{align*}
+  (\d \circ \e)(ab) &= \d (\e(ab)) \\
+  &= \d(a \e(b) + b\e(a)) \\
+  &= \d(a)\e(b) + a (\d \circ \e)(b) + \d(b)\e(a) + b (\d \circ \e)(a)
+\end{align*}
+This is not a derivation, but this isn't suprising as $(\d \circ \e)$ is second order. Let's try the other order,
+\begin{align*}
+  (\e \circ \d)(ab) &= \e (\d(ab)) \\
+  &= \e(a \d(b) + b\d(a)) \\
+  &= \e(a)\d(b) + a (\e \circ \d)(b) + \e(b)\d(a) + b (\e \circ \d)(a)
+\end{align*}
+and so we can subtract these and get, cancelation. This gives us,
+\begin{align*}
+  [\d, \e](ab) = (\d \circ e) (ab) - (\e \circ \d) (ab) \\
+  &= a [\d, \e] b + b [\d, \e] a
+\end{align*}
+which is familiar (Disseration Y3). Thus the commutator, is a derivation. The commutator is,
+$$ [\d, \e] = (\d \circ \e) - (\e \circ \d). $$
+
+\begin{ndefi}[Lie Bracket]
+  Let $X$ be a manifold, and $v, w \in \G^\infty(TX)$ be vector fields. Then $v, w$ correspond to derivations $\d, \e : C^\infty(X) \to C^\infty(X)$ by Prop \ref{prop:oneOne}. So $[\d, \e]$ is also a derivation. We define the \textbf{Lie Bracket} $[v, w] \in \G^\infty(X)$ to be the vector field corresponding to $[\d, \e]$ under Prop. \ref{prop:oneOne}.
+\end{ndefi}
+
+\noindent
+If $(x_1, \dots, x_n)$ are local coordinates on $U \sub X$ then we may write $v = v_1\pd{}{x_1} + \dots + v_n\pd{}{x_n}$ and $w = w_1\pd{}{x_1} + \dots + w_n\pd{}{x_n}$ for $v_i, w_j : U \to \R$ smooth. Then $\d, \e$ act locally by $\d \circ a = v_1 \pd a {x_1} + \dots + v_n \pd a {x_n}$ and
+$\e = w_1 \pd a {x_1} + \dots + w_n \pd a {x_n}$. So computing $\d \circ \e (a) - \e \circ \d (a)$ show, that
+$$ [v, w] = \sum_{i,j = 1}^n \left(v_i \pd {w_i}{x_i}\right) \pd{}{x_j} - \left(w_j \pd{v_i}{x_j}\right)\pd{}{x_i} $$
+in local coordinates. You may ask why we didn't write this expression until the end, but now we know that this is \textbf{COORDINATE INDEPENDENT!} That is, if we change coordinates the components change via Jacobian, but it cancels!
+
+\begin{note}
+  We note that $[v,w] = -[w, v]$
+\end{note}
+\begin{nprop}
+   Let $u,v, w$ be vector fields on $X$. Then the Lie brackets satisfy the Jacobi identity,
+   \begin{equation*}
+     [u, [v, w]] + [v, [w, u]] + [w, [u, v]] = 0 \tag{$***$}\label{eq:jacobi}
+   \end{equation*}
+\end{nprop}
+\begin{proof}
+  Let $\g, \d, \e$ be the derivations corresponding to the vector fields $u, v, w$. Then \eqref{eq:jacobi} corresponds to the equation,
+  \begin{align*}
+    [\g, [\d, \e]] + [\d, [\e, \g]] + [\e, [\g, \d]] &= \g (\d\e - \e\d) - (\d\e - \e\d)\g + \d(\e\g - \g\e) - (\e\g - \g\e)\d + \e(\g\d - \d\g) - (\g\d - \d\g)\e \\
+    &= 0\footnote{If I wrote these out properly they call cancel. THIS IS SO PRETTY.}
+  \end{align*}
+\end{proof}
+
+\noindent
+\begin{ndefi}[Lie Algebra]
+  A Lie Algebra over some field $\mathbb{K}$ is a $k$-vectorspace $V$ and bilinear map $[,] :V \times V \to V$ with $[u, v] = -[v, u]$ and the Jacobi identity\footnote{Now, this is the good stuff.}.
+\end{ndefi}
+
+\subsection{Flowing along a vector field}
+\begin{ndefi}[One-parameter group]
+  Let $X$ be a manifold. Then a \textbf{one-parameter group of diffeomorphisms} of $X$ is a smooth map $\phi : \R \times X \to X$ satisfying, writing that $\phi_t : X \to X$ defined by $\phi_t = \phi(t, x)$, then
+  \begin{itemize}
+    \item $\phi_t : X \to X$ is a diffeomorphism,
+    \item $\phi_0 = \id_X$,
+    \item $\phi_{s+t} = \phi_s \circ \phi_t$ for all $s, t \in \R$.
+  \end{itemize}
+\end{ndefi}
+
+\noindent
+Then, $t \mapsto \phi_t$ is a group momorphism $R \to \Diff (X)$ (the group of diffeomorphisms). \\
+
+\noindent
+Given such $\phi$, define $\d : C^\infty(X) \to C^\infty(X)$ by $\d(a) = \ditat 0 (a \circ \phi_t)$. We have
+\begin{align*}
+  \d(ab) &= \ditat 0 ((a \circ \phi_t) (b \circ \phi_t))\\
+  &= (a \circ \phi_t)|_{t=0} + \ditat 0 (b \circ \phi_t) + (b \circ \phi_t)|_{t=0} \ditat 0 (a \circ \phi_t) \\
+  &= a \d(b) + b \d(a) & \text{ as } \phi_0 = \id
+\end{align*}
+\noindent
+Hence $\d$ is a derivation, so it corresponds to $v \in \G^\infty(TX)$ by Prop. \ref{prop:oneOne}. We have $v_x = \ditat 0 \phi_t(x)$. THen for each one-parameter family of diffeomorphisms $\phi$ on $X$ gives a vector field $V$ on $X$. We will show that under certain additional conditions (e.g. $X$ is compact) each $V$ corresponds to a $\phi$. $X$ and $\phi$ 
+
