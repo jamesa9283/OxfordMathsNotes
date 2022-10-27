@@ -1,0 +1,66 @@
+% !TEX root = ../notes.tex
+
+\subsection{Non-uniform meshes on square domains}
+When $\O$ has a curved boundary, a non-uniform mesh has to be used. To be more precise, let us introduce, $h_{i+1} := x_{i+1}-x_i$, $h_{i} := x_{i} - x_{i-1}$ and let,
+$$ \hbar_i := \frac{1}{2}(h_{i+1} + h_i). $$
+We define,
+$$ D_x^+ U_i := \frac{U_{i+1} - U_i}{\hbar}, \qquad D_x^- U_i := \frac{U_i - U_{i-1}}{h_i} $$
+and,
+$$ D_x^+D_x^- \frac{1}{\hbar_i} \left( \frac{U_{i+1} - U_i}{h_{i+1}} - \frac{U_i - U_{i-1}}{h_i} \right) $$
+Similarly for $y$, but we let,
+$$ \bar k_j := \frac{1}{2}(k_{j+1} + k_j). $$
+So we have,
+$$ \bar\O_h := \{(x_i, y_i) : x_{i+1} - x_i = h_i, y_{j+1} - y_j = k_i\}. $$
+The finite difference approximation looks the same.
+
+\subsection{The Discrete Maximum Principle}
+The maximum Principle is a key property (See PDEs in Y3). Under suitable sign-conditions imposed on the source terms and the coefficients of a differential operator. It ensures that the maximum value of the solution is attained at the boundary rather than the interior, and if the maximum isn't on the boundary, then it must be constant.\\
+
+\noindent
+We will now aim to prove the maximum principle for the finite difference scheme. We prove in two parts, `$<$' by contradition, then the `$=$' case.\\
+
+\noindent
+Supppose that $f < 0$ for all $(x_i, y_j) \in \O_h$ and that the maximum value $U$ is attained at some $(x_{i0}, y_{j0}) \in \O_h$. Then, we rearrange,
+$$ \left( \frac{1}{\hbar_i} \left( \frac{1}{h_{i+1}} - \frac{1}{h_i} \right) + \frac{1}{\bar k_j} \left( \frac{1}{k_{j+1}} + \frac{1}{k_j} \right) \right) = \frac{U_{i+1,j}}{\hbar_i h_{i+1}} + \frac{U_{i-1, j}}{\hbar_i h_i} + \frac{U_{i, j+1}}{\bar k_j k_{j+1}} + \frac{U_{i,j-1}}{\bar k_j k_j} + f$$
+and so we bound this by the biggest $U_{i_0 j_0}$ and we get a contradition of $0 < 0$. Hence we see why we need to split this into two cases. Now if suffices to prove for the `$=$' case. We want to cook up some problem where we can push down $f$ so we can use the previous result. Now suppose $f \le 0$. Let $\e > 0$ and define,
+$$ V_{i,j} := U_{i,j} + \frac{\e}{4} (x_i^2 + y_j^2) \text{ for } (x_i, y_j) \in \bar \O_h $$
+Hence,
+\begin{align*}
+  -(D_x^+D_x^- V_{i,j} + D_y^+D_y^- V_{i,j}) &= - (D_x^+D_x^-U_{i,j} + D_y^+D_y^- U_{i,j}) - \e \\
+  &= f(x_i, y_j) - \e < 0
+\end{align*}
+which implies the maximum of $V_{i,j}$ is on the boundary. Thus,
+\begin{align*}
+  \max_{(x_i, y_j) \in \G_h} U_{i,j} &= \max \left[ V_{i,j} - \frac{\e}{4}(x_i^2 + y_j^2) \right]\\
+  &\ge \max_{(x,y) \in \G_h} V_{i,j} - \frac{\e}{4}\max_{(x_i, y_j) \in \G_h} (x_i^2 + y_j^2) \\
+  &= \max_{(x_i, y_j) \in \bar \O_h} V_{i,j} - \frac{\e}{4} \max_{(x_i, y_j) \in \G_h} (x_i^2 + y_j^2)
+\end{align*}
+As by definition, $V_{i,j}$ is bigger than $U_{i,j}$. Hence,
+$$ \max U_{i,j} \ge \max_{(x_i, y_j) \in \O_h} U_{i,j} - \frac{\e}{4}\max (x_i^2 + y_j^2) $$
+and in the limit,
+$$ \max_{(x_i, y_j) \in \G_h} U_{i,j} \ge \max_{(x_i, y_j) \in \O_h} U_{i,j}. $$
+As $\G_h \sub \bar \O_h$, and so the oppsite is trivial and so, we have show that if $f(x_i, y_j) \le 0$ and so,
+$$ \max_{(x_i, y_j) \in \G_h} U_{i,j} = \max_{(x_i, y_j) \in \O_h} U_{i,j} $$
+
+\noindent
+We have a lemma,
+\begin{nlemma}
+  The finite difference scheme has a unique solution
+\end{nlemma}
+\begin{proof}
+  The existence is obvious. We have zero solution. We know $0 \le 0$ and $0 \ge 0$. Hence, we for the maximum principle we have,
+  $$ 0 = \max U_{i,j} $$
+  and by the minimum principle,
+  $$ 0 = \min U_{i,j} $$
+  Hence we have uniqueness.
+\end{proof}
+
+\noindent
+Now for stability. We have seen this argument before, we cook up two problems of $U_{i,j}^{(1)}$ and $U_{i,j}^{(2)}$. We want to show that if $g^{(1)}$ and $g^{(2)}$ are close so are the $U$'s. Let $U := U^{(1)} - U^{(2)}$ and $g := g^{(1)} - g^{(2)}$. Then we use the same trick with the principles. Hence,
+$$ \max_{\bar \O_h} U = \max_{\G_h} U = \max_{\G_h} g \le \max_{\G_h} |g| $$
+Now consider $-U$, we get a similar argument
+$$ -U_{i,j} \le \max_{\G_h} |g| $$
+and so,
+$$ \max_{\bar \O_h} |U_{i,j}|\le \max_{\G_h} |g|. $$
+Therefore we have,
+$$ \max_{\bar \O_h} |U^{(1)} - U^{(2)}| \le \max_{\G_h} |g^{(1)} - g^{(2)}|. $$
