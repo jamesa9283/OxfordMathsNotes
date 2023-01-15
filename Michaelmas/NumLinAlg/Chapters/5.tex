@@ -1,0 +1,19 @@
+% !TEX root = ../notes.tex
+
+\noindent
+Here are some more applications of Courant-Fischer. Consider some matrix, $\begin{pmatrix}
+  A_1 \\ A_2
+\end{pmatrix}$, then we can say,
+$$ \s_i \left( \begin{pmatrix}
+  A_1 \\ A_2
+\end{pmatrix} \right) \ge \max(\s_i(A_1), \s_i(A_2)) $$
+\begin{proof}
+  \begin{align*}
+    \s_i(A) = \max_{\dim S = i}\min_{x \in S, \norm{x}_2 = 1} \norm{\begin{pmatrix}
+      A_1 \\ A_2
+  \end{pmatrix}x } \\
+  \le  \max_{\dim S = i}\min_{x \in S, \norm{x}_2 = 1}\norm{A_1x}_2 = \s_i(A_1)
+  \end{align*}
+\end{proof}
+
+\section{$\mathbf{Ax = b}$}

@@ -1,0 +1,126 @@
+\usepackage[top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm,showframe]{geometry}
+\usepackage{xcolor,fancyhdr}
+\usepackage{tikz}
+\usepackage{amsmath,amssymb,amsthm,amsfonts,bm}
+\usepackage{stmaryrd}
+\setlength\parindent{0pt}
+\setlength\headheight{14.01pt}
+\usepackage{lineno}
+\linenumbers
+\setpagewiselinenumbers
+
+\newcommand{\inn}[1]{\langle #1 \rangle}
+
+\definecolor{purple}{RGB}{180, 2, 212}
+\definecolor{themecolor}{HTML}{00A8FF} % light blue
+\definecolor{themecolor2}{HTML}{659157} % olive green
+\definecolor{themecolor3}{HTML}{3D518C} % faint blue
+
+\newcommand{\tcb}{\textcolor{blue}}
+\newcommand{\tcr}{\textcolor{purple}}
+\newcommand{\co}{C_0^{\infty}(\mathbb{R})}
+
+\renewcommand{\vec}[1]{\bm{#1}}
+\newcommand{\dx}{\,\mathrm{d}x}
+\newcommand{\dy}{\,\mathrm{d}y}
+\newcommand{\dz}{\,\mathrm{d}z}
+\newcommand{\du}{\,\mathrm{d}u}
+\newcommand{\dr}{\,\mathrm{d}r}
+\newcommand{\ds}{\,\mathrm{d}s}
+\newcommand{\dt}{\,\mathrm{d}t}
+\newcommand{\dk}{\,\mathrm{d}k}
+\renewcommand{\d}{\,\mathrm{d}}
+
+%%%%%%%%  DO NOT EDIT BELOW %%%%%%%%
+
+\lhead{
+  \begin{tikzpicture}
+    \hspace{-1.4cm}\filldraw[black] (0,0) circle (5pt) node[anchor=west]{~};
+  \end{tikzpicture}
+  \hspace{-7mm} Candidate Number: 1069110}
+\pagestyle{fancyplain}
+
+\definecolor{notepadrule}{RGB}{240,240,240}
+
+% to show the page frame
+
+\makeatletter
+\renewcommand*{\Gm@vrules@mpi}{%
+  \hb@xt@\@tempdima{\llap{\Gm@vrule}\ignorespaces
+    \hskip \textwidth\Gm@vrule%\hskip \marginparsep
+    % \llap{\Gm@vrule}%
+    \hfil
+    % \Gm@vrule%
+  }}%
+\renewcommand*{\Gm@vrules@mpii}{%
+  \hb@xt@\@tempdima{\hskip-\marginparwidth\hskip-\marginparsep
+    % \llap{\Gm@vrule}%
+    \ignorespaces
+    \hskip \marginparwidth
+    % \rlap{\Gm@vrule}%
+    \hskip \marginparsep
+    \llap{\Gm@vrule}\hskip\textwidth\rlap{\Gm@vrule}\hss}}%
+\renewcommand*{\Gm@pageframes}{%
+  \vb@xt@\z@{%
+    \ifGm@showcrop
+      \vb@xt@\z@{\vskip-1\Gm@truedimen in\vskip\Gm@layoutvoffset%
+        \hb@xt@\z@{\hskip-1\Gm@truedimen in\hskip\Gm@layouthoffset%
+          \vb@xt@\Gm@layoutheight{%
+            \let\protect\relax
+            \hb@xt@\Gm@layoutwidth{\Gm@cropmark(-1,1,-3,3)\hfil\Gm@cropmark(1,1,3,3)}%
+            \vfil
+            \hb@xt@\Gm@layoutwidth{\Gm@cropmark(-1,-1,-3,-3)\hfil\Gm@cropmark(1,-1,3,-3)}}%
+          \hss}%
+        \vss}%
+    \fi%
+    \ifGm@showframe
+      \if@twoside
+        \ifodd\count\z@
+          \let\@themargin\oddsidemargin
+        \else
+          \let\@themargin\evensidemargin
+        \fi
+      \fi
+      \moveright\@themargin%
+      \vb@xt@\z@{%
+        \vskip\topmargin%\vb@xt@\z@{\vss\Gm@hrule}%
+        \vskip\headheight%\vb@xt@\z@{\vss\Gm@hruled}%
+        \vskip\headsep\vb@xt@\z@{\vss\Gm@hrule}%
+        \@tempdima\textwidth
+        \advance\@tempdima by \marginparsep
+        \advance\@tempdima by \marginparwidth
+        \if@mparswitch
+          \ifodd\count\z@
+            \Gm@vrules@mpi
+          \else
+            \Gm@vrules@mpii
+          \fi
+        \else
+          \Gm@vrules@mpi
+        \fi
+        \vb@xt@\z@{\vss\Gm@hrule}%
+        \vskip\footskip%\vb@xt@\z@{\vss\Gm@hruled}%
+        \vss}%
+    \fi%
+  }}%
+\makeatother
+
+% Numbers (a bit more difficult)
+\newcommand{\pageofnumberedlines}[1]{%
+  \begingroup\offinterlineskip
+  \count255=\vsize \dimen0=#1
+  \divide\count255 by \dimen0
+  \mathchardef\howmany=\count255
+  \count255=0
+  \loop\ifnum\count255<\howmany
+  \advance\count255 by 1
+  \hbox to\hsize{%
+    \vrule height#1 width 0pt
+    \llap{\scriptsize\number\count255\space\space}%
+    { \color{notepadrule}     \hrulefill}
+  }
+  \repeat
+  \endgroup
+}
+
+%%%%%%%% %%%%%%%% %%%%%%%% %%%%%%%% %%%%%%%% %%%%%%%%

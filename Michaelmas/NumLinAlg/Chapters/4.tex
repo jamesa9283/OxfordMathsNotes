@@ -1,0 +1,36 @@
+% !TEX root = ../notes.tex
+
+\noindent
+We take the truncated SVD, $A_r = U_r\Sigma_r V_r^T$ where $\Sigma_r = \diag(\s_1, \dots, \s_n)$.
+\begin{nlemma}
+  $$ \norm{A - A_r} = \s_{r+1} = \min_{\rank{B} - r} \norm{A - B}_2 $$
+\end{nlemma}
+\begin{proof}
+  Since $\rank B \le r$, then we can write $B = B_1B_2^T$ where $B_1, B_2$ have $r$ columns. There is some orthonormal $W \in \C^{n\ti (n - r)}$ such that $BW = 0$. Then we can say,
+  \begin{align*}
+    \norm{A - B}_2 &\ge \norm{(A - B)W}_2 \\
+    &= \norm{AW}_2 \\
+    &= \norm{U\Sigma (V^TW)}_2
+  \end{align*}
+  Now since $W$ is $(n-r)$ dimensional, there is an intersection between $W$ and $[v_1, \dots v_{r+1}]$, the $(r+1)$-dimensional subspace spanned by the leading $r+1$ left singular values, that is $[W, v_1, \dots, v_{r-1}] \begin{pmatrix}
+    x_1 \\ x_2
+  \end{pmatrix} = 0$ has a solution, then $Wx_1$ is such a vector. Then we scale $x_1, x_2$ to have unit norm, and $\norm{U\Sigma V^T Wx_1}_2 = \norm{U_{r+1}\Sigma_{r+1}x_2}$ where $U_{r+1}, \Sigma_{r+1}$ are leading $r+1$ parts of $U, \Sigma$. %Then $\norm{U_{r+1}\Sigma_{r+1}y_1}_2 \ge \s_{r+1}$ follows.
+\end{proof}
+
+\subsection{Courant-Fischer minmax Theorem}
+We say that the $\l_i$ of a symmetric or hermitian $\La$ matrix is,
+$$ \l_i(\La) = \max_{\dim \mathcal{S} = i}\min_{x \in \mathcal{S}} \frac{x^T Ax}{x^Tx} $$
+
+and analogously for an rectangular $A \in \C^{m \times n}$, we have,
+$$ \s_i(A) = \max_{\dim \mathcal{S} = i}\min_{x \in \mathcal{S}} \frac{\norm{Ax}_2}{\norm{x}_2} $$
+One helpful way to look at this is maybe,
+$$ \min_{x \in \mathcal{S}, \norm{x}_2 = 1} \norm{Ax}_2 = \min_{Q^TQ = 1, \norm{y}_2 = 1} \norm{AQy}_2 = \s_{\text{min}}(AQ) = \s_i(AQ)  $$
+
+\begin{ncor}
+   For the singular values for any matrix $A$,
+   \begin{itemize}
+     \item $\s_i(A+E) \in \s_i(A) + [-\norm{E}_2, \norm{E}_2]$
+     \item Special Case, $\norm{A}_2 - \norm{E}_2 \le \norm{A - E}_2 \le \norm{A}_2 + \norm{E}_2$
+   \end{itemize}
+\end{ncor}
+We can say something similar for eigenvalues of a symmetric matrix. 

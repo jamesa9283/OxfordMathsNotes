@@ -1,0 +1,110 @@
+% !TEX root = ../notes.tex
+
+\subsection{Householder QR}
+In order to do Householder QR, we need to look at Householder Reflectors, a useful tool. These are a set of orthogonal matrices such that $H = I_m - 2vv^T$, where $v = (v_1, \dots, v_m)^T$ and $\norm{v}_2 = 1$. We know these matrcies are symmetric, orthogonal. Let's prove this,
+\begin{proof}
+  We see,
+  \begin{align*}
+    H^TH = H^2 &= (I - 2vv^T)(I - vv^T) \\
+    &= I - 4vv^T + 4vv^Tvv^T = I
+  \end{align*}
+\end{proof}
+and we have an eigenvalue decomposition, $H = I - 2vv^T$, which is,
+\begin{align*}
+  H &= I - 2vv^T \\
+  &= \begin{pmatrix}
+    V & V_\perp
+\end{pmatrix} \begin{pmatrix}
+  1 & \\
+  & \ddots
+\end{pmatrix} \begin{pmatrix}
+  v^T \\ v_\perp^T
+\end{pmatrix} - \begin{pmatrix}
+  V & V_\perp
+\end{pmatrix} \begin{pmatrix}
+2 & & \\
+& 0 & \\
+&& \ddots
+\end{pmatrix} \begin{pmatrix}
+v^T \\ v_\perp^T
+\end{pmatrix} \\
+&= \begin{pmatrix}
+  V & V_\perp
+\end{pmatrix} \begin{pmatrix}
+-1 &&& \\
+& 1 & &
+& &\ddots&
+&&& 1
+\end{pmatrix} \begin{pmatrix}
+v^T \\ v_\perp^T
+\end{pmatrix}
+\end{align*}
+Then we have a lemma,
+\begin{nlemma}
+  There is some $H = I - 2vv^T$ such that $Hu = w$ and $Hw = u$, where $\norm{u}_2 = \norm{w}_2$.
+\end{nlemma}
+\begin{proof}
+  Consider $v = \frac{u - w}{\norm{u - w}_2}$. Then,
+  \begin{align*}
+    Hu &= (I - 2vv^T)u \\
+    &= u - 2v(v^Tu) \\
+    &= u - 2(u - w) \frac{(u - w)^T u}{\norm{u - w}_2} \\
+    &= u - 2(u - w) \frac{\norm{u}^2 - w^Tu}{2\norm{u}^2 - 2w^Tu} \\
+    &= w
+  \end{align*}
+  For the other, we see,
+  \begin{align*}
+    Hw = H(Hu) = Iu = u.
+  \end{align*}
+\end{proof}
+
+\noindent
+This is useful in the very specific case where, $w = (\norm{w}_2, 0, \dots, 0)^T$.
+
+\subsubsection{Householder QR}
+We now want to consider some $H_1A$, then our first column is just going to zero apart from the top which is $\norm{w}_2$. Now we get another householder reflector, but we need to be careful not to break the work we have done already. Hence we consider $H_2H_1A$, but $H_2 = I - 2v_2v_2^T$, but $v_2 = (0, *, \dots, *)$, this helps us keep the structure of this matrix. We carry on to get, $H_n\dots H_1A$ where they all have $v_k$'s with the first $k-1$ entries zero. Then we get some,
+$$ A = Q_F \begin{pmatrix}
+  R \\ 0
+\end{pmatrix} = \begin{pmatrix}
+  Q & Q_\perp
+\end{pmatrix} \begin{pmatrix}
+  R \\ 0
+\end{pmatrix} = QR, $$
+where this is the full QR factorisation. Consider applying Householder QR to $A$, which is orthonormal. Then $A^TA = I$, then,
+$$ A = Q_F \begin{pmatrix}
+  R \\ 0
+\end{pmatrix}, $$
+but as $A$ is orthonormal. We can write,
+$$ A = \begin{pmatrix}
+  A & Q_\perp
+\end{pmatrix} \begin{pmatrix}
+  I \\ 0
+\end{pmatrix} $$
+and hence we have the proof of existence of orthogonal complement. This is a neat constructive proof.\\
+
+\noindent
+\subsubsection{Least Squares using QR}
+Consider some $\norm{Ax - b}_2$, where we can't solve this exactly, so it can't be $0$. We want to minimise this.
+\begin{align*}
+  \norm{Ax - b} &= \norm{Q_F\begin{pmatrix}
+    R \\ 0
+\end{pmatrix} x - b}_2 \\
+  &= \norm{\begin{pmatrix}
+    R \\ 0
+\end{pmatrix}x - Q_F^T b}_2 \\
+  &= \norm{\begin{pmatrix}
+    R \\ 0
+\end{pmatrix}x - \begin{pmatrix}
+  b_1 \\ b_2
+\end{pmatrix}}_2 \\
+  &= \norm{\begin{pmatrix}
+    Rx - b_1 \\
+    -b_2
+\end{pmatrix}}
+\end{align*}
+Hence to minimise, we want $Rx = b_1$, hence $x = R^{-1}Q^Tb$. Hence we see no $Q_F$ or $Q_\perp$ is needed. Hence, we compute the QR factorisation, then $x = R^{-1}Q^Tb$. \\
+
+\noindent
+It turns out we can also rewrite it in terms of the normal equation,
+$$ A^TA x = A^Tb, $$
+this is an unstable algorithm, so even if it looks simpler, we prefer not to use it.

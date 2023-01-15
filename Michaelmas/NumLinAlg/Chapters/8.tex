@@ -1,0 +1,55 @@
+% !TEX root = ../notes.tex
+
+\subsection{Numerical Stability}
+When we consider $Ax = b$, we plug this into a computer and then get that it outputs some $\hat x$ such that $A\hat x = b$, this hows a massive flaw, we know that $Ax = b$ and $A\hat x \approx b$, but this doesn't mean that $x \approx \hat x$, these can be quite different. We have two ideas, conditioning and instability. Conditioning is a property of the problem, and instability is a property of an algorithm, there aren't interchangable.\\
+
+\noindent
+The conditioning is like the sensitivity of the problem under perturbation. Given the task of computing $Y = f(X)$ (e.g. $X = (A, b)$ and $Y = x$). Then we have,
+$$ \kappa = \sup \frac{\norm{f(x + \d x) - f(x)}}{\norm{\d x}}. $$
+Further, we have $\kappa_r$, the relative conditioning number,
+$$ \kappa = \lim{\norm{\d x} \to 0}\sup \frac{\norm{f(x + \d x) - f(x)}}{\norm{\d x}}, $$
+this does look very similar to a derivative. If $\kappa \gg 1$, then it's ill-conditioned. If $\kappa = \mathcal{O}(1)$, then it is well conditioned.\\
+
+\noindent
+\begin{ndefi}[Backward Stable]
+  An algorithm is called backward stable if the computed output $\hat Y = \rm{fl}(f(X))$ can be written as $f(X + \d X)$ where $\d X$ is small, that is, $\frac{\norm{\d X}}{\norm{X}} = \mathcal{O}(\e)$ (machine precision).
+\end{ndefi}
+
+\begin{note}
+  We note that backward stability doesn't mean accurate, but backward stability and $f$ being well conditioned means it's accurate.
+\end{note}
+\begin{proof}[Rough Argument]
+  \begin{align*}
+    \norm{\hat Y - Y} &= \norm{f(X + \d X)} \\
+    &\lesssim \kappa \norm{\d X} \\
+    &= \mathcal{O}(\norm{\d X}) = \mathcal{O}(\e\norm{X})
+  \end{align*}
+\end{proof}
+
+\noindent
+Some examples of well conditioned problems are,
+\begin{itemize}
+  \item Singular values $\kappa = 1$, $\s_i(A + E) \in \s_i(A) + [\norm{E}]$,
+  \item Eigenvalues of symmetric matrices, $\kappa = 1$,
+  \item $Ax = b$ if $A$ is well-conditioned.
+\end{itemize}
+We also note that for non-symmetric matrices can be ill-conditioned.\\
+
+\noindent
+Now lets consider $\kappa$ for $Ax= b$. We want to understand what the solution will look like if we peturb the input. Suppose $(A + \D A)\hat x = b + \D b$, but let $\D b = 0$ for simplicity. We know $\frac{\norm{\D A}}{\norm{A}} = \mathcal{O}(\e)$. We have,
+\begin{align*}
+  \hat x &= (A + \D A)^{-1}b \\
+  &= (A(I + A^{-1}\D A))^{-1}b \\
+  &= (I + A^{-1}\D A)^{-1} A^{-1}b \\
+  &= (I - A^{-1}\D A + (A^{-1}\D A)^2 + \mathcal{O}(\D A^3))A^{-1}b \\
+  &= x - A^{-1}\D A^{-1} b + \mathcal{O}(\D A^3)
+\end{align*}
+Hence,
+\begin{align*}
+  \frac{\norm{x - \hat x}}{\norm{x}} &= \frac{\norm{A^{-1}\Delta A x}}{\norm{x}} \\
+  &\le \frac{\norm{A^{-1}\Delta A} \norm{x}}{\norm{x}} \\
+  &\le \norm{A^{-1}} \e \norm{A} \\
+  &= \e \norm{A}\norm{A^{-1}}
+\end{align*}
+and so we get $\kappa_2(A) = \norm{A^{-1}}\norm{A}$, which is the condition number of $A$. In terms of the singular values,
+$$ \kappa_2 = \frac{\s_{\rm{max}}(A)}{\s_{\rm{min}}(A)} \ge 1. $$

@@ -1,0 +1,206 @@
+\documentclass[a4paper,10pt]{article}
+\input{../stylefile.tex}
+
+%%%%%%%%%%%%%  PLEASE DO NOT EDIT ANY OF THE LINES ABOVE %%%%%%%%%%%%%%%
+% Insert your text between "\begin{document}" and "\end{document}" below.
+% The total length of your summary notes should not exceed 2 sides of a
+% single sheet of A4, with maximum 58 lines of text per page.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\abs}[1]{\left\lvert #1\right\rvert}
+\newcommand{\bket}[1]{\left\lvert #1\right\rangle}
+\newcommand{\brak}[1]{\left\langle #1 \right\rvert}
+\newcommand{\braket}[2]{\left\langle #1\middle\vert #2 \right\rangle}
+\newcommand{\bra}{\langle}
+\newcommand{\ket}{\rangle}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\normalorder}[1]{\mathop{:}\nolimits\!#1\!\mathop{:}\nolimits}
+\newcommand{\tv}[1]{|#1|}
+\renewcommand{\vec}[1]{\boldsymbol{\mathbf{#1}}}
+\newcommand{\ip}[2]{\left\langle #1\,, #2 \right\rangle}
+
+
+\newcommand{\fa}{\forall\,}
+\newcommand{\ex}{\exists\,}
+\renewcommand{\l}{\lambda}
+
+% LA
+
+\newcommand{\fs}{\sum_{i=1}^n}
+\newcommand{\vV}{\vec v \in V}
+\renewcommand{\v}{\vec v}
+
+% DSaC
+\newcommand{\di}[2]{\frac{d #1}{d #2}}
+\newcommand{\dit}{\frac{d}{dt}}
+\newcommand{\dii}[2]{\frac{d^2 #1}{d #2 ^2}}
+\newcommand{\din}[3]{\frac{d^{#1} #2}{d #3 ^{#1}}}
+\renewcommand{\d}{\delta}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\e}{\varepsilon}
+\renewcommand{\o}{\omega}
+
+
+% MathsBio
+\renewcommand{\a}{\alpha}
+\renewcommand{\b}{\beta}
+\newcommand{\g}{\gamma}
+
+
+\newcommand{\D}{\Delta}
+
+% GRF
+\newcommand{\s}{\sigma}
+\newcommand{\gen}[1]{\left\langle #1 \right\rangle}
+\renewcommand{\t}{\tau}
+\newcommand{\wt}[1]{\widetilde #1}
+\renewcommand{\r}{\rho}
+\newcommand{\cS}{\mathcal{S}}
+\newcommand{\sub}{\subseteq}
+\newcommand{\QX}{\Q[X]}
+\newcommand{\sm}{\setminus}
+\renewcommand{\bar}[1]{\overline{#1}}
+
+% NT
+\newcommand{\m}{\mid}
+\newcommand{\nm}{\nmid}
+\renewcommand{\c}{\equiv}
+\newcommand{\ti}{\times}
+\newcommand{\ls}[2]{\left(\frac{#1}{#2}\right)}
+\newcommand{\gls}{\ls a p}
+\newcommand{\ceil}[1]{\left \lceil #1 \right \rceil }
+\newcommand{\floor}[1]{\left \lfloor #1 \right \rfloor }
+
+% Diss
+\DeclareMathOperator{\Ad}{Ad}
+\newcommand{\mf}[1]{\mathfrak #1}
+\renewcommand{\O}{\Omega}
+\newcommand{\La}{\Lambda}
+\newcommand{\Oh}{\hat{\vec \Omega}}
+\newcommand{\Ov}{\vec \Omega}
+\newcommand{\Od}{\dot \Ov}
+\newcommand{\ov}{\vec \o}
+\newcommand{\oh}{\hat{\vec \omega}}
+\newcommand{\Lh}{\hat{\vec \Lambda}}
+\newcommand{\Lv}{\vec \Lambda}
+\newcommand{\Ld}{\dot \Lv}
+\newcommand{\Gh}{\hat{\vec \Gamma}}
+\newcommand{\Gv}{\vec \Gamma}
+\newcommand{\Gd}{\dot \Gv}
+\newcommand{\Ga}{\Gamma}
+\newcommand{\Lhd}{\boldsymbol{\dot{\hat{\La}}}}
+\newcommand{\ohd}{\boldsymbol{\dot{\hat{\o}}}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\J}{\mathbb{J}}
+\newcommand{\ditat}[1]{\left.\dit\right|_{t = #1}}
+% \renewcommand{\hat}[1]{\widehat{#1}}
+
+% PDEs
+
+\newcommand{\nab}{\mathbf{\nabla}}
+\newcommand{\grad}{{\nab}\, f}
+\renewcommand{\div}{\nab \cdot}
+\newcommand{\curl}{\nab \times}
+\newcommand{\cc}{\mathcal{C}}
+\newcommand{\pdxy}[1]{\frac{\partial #1}{\partial x\partial y}}
+\newcommand{\Th}{\Theta}
+\newcommand{\cF}{\mathcal{F}}
+
+% TMs
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\cI}{\mathcal{I}}
+\newcommand{\vn}{\varnothing}
+\newcommand{\cB}{\mathcal{B}}
+\newcommand{\G}{\Gamma}
+
+
+\let\Im\relax
+\let\Re\relax
+
+% MAGIC
+%% AlgTop
+\newcommand{\fg}[1]{\pi_1( #1 )}
+\DeclareMathOperator{\map}{Map}
+
+
+% NumLinAlg
+\renewcommand{\S}{\Sigma}
+
+%DiffMan
+\newcommand{\ot}{\otimes}
+
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pdd}[2]{\frac{\partial^2 #1}{\partial #2 ^2}}
+
+
+\begin{document}
+\textbf{NSPDEs}\\
+\tcr{$L_2$ norm}, continuous $\norm{U}_{L_2} = \left( \int_\O |u(x)|^2 \right)^{1/2}$, discrete, $\norm{U}_{L_2} = \left( \sum_{i=1}^{N-1} h|U_i|^2 \right)^{1/2}$.\\
+\noindent
+\tcr{Modified $L_2$ norm}, $\|U]|_h = \left( \sum_{i=1}^{N-1} h|U_i|^2 \right)^{1/2} $\\
+\tcr{Sobolev norm}, continuous $\norm{U}_{H^k} = \left( \sum_{|\a|\le k} \norm{D^\a u}_{L_2}\right)^{1/2}$, discrete, $\norm{U}_{1,h} = (\norm{U}^2_h + \norm{D_x^- U}_h^2)^{1/2}$\\
+\tcr{Poincar\'e Friedrichs (Discrete)} $\norm{V}_h^2 \le c_*(\norm{D_x^+V}_x^2 \norm{D_y^+V}_x^2)$ where $c_* = 1/4$ for elliptic pde.\\
+\noindent
+\tcr{Summation by parts:}
+\begin{center}
+  $\displaystyle{(-D_x^+D_x^- U, V)_h + (-D_y^+D_y^- U, V)_h = \sum_{i=1}^N \sum_{j=1}^{N-1} h^2 |D_x^- V_{ij}|^2 + \sum_{i=1}^N \sum_{j=1}^{N-1} h^2 |D_y^- V_{ij}|^2}$
+\end{center}
+\begin{center}
+  $\displaystyle{(AV, V)_h = (-D_x^+D_x^- V - D_x^+D_x^- V + cV, V) \ge (-D_x^+D_x^- V - D_x^+D_x^- V, V)}$
+\end{center}
+Also we have, $(AV, V)_h \ge \norm{D_x^- V}_x^2 + \norm{D_y^2}_y^2$ (Notation for SBP) and so putting them together $(AV, V)_h \ge (1 + c_*)^{-1}\norm{V}_{1,h}^2$.\\
+\noindent
+For errors, $e_{ij} = u(x_i, y_j) - U_{ij}$ is global. Then consistency is $\varphi_{ij} = Ae_{ij}$. Then fiddle with it and use taylor series.\\
+\noindent
+If we dont have continuity,
+$$ Tf_{ij} = \frac{1}{h^2}\int_{K_{ij}} f(x, y)\mathrm dx\mathrm dy \qquad K_{ij} = [x_i - h/2, x_i + h/2] \ti [y_i - h/2, y_i + h/2] $$
+For error here, note we can sum by parts, to move the differences.\\
+\noindent
+Let $\bar h_i = \frac{1}{2}(h_{i+1} - h_i)$ such that,
+\begin{center}
+  $\displaystyle{D_x^+ U = \frac{U_{i+1} - U_i}{\bar h_i}} \qquad D_x^-U_i = \frac{U_i - U_{i-1}}{\bar h_i} \quad D_x^+D_x^- U = \frac{1}{\bar h_i}\left( \frac{U_{i+1} - U_i}{h_{i+1}} - \frac{U_i - U_{i-1}}{\bar h_i} \right)$
+\end{center}
+Similarly for $y$, but with $\bar k$.\\
+\tcr{Max/Min Principle}, the min/max of an elliptic equation will occur on the boundary. Less than max, more than min. You can use this to show stability.\\
+CFL Number, $\mu := \frac{\D t}{(\D x)^2}$\\
+Taylor Series in 2D at $X = (a, b)$,\\
+ $f(x,y) \approx f(X) + (x-a)f_x(X) + (y - b)f_y(X) + 1/2! [ (x-a)^2f_{xx}(X) + 2(x-a)(y-b)f_{xy}(X) + (y-b)^2f_{yy}(X) ] + 1/3! [ (x-a)^3f_{xxx}(X) + 3(x-a)^2(y-b)f_{xxy}(X) + 3(x-a)(y-b)^2f_{xyy} + (y-b)^3f_{yyy}(X) ] + \dots $\\
+The \tcr{discrete $\ell_2$ norm}, $\norm{U^m}_{\ell_2} = \left( \D x \sum_{k=-\infty}^\infty |U_j^m|^2 \right)^{1/2}$\\
+\tcr{Discrete Parseval's Identity} $\norm{U}_{\ell_2} = \frac{1}{\sqrt{2\pi}}\norm{U}_{L_2}$.\\
+\tcr{Semidiscrete FT}, $U_j^m = \int_{-\pi/\D x}^{\pi / \D x} e^{ijk\D x}\hat U^m\mathrm dx$
+
+\newpage
+\textbf{NLA}\\
+\tcr{Choleskys}, for sq symm pos def, $A = RR^T = LL^T$ where $R, L$ are upper, lower.\\
+\tcr{LU}. $PA = LU$ where $L$ is lower, $U$ is upper, $P$ is permutation. The way we find this is we take the first entry, make it non-zero and then write the matrix as the sum of two vectors (the first column divided by a) times by (the first row) add the remainder. Then repeat. Then we get lower and triangular matrices.\\
+\tcr{Schurs}, $A = UTU^*$, where $U$ is unitary and $T$ upper triangular. To construct, find an eigenvalue, $\l$ of $A$ and evec $v_1$. Let $V_\bot$ be the orthogonal complement of $v_1$ and let $U_1 = [v_1 V_\perp]$ and now we see,
+\begin{center}
+  $\displaystyle{AU_1 = U_1 \begin{pmatrix}
+    * & 0 & \dots & 0 \\
+    0 & * & *** & * \\
+    \vdots & * & *** & * \\
+    0 & * & *** & * \\
+  \end{pmatrix}}$
+\end{center}
+and then repeat on the $*$ matrix.\\
+\tcr{SVD} For any matrix, $A = U\S V^T$ where $U, V$ are orthog and $\S$ is diag with $\s_i$. To find SVD, $\s_i$ are the root of the evals of $A^TA$. Find an orthonormal set of evecs of $A^TA$ and then order then with $\s_i$ to produce $U$ and $\S$, then $U = \frac{1}{\s_i}Av_i$. Full SVD, $A = \begin{pmatrix}
+  V & V_\perp
+\end{pmatrix}\begin{pmatrix}
+  \S \\ 0
+\end{pmatrix}V^T$\\
+\tcr{QR}, $A = QR$ where $Q$ is orthog and $R$ is upper triangular. To construct,\\
+\tcb{Gram Schmidtt}, take $A = [a_{1}\, a_2\, \dots\, a_N]$. Let $q_1 = \frac{a_1}{\norm{a_1}}$ and then, $\hat q_j = a_j - \sum_{i=1}^{j-1} (q_i cd q_i)a_j$ and then, $q_j = \frac{\hat q_j}{\norm{\hat q_j}}$. To see QR, we have $r_{ij} = q_i^Ta_j$ and $\norm{r_{jj}} = \norm{a_j - \sum_{i=1}^{j-1}a_{ij}q_i}$. So $a_1 = r_{11}q_1$ and $a_j = \sum_{i=1}^{j} r_{ij}q_i$.\\
+\tcb{Householder} You can use householder reflectors. They just zero the first column apart from $a_{11} = \norm{a_{11}}$. Consider smaller inner matrix and repeat.\\
+
+\tcr{CR Theorem} For sq symm matrix,
+\begin{center}
+  $\displaystyle{\l_i(A) = \max_{\dim S = i}\min_{x \in S} \frac{x^TAx}{x^Tx}}$
+\end{center}
+For any other matrix,
+\begin{center}
+  $\displaystyle{\max_{\dim S = i}\min_{x \in S} \frac{\norm{Ax}_2}{\norm{x}_2} = \max_{\dim S = i}\min_{\norm{y}=1}\norm{AQy}}$
+\end{center}
+$\frac{\norm{Ax}_2}{\norm{x}_2}$ is how much a matrix stretches or shrinks a vector. The $\min_{x \in S}$ over these values for a given subspace S is equivalent to $\norm{AQy} = \norm{U\S V^T y} = \norm{\S V^T y}$ where $\span V = S$ since $U\S V^T$ is an SVD of $AQ$. Then, the smallest value attained for $\norm{\S V^T y}$ with $\norm{y} = 1$ is $\s_{\text{min}}$ of $AQ$.
+Then we have $\max_{\dim S = i} \s_{\text{min}}(AQ)$. Since
+we know that $Q$ has a rank of $i$ (from $\dim S = i$), it must therefore have exactly $i$ nonzero singular values, so $\s_{\text{min}}(AQ) = \s_i(AQ)$. Multiplication by an orthogonal matrix $Q$ does not change the singular values, so $\s_i(AQ) = \s_i(A)$. Because we are restricting the subspace $S$ by the use of $Q$, we have effectively removed the need for the max and obtained the result.\\
+\end{document}

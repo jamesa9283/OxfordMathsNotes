@@ -1,0 +1,35 @@
+% !TEX root = ../notes.tex
+
+\section{Time dependant PDEs}
+We will consider time dependant PDEs, for example,
+$$ \pd u t = \pdd u x $$
+where $x \in (-\infty, \infty)$ with $u(x, 0) = x_0$ for $x \in (-\infty, \infty)$. We can find an exact solution using Fourier transform, (See PDEs Y3). We have been considering the supremum norm, we can prove something similar to what we saw with this equation in the least square sense. That is, we are going to do something similar to this in a finite case, we can do this in the $L^2$-norm. We show Parseval's identity, that is the $L^2$-norm of the solution at any time $t > 0$ is bounded by the $L^2$ norm.
+\begin{nlemma}[Parseval's Indentity]
+  Suppose that $u \in L_2((-\infty, \infty))$. Then $\hat u \in L_2((\infty, \infty))$ and the following equality holds,
+  $$ \norm{u}_{L_2} = \frac{1}{\sqrt{2\pi}}\norm{\hat u}_{L_2} $$
+\end{nlemma}
+\begin{proof}
+  We observe,
+  \begin{align*}
+    \int_{-\infty}^\infty \hat u(\xi)v(\xi) \,d\xi &= \int_{-\infty}^\infty \left( \int_{-\infty}^\infty u(x)e^{-ix\xi }\rm d x  \right) v(\xi)\rm d \xi \\
+    &= \int_{-\infty}^\infty \left( \int_{-\infty}^\infty v(\xi)e^{-ix\xi} \rm dx\right) u(x) \rm dx\\
+    &= \int_{-\infty}^\infty u(x)\hat v(x)\rm dx
+  \end{align*}
+  Now let $v(\xi) = \bar{\hat u(\xi)} = 2\pi F^{-1}[\hat u](\xi)$ and so this goes into the above and provides the result.
+\end{proof}
+
+\noindent
+Now we can do the following, we can bound the solution using the initial condition. So we consider,
+\begin{align*}
+  \norm{u(\cdot, t)}_{L_2} &= \frac{1}{\sqrt{2\pi}}\norm{e^{-t \cdot ^2} \hat u_0 (\cdot)}_{L_2} \\
+  &\le \frac{1}{\sqrt{2\pi}}\norm{\hat u_0}_{L_2} \\
+  &= \norm{u_0}_{L_2}
+\end{align*}
+We now use the usual trick by applying this to $u - \tilde u$ with initial conditions $u_0 - \tilde u_0$. Hence we get a stability condition.
+
+\subsection{Model Problem : Heat Equation}
+Our computational domain is $\{(x, t) \in (-\infty, \infty) \times [0, T]\}$. We then create a mesh where $\Delta t = T/M$. Then we follow the usual story, where $x_j = j\Delta x$ and $t_m = m\Delta t$. Hence,
+$$ \pd u t (x_j, t_m) = \frac{u(x_j, t_{m+1}) - u(x_j, t_m)}{\Delta t} \qquad \pdd u x (x_j, t_m) = \frac{u(x_{j+1}, t_m) - 2u(x_j, t_m) + u(x_{j-1}, t_m)}{(\Delta x)^2}. $$
+We can create an explicit euler method,
+$$ U_j^{m+1} = U_j^m + \mu (U_{j+1}^m - 2U_j^m + U_{j-1}^m)  \qquad U_j^0 = u_0$$
+where $\mu = \frac{\Delta x}{\Delta t}$. We could also do an implit or a $\theta$-method. 

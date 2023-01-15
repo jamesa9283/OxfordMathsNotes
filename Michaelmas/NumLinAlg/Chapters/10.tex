@@ -1,0 +1,64 @@
+% !TEX root = ../notes.tex
+
+\section{$QR$ Algorithm}
+This algorithm calculates all of the eigenvalues. Basically we are going to find the Schur Form, $A = UTU^*$. The algorithm is simple, we are going to say $A_1 = Q_1R_1$ and then $A_2 := R_1Q_1 = Q_2R_2$ and then, $A_3 := R_2Q_2 = Q_3R_3$ and the surprise is that $A_k$ converges to upper triangular under mild assumptions. Further $A_k$ is similar to $A$.
+
+\begin{nthm}
+  We can say that,
+  $A_{k+1} = Q^{(k)}^T A Q^{(k)}$
+  and,
+  $A^k = (Q_1\dots Q_k)(R_k \dots R_1) = Q^{(k)}R^{(k)}$,
+  where the we notate $Q^{(k)} := Q_1\dots Q_k$.
+\end{nthm}
+\begin{proof}
+  We say,
+  \begin{align*}
+    A_{k+1} = R_kQ_k  \\
+    &= Q_k^T Q_kR_k Q_k \\
+    &= Q_k^T A_k Q_k
+  \end{align*}
+  and continue this many times to get,
+  $$ A_{k+1} = Q_k^T \dots Q_1^T A Q_1\dots Q_k := (Q^{(k)})^T A Q^{(k)}. $$
+  For the second part we prove by induction. Suppose the statement is true for $A^{k-1} = Q^{(k-1)}R^{(k-1)}$. We see,
+  \begin{align*}
+    Q^{(k-1)}^T A Q^{(k-1)} = A_k &= Q_kR_k \\
+    A &= Q^{(k-1)} Q_kR_k (Q^{(k-1)})^T \\
+    A^k &= AA^{k-1} \\
+    &= Q^{(k-1)}Q_kR_k Q^{(k-1)}^T Q^{(k-1)} R^{(k-1)} \\
+    &= Q^{(k)}R_k R^{(k-1)} = Q^{(k)}R^{(k)}.
+  \end{align*}
+\end{proof}
+
+\noindent
+Understanding this, we link this it power method. We know $A^k = Q^{(k)}R^{(k)}$. Then consider,
+\begin{align*}
+  A \begin{pmatrix}
+    1 \\ 0 \\ 0 \\ \vdots \\ 0
+  \end{pmatrix}  &= Q^{(k)}R^{(k)} \begin{pmatrix}
+    1 \\ 0 \\ 0 \\ \vdots \\ 0
+  \end{pmatrix} \\
+  &= \begin{pmatrix}
+    R_{11} \\ 0 \\ 0 \\ \vdots \\ 0
+\end{pmatrix} \\
+&= C q_1^{(k)} \\
+&\to v_1
+\end{align*}
+Then we can say,
+$$ A_{k+1} = {Q^{(k)}}^T A Q^{(k)} = \begin{pmatrix}
+  \l_1 & * \\
+  0 & \\
+  \vdots &  \\
+  0 & \\
+\end{pmatrix}. $$
+
+\noindent
+We have better news. Start with $A^k = Q^{(k)}R^{(k)}$, and then invert, $A^{-k} = (R^{(k)})^{-1} (Q^{(k)})^T$ and then transpose,  $A^{-k}^T = (Q^{(k)})(R^{(k)})^{-T}$. Now multiply by a vector, that is a load of zeros then a 1. We hence get, $\tilde{C_k}q_n^{(k)}$ and this converges to the smallest eigenvector.
+
+\noindent
+Now we consider shifts in our algorithm. We now say,
+$$ A_k - s_kI = Q_kR_k $$
+and then reverse,
+$$ A_{k+1} - R_kQ_k + s_kI. $$
+The crux is the convergence is going to change. We have an error of,
+$$ \left( \frac{(\l - s_i)_{\text{min}}}{(\l_i - s_i)_{\text{runner up}}} \right) $$
+and note we don't invert the matrix.

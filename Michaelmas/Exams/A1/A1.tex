@@ -1,0 +1,249 @@
+\documentclass[a4paper,10pt]{article}
+\input{../stylefile.tex}
+
+%%%%%%%%%%%%%  PLEASE DO NOT EDIT ANY OF THE LINES ABOVE %%%%%%%%%%%%%%%
+% Insert your text between "\begin{document}" and "\end{document}" below.
+% The total length of your summary notes should not exceed 2 sides of a
+% single sheet of A4, with maximum 58 lines of text per page.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\abs}[1]{\left\lvert #1\right\rvert}
+\newcommand{\bket}[1]{\left\lvert #1\right\rangle}
+\newcommand{\brak}[1]{\left\langle #1 \right\rvert}
+\newcommand{\braket}[2]{\left\langle #1\middle\vert #2 \right\rangle}
+\newcommand{\bra}{\langle}
+\newcommand{\ket}{\rangle}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\normalorder}[1]{\mathop{:}\nolimits\!#1\!\mathop{:}\nolimits}
+\newcommand{\tv}[1]{|#1|}
+\renewcommand{\vec}[1]{\boldsymbol{\mathbf{#1}}}
+\newcommand{\ip}[2]{\left\langle #1\,, #2 \right\rangle}
+
+
+\newcommand{\fa}{\forall\,}
+\newcommand{\ex}{\exists\,}
+\renewcommand{\l}{\lambda}
+
+% LA
+
+\newcommand{\fs}{\sum_{i=1}^n}
+\newcommand{\vV}{\vec v \in V}
+\renewcommand{\v}{\vec v}
+
+% DSaC
+\newcommand{\di}[2]{\frac{d #1}{d #2}}
+\newcommand{\dit}{\frac{d}{dt}}
+\newcommand{\dii}[2]{\frac{d^2 #1}{d #2 ^2}}
+\newcommand{\din}[3]{\frac{d^{#1} #2}{d #3 ^{#1}}}
+\renewcommand{\d}{\delta}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\e}{\varepsilon}
+\renewcommand{\o}{\omega}
+
+
+% MathsBio
+\renewcommand{\a}{\alpha}
+\renewcommand{\b}{\beta}
+\newcommand{\g}{\gamma}
+
+
+\newcommand{\D}{\Delta}
+
+% GRF
+\newcommand{\s}{\sigma}
+\newcommand{\gen}[1]{\left\langle #1 \right\rangle}
+\renewcommand{\t}{\tau}
+\newcommand{\wt}[1]{\widetilde #1}
+\renewcommand{\r}{\rho}
+\newcommand{\cS}{\mathcal{S}}
+\newcommand{\sub}{\subseteq}
+\newcommand{\QX}{\Q[X]}
+\newcommand{\sm}{\setminus}
+\renewcommand{\bar}[1]{\overline{#1}}
+
+% NT
+\newcommand{\m}{\mid}
+\newcommand{\nm}{\nmid}
+\renewcommand{\c}{\equiv}
+\newcommand{\ti}{\times}
+\newcommand{\ls}[2]{\left(\frac{#1}{#2}\right)}
+\newcommand{\gls}{\ls a p}
+\newcommand{\ceil}[1]{\left \lceil #1 \right \rceil }
+\newcommand{\floor}[1]{\left \lfloor #1 \right \rfloor }
+
+% Diss
+\DeclareMathOperator{\Ad}{Ad}
+\newcommand{\mf}[1]{\mathfrak #1}
+\renewcommand{\O}{\Omega}
+\newcommand{\La}{\Lambda}
+\newcommand{\Oh}{\hat{\vec \Omega}}
+\newcommand{\Ov}{\vec \Omega}
+\newcommand{\Od}{\dot \Ov}
+\newcommand{\ov}{\vec \o}
+\newcommand{\oh}{\hat{\vec \omega}}
+\newcommand{\Lh}{\hat{\vec \Lambda}}
+\newcommand{\Lv}{\vec \Lambda}
+\newcommand{\Ld}{\dot \Lv}
+\newcommand{\Gh}{\hat{\vec \Gamma}}
+\newcommand{\Gv}{\vec \Gamma}
+\newcommand{\Gd}{\dot \Gv}
+\newcommand{\Ga}{\Gamma}
+\newcommand{\Lhd}{\boldsymbol{\dot{\hat{\La}}}}
+\newcommand{\ohd}{\boldsymbol{\dot{\hat{\o}}}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\J}{\mathbb{J}}
+\newcommand{\ditat}[1]{\left.\dit\right|_{t = #1}}
+% \renewcommand{\hat}[1]{\widehat{#1}}
+
+% PDEs
+
+\newcommand{\nab}{\mathbf{\nabla}}
+\newcommand{\grad}{{\nab}\, f}
+\renewcommand{\div}{\nab \cdot}
+\newcommand{\curl}{\nab \times}
+\newcommand{\cc}{\mathcal{C}}
+\newcommand{\pdxy}[1]{\frac{\partial #1}{\partial x\partial y}}
+\newcommand{\Th}{\Theta}
+\newcommand{\cF}{\mathcal{F}}
+
+% TMs
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\cI}{\mathcal{I}}
+\newcommand{\vn}{\varnothing}
+\newcommand{\cB}{\mathcal{B}}
+\newcommand{\G}{\Gamma}
+
+
+\let\Im\relax
+\let\Re\relax
+
+% MAGIC
+%% AlgTop
+\newcommand{\fg}[1]{\pi_1( #1 )}
+\DeclareMathOperator{\map}{Map}
+
+
+% NumLinAlg
+\renewcommand{\S}{\Sigma}
+
+%DiffMan
+\newcommand{\ot}{\otimes}
+
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pdd}[2]{\frac{\partial^2 #1}{\partial #2 ^2}}
+
+
+\begin{document}
+\textbf{APDEs}
+\textit{Just go for the $\t$ method, it will make your life better. Trust me.}\\
+\noindent
+Uniqueness. $\mathcal{J} = 0$, solve, plug into $x(t, s)$. chars ($x(t)$) at end pts $s$, for bounds, sketch the chars and envelope. Chars are tangent to envelope. \\
+\noindent
+\textbf{Grns Thm}: $\int_\Gamma (P\mathrm{d}y - Q\mathrm{d}x) = \iint_\Gamma P \frac{\partial }{\partial x}(P\psi) + \frac{\partial }{\partial y}(Q\psi) $\\
+\noindent
+Shock is causality when $\left[ \frac{\mathrm{d}x}{dt} \right]_- > \frac{dX}{dt} > \left[ \frac{\mathrm{d}x}{dt} \right]_+$ and $\frac{dX}{dt} = \frac{[Q]_-^+}{[P]_-^+}$\\
+\noindent
+\textbf{Charpits} $\di x \t = \pd F p, \quad \di y \t  = \pd F q, \quad \di p \t = - \pd F x - p \pd F u,  \quad \di q \t = -\pd F y - q\pd F u, \quad \di u \t = p\pd F p + q\pd F q.$\\
+For BCs, $u_0' = p_0x_0' + q_0y_0'$ and use PDE as second eqn.\\
+\noindent
+Optics, $\psi (x, y, t) = \phi(x, y)e^{-i\o t}$. WKBJ, $\phi(x, y) = A(x, y)e^{iku(x, y)}$.\\
+\textbf{Systems} $\mathbf A(x, y, \mathbf u) \pd {\mathbf u} x + \mathbf B(x, y, \mathbf u)\pd {\mathbf u} y = \mathbf c(x, y, \mathbf u)$. Note $\di x t = \l$ where $\det(\mathbf B - \l \mathbf A) = 0$. For $2 \ti 2$, if 2 $\l$ then hyperbolic, if $\l_1 = \l_2$ then parabolic if just 1 $\l$ then elliptic.\\
+\noindent
+{Solve}, find left evec $\mathbf \ell$ of $\mathbf B - \mathbf\l \mathbf A$, then $\mathbf\ell^T \mathbf A \di {\mathbf u} x = \mathbf\ell^T\mathbf c$. Try to intergrate the solns to produce Riemann invariants, e.g.
+$ \di{}{x} (u \mp v) = u + v$ on $\di{y}{x} = \pm 1$ implies that $e^x (u \mp v) = c$ on $\di y x = \pm 1$ and so we have $e^x(u \mp v) = f(y \mp x)$. Now intergate and solve for $u$ and $v$.\\
+Region of influence is where we solve $u$ and $v$ for the functions, plug in initial data and then replug those into $u$ and $v$. Then the region is union of where funcs are defined.\\
+\noindent
+Rankine–Hugoniot condition for systems of PDEs is, $(B - \pd u x A )[u]_-^+ = 0$ so need $\det (B - \pd u x A) = 0$\\
+\noindent
+\textbf{Second Order PDEs:} $au_{xx} + 2b u_{xy} + cu_{yy} = f$. The Cauchy data we need for this is, $x = x_0(s)$, $y = y_0(s)$, $u = u_0(s)$ and $\pd u n = v_0(s)$. However,
+\begin{center}
+  $\displaystyle{u_0'(s) = \pd u x x_0'(s) + \pd u yy_0'(s)}$
+\end{center}
+\begin{center}
+  $\displaystyle{ v_0'(s) = \frac{\pd u x x_0'(s) + \pd u yy_0'(s)}{\sqrt{x_0'^2 + y_0'^2}}}$
+\end{center}
+So replace $\pd u n = v_0(s)$ with $\pd u x = p_0(s)$ and $\pd u y = q_0(s)$. Then diff $p_0$ and $q_0$ to get the uniqueness cond. Further note $a\l^2 \mathbf{-} 2b\l + c = 0$. \textbf{MINUS}.\\
+\noindent
+Hyperbolic: $u_{\xi\eta} = \phi(\xi, \eta, u, u_\xi, u_\eta)$. Parabolic: $u_{\xi\xi} = \phi$. Elliptic, $\xi \pm i\eta = K$, then $u_{\xi\xi} + u_{\eta\eta} = \phi$.\\
+
+\noindent
+Number of BCs needed on boundary equal to number of chars travelling out of boundary. Two chars out, boundary is space-like, two BCs. time-like boundary, one char in and one out, one condition.\\
+\noindent
+\textbf{Riemann Functions:} $\mathcal{L}[u] = u_{xy} + au_x + bu_y + cu = f$ and adjoint is bring coeffs in and make odd derivs minus.
+\begin{center}
+  $\displaystyle{v \mathcal{L}[u] - u \mathcal{L}^*[v]} = \pd{}{x} \left(v \pd u y + auv\right) + \pd{}{y} \left( -u\pd v x + buv \right)$
+\end{center}
+Now take the double integral over $D$, $v = R$, , then Grns Thm, impose $\mathcal{L}^*[R] = 0$ and then $\mathrm{d}y = 0$ on AP and $\mathrm{d}x = 0$ on BP. Then $R_x = bR$, $R_y = aR$ and $R = 1$ at P. Then we have the properties,\\
+\noindent
+$\mathcal{L}^*[R] = 0$, $R_x = bR$ ($y= \eta$), $R_y = aR$ ($x = \xi$) and $R = 1$ on $(x, y) = (\xi, \eta)$.\\
+\noindent
+\textbf{Uniqueness, Poisson.} Take $u = u_1 - u_2$. Then consider,
+\begin{center}
+  $\displaystyle{\iint_D \nab \cdot (\phi \nab \phi)\mathrm{d}x\mathrm{d}y = \iint_D \pd{}{x}\left(\phi \pd \phi x\right) + \pd{}{y}\left(\phi \pd \phi y\right)\mathrm{d}x\mathrm{d}y}$
+\end{center}
+Then greens leads to $|\nab \phi| = 0$\\
+\noindent
+Let $\xi = \e^a x$, $\t = \e^b t$ and $w = \e^c u(\e^a x, \e^b t)$. Then rewrite in terms of these variables and simplify. Then set the power of $\e$ be zero. Now, $\e^a = \xi / x$, $\e^b = \t / t$. Hence $(\t / t)^{a/b} = \xi / x$ and $\xi / \t^{a/b} = x / t^{a/b} = \eta$ and $w / \t^{c/b} = u/t^{c/b} = \nu$. Then $u = f(\eta)$ and hey presto!
+
+\newpage
+\noindent
+Inhomogenous Systems ($\mathcal{L}[u] = f(x)$ subject to $\mathcal{B}[u] = g(x)$), solve $\mathcal{L}[u_1] = f(x)$ with $\mathcal{B}[u_1] = 0$ and then $\mathcal{L}[u_2] = 0$ with $\mathcal{B}[u_2] = g(x)$ and then $u = u_1 + u_2$.\\
+\noindent
+To go from $\mathcal{L}[u]$ to $\mathcal{L}^*[u]$, integrate $\mathcal{L}[u]$ by parts and collect the boundary terms, collect them and then force them to be zero.
+\noindent
+\begin{itemize}
+  \item Eigenfunctions of the adjoint problem have the same eigenvalues as the original problem, $Ly = \l y \implies \ex w, L^*w = \l w$.
+  \item Eigenfunctions corresponding to different eigenvalues are orthogonal (fiddle with $\l_j \ip{y_j}{w_k}$ to get $\l_k \ip{y_j}{w_k}$.)
+\end{itemize}
+\noindent
+To solve the BVP, $Lu = f(x)$ subject to $Bu = g(x)$, Solve the eigenvalue problem, then solve the adjoint eigenvalue problem. Then assume $u = \sum_i c_iy_i(x)$ where $\l_kc_k \ip{y_k}{w_k} = \ip{f}{w_k}$\\
+\noindent
+If $\l_k = 0$, then we have two cases. If $\ip{f}{w_k} = 0$, then infinitely many sols by adding $y_0$, if $\ip{f}{w_k} \ne 0$ then no sols for $f$.\\
+\noindent
+A SL operator is self adjoint and is the following,
+\begin{center}
+  $\displaystyle{\mathcal{L}[u] = -\di{}{x}\left( p(x)\di u x \right) + q(x)u}$
+\end{center}
+\noindent
+where $\mathcal{L}[u] = \l r(x)y(x)$, $r$ is weighting function. Further, $\mathcal{L} = \mathcal{L}^*$. We can convert from a BVP ($\mathcal{L} = a_2u'' + a_1u' + a_0u = f$) to SL form. Apply integrating factor then,
+  ${\mu a_2 u'' + \mu a_1 u' = -pu'' - p'u'}$.
+Then find, $p = e^{\int \frac{a_2}{a_1}\mathrm{d}x}$, $\mu = -\frac{1}{a_2}e^{\int \frac{a_2}{a_1}\mathrm{d}x}$, $q = -\frac{a_0}{a_2} u e^{\int \frac{a_2}{a_1}\mathrm{d}x}$ and $g(x) = -\frac{f}{a_2}e^{\int \frac{a_2}{a_1}\mathrm{d}x}$.\\
+\noindent
+\textbf{Orthogonality}, $\int_a^b y_k(x)y_j(x)r(x)\mathrm{d}x = 0$ for $j \ne k$. All the evals are real (fiddle with inner prods). If $a < x < b$ is finite, all $\l_k$s are discrete and countable.\\
+\noindent
+We can decompose any function by a complete set of $\{y_k\}$, that is, $h(x) = \sum c_iy_i(x)$ where $c_j = \frac{\int_a^b h(x)y_j(x)r(x) \mathrm{d}x}{\int_a^b y_j^2(x)r(x)\mathrm{d}x}$\\
+\noindent
+If we have $p(x) > 0$, $r(x) > 0$ and $q(x) \ge 0$ on $a \le x \le b$ and BCs have $\a_1\a_2 \le 0$ and $\a_3\a_4 \ge 0$. Then $\l_k \ge 0$ for $k =1,2, 3, \dots$. Proof, just consider $\ip{y_k}{Ly_k - \l_kry_k} = 0$, unfold and integrate by parts.\\
+\noindent
+The $k^{th}$ eigenfunction will have $k$ zeroes on $a < x< b$.\\
+\noindent
+Two SL problems, $\tilde \l_k > {\l_k}$, if $\tilde p(x) \ge p(x)$, $\tilde q(x) \ge q(x)$, $\tilde r(x) \le r(x)$ plus $(\tilde a, \tilde b) \sub (a, b)$\\
+\noindent
+\textbf{Greens Funcs}: We can consider $c_k$ and the def of $\ip{\cdot}{\cdot}$ then say,
+\begin{center}
+  $\displaystyle{y = \int_a^b \sum_k \frac{w_k(t)y_k(x)}{\l_k \ip{y_k}{w_k}}f(t)\mathrm{d}t } = \int_a^b g(x, t)f(t) \mathrm{d}t$
+\end{center}
+and we call $g(x, t)$ the greens function. We can find it by defining,
+\begin{center}
+  $\displaystyle{\mathcal{L}g = \begin{cases}
+    \mathcal{L}g_- = 0 & a < x < \xi \\
+    \mathcal{L}_+g = 0 & \xi < x < b
+  \end{cases}}$
+\end{center}
+and then we need two more BCs, so we impose,
+\begin{center}
+  $\displaystyle{\int_{\xi_-}^{\xi_+} \mathcal{L}g\mathrm{d}x} = \int_{\xi_-}^{\xi_+} \d(x - \xi)\mathrm{d}x = 1$
+\end{center}
+Plug in $\mathcal{L}g = a_n g^{(n)} + a_{n-1}g^{(n-1)} + \dots$ and let $\left.a_ng^{(n-1)}\right|_{\xi_-}^{\xi^+} = 1$ and $\left. g^{(j)}\right|_{\xi_-}^{\xi^+} = 0$ for $0 < j < n-2$.\\
+\textbf{Distributions:} $T$ is a distribution if it is linear and continuous, i.e.\\
+(i) $\langle T,\alpha \phi_1+\beta \phi_2 \rangle = \alpha \langle T,\phi_1 \rangle + \beta \langle T,\phi_2 \rangle$, $\forall \alpha, \beta \in \mathbb{R}$ and $\forall \phi_1, \phi_2 \in \co$.\\
+(ii) If $\phi_n(x)$ is a sequence of test functions s.t. $\phi_n(x) \rightarrow 0$ as $n \rightarrow \infty$ then $\langle T, \phi_n \rangle \rightarrow 0$ as a sequence of real numbers. Then $\lim_{n \rightarrow \infty} \langle T, \phi_n \rangle = \langle T, \lim_{n \rightarrow \infty} \phi_n \rangle$.\\
+Equivalent continuity condition (for checking): $\forall L>0$, $\exists C>0$ and $N\geq 0$ s.t.\\
+$|\langle T,\phi \rangle | \leq C \sum_{m\leq N} \max_{x \in \mathbb{R}} |\phi^{(m)}(x)|$, $\forall \phi$ s.t. supp $\phi \subset [-L,L]$.\\
+\textbf{Translation property:} $\langle T(x+\alpha),\phi(x) \rangle = \langle T(x), \phi(x-\alpha) \rangle$, $\forall \phi \in \co$.
+\textbf{Distributional derivative:} $\langle T^{\prime},\phi \rangle = -\langle T ,\phi^{\prime} \rangle$, $\forall \phi \in \co$.\\
+\textbf{Convergence} of $T_j$ to $T$ as $j \rightarrow \infty$ means $\lim_{j \rightarrow \infty} \langle T_j,\phi \rangle = \langle T, \phi \rangle$, $\forall \phi \in \co$.\\
+If $T(\alpha)$ is a family of distributions with continuous parameter $\alpha$ then $T(\alpha) \rightarrow T(\alpha_0)$ for $\alpha \rightarrow \alpha_0$ means $\lim_{\alpha \rightarrow \alpha_0} \langle T(\alpha), \phi \rangle = \langle T(\alpha_0), \phi \rangle$, $\forall \phi \in \co$.\hfill
+
+
+\end{document}

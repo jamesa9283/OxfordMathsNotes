@@ -1,0 +1,92 @@
+% !TEX root = ../notes.tex
+
+\section{Eigenvalue Problems}
+We consider $Ax = \l x$. Given $A$ we want to find $\l \in \C$ and $x \in \C^n$. It is impossible to solve exactly if $n \ge 5$. This is just Galois Theory. We can show how we can go from a polynomial to a matrix. We fiddle with companion matrix,
+\begin{proof}
+  If $p(\l) = 0$ then it is an eigenvalue of the following companion matrix,
+  $$ C = \begin{pmatrix}
+    -a_{n-1} & -a_{n-2} & \dots & -a_1 & -a_0 \\
+    1 & & & & \\
+    & 1 & & & \\
+    & & & \ddots & \\
+     & & & & 1 \\
+  \end{pmatrix} $$
+  Then we see,
+  $$ \begin{pmatrix}
+    -a_{n-1} & -a_{n-2} & \dots & -a_1 & -a_0 \\
+    1 & & & & \\
+    & 1 & & & \\
+    & & & \ddots & \\
+     & & & & 1 \\
+  \end{pmatrix} \begin{pmatrix}
+    \l^{n-1} \\ \vdots \\ \l^2 \\ \l \\ 1
+  \end{pmatrix} = \begin{pmatrix}
+    \l^n \\ \vdots \\ \l^3 \\ \l^2 \\ \l
+  \end{pmatrix} = \l \begin{pmatrix}
+    \l^{n-1} \\ \vdots \\ \l^2 \\ \l \\ 1
+  \end{pmatrix}. $$
+\end{proof}
+\noindent
+We note that $\det (\l I - A)$ isn't feasible computationally. This may seem bad, but there is some good news. We are going to try to use orthogonal transformations as much as possible. The ultimate goal is to use the Schur form, $A = UTU^*$ where $U$ is unitary and $T$ is upper triangular. Given $\mathrm{eigs}(A) = \mathrm{eigs}(XAX^{-1})$ by a similarity transformation and the Schur transformation is a similarity transformation, and so $\mathrm{eigs}(A) = \mathrm{eigs}(UTU^*) = \mathrm{eigs}(T)$ and the eigenvalues of $T$ is just the diagonal entries. We further note that if $A$ is normal, then $T$ is diagonal. So, the Schur form is diagonal, $A = UDU^*$. Now we prove that these always exist,
+\begin{proof}
+  Recall $\det(\l I - A) = 0$ and by the FTA then there is some $(\l_1 I - A)v = 0$ where $v \ne 0$. We consider $Av = \l_1 v$ and take $\begin{pmatrix}
+    v & v_\perp
+  \end{pmatrix}$ unitary. Then,
+  \begin{align*}
+    A \begin{pmatrix}
+      v & v_\perp
+  \end{pmatrix} &= \begin{pmatrix}
+    \l v & *
+\end{pmatrix} \\
+  \end{align*}
+  and we can now see,
+  $$ \begin{pmatrix}
+    v v_\perp
+  \end{pmatrix}^* A \begin{pmatrix}
+    v & v_\perp
+  \end{pmatrix} = \begin{pmatrix}
+    \l_1 & * & * \\
+    0 & && \\
+    \vdots && A_2& \\
+    0 &&&
+  \end{pmatrix} $$
+  Now we let $A_2v_2 = \l_2 v_2$ where $V = \begin{pmatrix}
+    v_2 & {v_2}_{\perp}
+  \end{pmatrix}$ and so we can now write,
+  $$ \begin{pmatrix}
+    1 & 0 \\ 0 & V_2^*
+  \end{pmatrix} U_1^* A U_1 \begin{pmatrix}
+    1 & 0 \\ 0 & V_2
+  \end{pmatrix} = \begin{pmatrix}
+    \l_1 & & & & * \\
+    0 & \l_2 & & & \\
+    \vdots & 0 & & A_3 & \\
+    0 & \vdots & & & \\
+    0 & 0 & & &
+  \end{pmatrix} $$
+  and so we carry on to get,
+  $$ U_m^* \dots U_1^* A U_1 U_2 \dots U_m = T $$
+\end{proof}
+
+
+\subsection{Power Method}
+The power method computes on eigenpair, that is $(\l, v)$ such that $Av = \l v$. The algorithm is very simple.
+\begin{algorithm}
+  Let $x$ be an arbitrary vector. Then let $x_{i+1} := \frac{Ax_i}{\norm{Ax_i}_2}$ and repeat for $k$ steps.
+\end{algorithm}
+
+\noindent
+Then we have,
+$$ x_k = \frac{A^k x_0}{\norm{A^k x_0}} $$
+and we claim that if $\l_k = x_k^* A x_k$, then $(\l_k, x_k)$ converge to an eigenpair, $(\l_1, v_1)$. Further this is the dominant eigenpair. To prove this makes sense,
+\begin{proof}
+  Assume $A$ is diagonalisable. Then $A = VDV^{-1}$. Then $x_0 = Vc = \sum_{i=1}^n V_ic_i$ where $c = V^{-1}x$. Now assume $c_n \ne 0$. Now,
+  \begin{align*}
+    x_k &= \frac{A^kx_0}{\norm{A^k x_0}_2}\\
+    &= A^{k-1} \frac{Ax_0}{\norm{A^kx_0}_2}\\
+    &= \frac{\sum c_i\l_i^k v_i}{\norm{A^k x_0}_2} \\
+    &= \frac{1}{\norm{Ak^k x_0}} \left(\l_1^k c_1 v_1 + \l_2^k c_2v_2 + \dots + \l_n^k c_n v_n \right) \\
+    &= C \left(v_1 + \frac{c_2}{c_1} \left(\frac{\l_2}{\l_1} \right)^k v_2 + \dots + \frac{c_j}{c_1} \left( \frac{\l_j}{\l_1} \right)^k v_j + \dots  \right).
+  \end{align*}
+  Hence $x_k \to \pm v_1$ and so $x_k^* A x_k \to v_1^* \l_1 v_1 = \l_1$. 
+\end{proof}

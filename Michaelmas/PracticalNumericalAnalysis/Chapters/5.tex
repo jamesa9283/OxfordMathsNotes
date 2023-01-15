@@ -1,0 +1,35 @@
+% !TEX root = ../notes.tex
+
+\section{First Order PDEs}
+
+We are going to consider a parabolic PDE,
+$$ \pd u t = \pdd u x $$
+with an initial condition $u(x, 0) = u_0(x)$. Consider a uniform set of time steps $t_m = m\Delta t$ for $m = 0, 1,2 \dots$. We also consider $x_j = a + j\Delta x$, where $\Delta x = (b-a)/N$. We write $u_j^m = u(x_j, t_m)$ and we seek to approximate $u_j^m$ by $U_j^m$ for $j = 0, 1, 2 \dots, N$ and $m = 0, 1, 2, \dots$. We write,
+$$ \pdd u x (x_j, t) = \frac{u(x_{j+1}, t) - 2u(x_j, t) + u(x_{j-1}, t)}{\Delta x^2} + \mathcal{O}(\Delta x^2). $$
+Similarly, we can do fortward and backward differences,
+$$ \pd u t (x, t_m) = \frac{u(x, t_{m+1}) - u(x, t_{m})}{\Delta t} + \mathcal{O}(\Delta t), $$
+and similar for a backward difference. Then forward,
+$$ \frac{U^{m+1}_j - U_j^m}{\Delta t} = \frac{U_{j+1}^m - 2U_j^m + U_{j-1}^m}{\Delta x^2}, $$
+and similarly for the others. Then we can discretise the boundary conditions.\\
+
+\noindent
+For ODEs, forward Euler was easy to implement. This kind of holds here. However, for implicit we have a system of non-linear equations. Let's consider forward euler first though,
+$$ U_j^{m+1} = U_j^m + \mu (U_{j+1}^m - 2U_j^m + U_{j-1}^m) $$
+Thus once we have the initial and boundary data we can find our starting points. Then we have all the $U_j^1$ and then all the $U_j^2$ and so on. We now let,
+$$ \d_x^2 U_j = U_{j+1} - 2U_j + U_{j-1}. $$
+Then the $\theta$-method becomes,
+$$ \frac{U_{j}^{m+1} - U_j^m}{\Delta t} = \theta \frac{\d_x^2 U_j^{m+1}}{\Delta x^2} + (1 - \theta) \frac{\d^2 _x U_j^m}{\Delta x^2} $$
+and it becomes a massive mess after some rearranging. We are going to set $m = 0$. We can write,
+$$ (I - \mu \theta A)U^{m+1} = (I' + \mu (1 - \theta)A)U^m + g^{m+1} $$
+where $U^m$ is the vector of the $U_j^m$'s, then $I'$ is the identity minus the top and bottom $1$'s are zero, and $g^{m+1} = (u_a(t_{m+1}), 0, \dots, 0, u_n(t_{m+1}))^T$.
+
+\noindent
+If we have a BC of $\a u + \b \pd u t = \g$. Then we can just take a forward difference given $x_0 = a$,
+$$ \frac{u(x_1, t) - u(x_0, t)}{\Delta x} + \mathcal{O}(\Delta x) $$
+This means,
+$$ \a U_0^{m+1} + \b \frac{U_1^{m+1} - U_0^{m+1}}{\Delta x} = \g $$
+and then in Explicit Euler, we have something more complicated. It is harder to approximate the solution on the boundary. We do something similar with the $\theta$-method. Just rearrange and fiddle our equations to no longer have upper line of all zeros. However, this is not $\Delta x$, so we want to get a second order finite difference scheme for our BC. Hence,
+$$ \pd u t (a, t) = \frac{u(x_1, t) - u(x_{-1}, t)}{2\Delta x} + \mathcal{O}(\Delta x^2)$$
+Hence we have,
+$$ \a U_0^{m+1} + \b \frac{U_1^{m+1} - U_{-1}^{m+1}}{2\Delta x} = \g, $$
+and we rearrange for $U_{-1}^{m+1}$ and put in when appropriate.

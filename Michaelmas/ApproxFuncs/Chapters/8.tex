@@ -1,0 +1,22 @@
+% !TEX root = ../notes.tex
+
+\section{Best Approximation}
+We call the best approximation of $p^* \in \mathcal{P}$ such that $\norm{f - p^*}$ is minimum. We can observe that there is `equioscilation' in greater than $n+2$ points and `alternant' of exactly $n+2$ points where the error `equioscilates'. The `error curve' is the difference $(f-p)([-1, 1])$. Then we have a theorem,
+\begin{nthm}[(1902. Kirchberger)]
+  Given $f$ is an arbitrary continuous function on the unit iterval, real, and given $n \ge 0$, there exists a unique best approximation to $f$, $p^* \in \mathcal{P}_n$, characterised by equioscilation between at least $n+2$ extremum.
+\end{nthm}
+\begin{proof}
+  Proof in four parts. We will show existence, equioscilation implies optimality, optimality implies equioscilation and uniqueness. Firstly \textbf{existence}. Let $p \in \mathcal{P}_n$ be defined by it's $n+1$ coefficients. Then, $\norm{f - p}_2$ is a continuous function of $p$. If $p^*$ exists, it lies in $\{p \in \mathcal{P}_n : \norm{f - p} \le \norm{f - 0}\}$. This is a closed, bounded subset of $\R^{n+1}$, hence compact. So the minimum is attained.\\
+
+  \noindent
+  Now we want to show \textbf{equioscilation implies optimality}. Suppose we have $f - p$ equioscilates between $n+2$ extrema, but suppose it isn't optimal. That is, $ \norm{f - (p+q)} \le \norm{f - p} $ for some $q \in \mathcal{P}_n$. Then draw a picture. We count the zeros. $q$ has alternating signs at least $n+2$ points. Hence $q$ has at least $n+1$ zeros. Hence $q = 0$, contradiction.\\
+
+  \noindent
+  \textbf{Optimality implies equioscilation}. Suppose the contrary. Suppose $p \in \mathcal{P}$ such that $f - p$ equioscilates at only $k+1 \le n+1$ points (too few!). Now draw a picture. Draw some lines between these points between the alternating extrema. Let these lines be $x_1, x_2, \dots, x_k$. Define $q(x) = (x-x_1)(x -x_2)\dots (x-x_k) \in \mathcal{P}_k \sub \mathcal{P}_n$. Then $\norm{f - (p + \e q)} < \norm{f-p}$ for all sufficiently small epsilon of the right sign.\\
+
+  \noindent
+  \textbf{Uniqueness}. Suppose $p$ and $q$ are both best approximations to $f$. Then $r = (p+q)/2$ is also a best approximation. So $r$ must have at least $n+2$ equioscilation extrema. We notice that $p$ and $q$ must take the same values at the at least $n+2$ extrema. Hence $p = q$.
+\end{proof}
+
+\subsection{Calculating $p^*$}
+Suppose $f$ and $n $ are given. Now we want to compute $p^*$. This is a non-linear problem, hence it must iterate. This is the Remez algorithm in the 1930s in Kyiv. The idea is pick a set of points, a trial alternant $n+2$ points. Then we interpolate and then adjust the points iteratively\footnote{M.J.D Powell Book}. 

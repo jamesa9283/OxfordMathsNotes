@@ -1,0 +1,103 @@
+% !TEX root = ../notes.tex
+
+\section{Tensor Products and Exterior Algebras}
+\subsection{Tensor Products of vector spaces}
+
+\begin{ndefi}[]
+  Let $V,W$ be finite dimensional vector spaces over $\R$. We define a vectorspace $V \otimes W$ called the \textbf{tensor product} of $V, W$ with the properties,
+  \begin{itemize}
+    \item if $v \in V$ and $w \in W$ there is an element $v\otimes w \in V \otimes W$,
+    \item This is billinear, that is $(\l v_1 + \mu v_2) \times w = \l (v_1 \otimes w) + \mu (v_2 \otimes w)$ and $v \otimes (\l w_1 + \mu w_2) = \l v \otimes w_1 + \mu v \otimes w_2$ for $v_1, v_2 \in V$, $w_1, w_2 \in W$ and $\l, \mu \in \R$
+    \item $\dim (V \otimes W) = \dim V \cdot \dim W$. Futher, If $v_1, \dots v_n$ and $w_1, \dots, w_n$ are basis of $V$ and $W$ then $v_i \otimes w_j$ for $i = 1, \dots, n$ and $j = 1, \dots, n$ is a basis for $V \otimes W$.
+    \item $V \otimes W$ has the universal property, that if $B : U \ti W \to U$ is a billinear map to a vector space $U$, then there is a unique map $\b : V \otimes W \to U$ with $B(v, w) = \b (u \times w)$ for $v \in V$ and $w \in W$.
+  \end{itemize}
+\end{ndefi}
+
+One way to efine $V \otimes W$ is as the dual vector space, $V \otimes W := B^*_{v, w}$, where $B_{v, w} = \{B : V \times W \to \R \text{ billinear map}\}$. If $v \in V$ or $w \in W$ then $v \otimes w : B_{v, w} \to \R$ is given by $(v \otimes w)(B) = B(v, w)$. Then the $(i) - (iv)$ are easy to check. Tensor products can also be defined for infinite dimensional vector spaces, which satisfy (i), (ii) and (iv), but this definition doesn't work as $(V^*)^* \ncong V$ in infinite dimensions.\\
+
+\noindent
+We know some more things! The tensor product is associative, $U \ot (V \ot W) \cong (U \ot V)\ot W$ (this is a natural isomorphism), it's commutative $U \ot W \cong W \ot U$, and the distribute over $\oplus$,
+$$ U \ot (V \oplus W) = (U\ot V) \oplus (U \op W). $$
+
+\subsection{Tensor Algebras and exterior algebras}
+\begin{ndefi}[Tensor Algebra]
+  Let $V$ be a finite-dimensional $\R$-vector space. Then we can form, $V, V\ot V, V \ot V \ot V, \dots$ and $\otimes^k V = V \ot V \ot \dots \ot V$. By convension $\otimes^0 V = \R$. Then the \textbf{tensor algebra} is $T(V) = \bigotimes_{k=0}^\infty \otimes^k V$
+\end{ndefi}
+
+\noindent
+It is an associative algebra with a product, $\ot$ given by $(v_1 \ot \dots \ot v_k) \ot (w_1 \ot \dots \ot w_\ell) = v_1 \ot \dots \ot v_k \ot w_1 \ot \dots \ot w_\ell \in \ot^{k+\ell} V$. It has identity $1 \in \R = \ot^0 V$. The symmetric group, $S_k$, of permutations of $1, 2, \dots, k$
+acts on $\ot^k V$ by permuting the $k$ factors, so that $\s \in S_k$ acts by,
+$$ \rho_k : \ot^k V \to \ot^k V, \qquad \rho_k (v_1\ot \dots \ot v_k) = v_{\s(1)} \ot \dots \ot v_{\s(k)} $$
+where $\rho_k : S_k \to \Aut (\ot^k V)$ the representation.
+
+\noindent
+We define $\La^kV$ to be the vector subspace of $\ot^k V$ on which $S_k$ acts antisymmetrically that is,
+$$ \La^k V = \{\a \in \ot^kV : \rho_k (\s)\a = \sgn(\s)\a \} $$
+where $\sgn : S_k \to \{\pm 1\}$ is the usual group morphism. There is a projection $\pi : \ot^k V \to \La^K V$ by $\pi : \a \mapsto \frac{1}{k!}\sum_{\s \in S_k} \sgn(\s) \rho_k (\s)\a$. It is surjective with $\pi \circ \pi = \pi$ and we can also consider $\La^k V$ as the quotient space $\La^k V = \ot^k V / \ker \pi$, rather than a subspace $\La^k V \sub \ot^k V$.\\
+
+\noindent
+The `exterior product', $\wedge : \La^k V \ti \La^\ell V \to \La^{k + l} V$ is the composition,
+\[\begin{tikzcd}
+	{\Lambda^kV \times \Lambda ^\ell V} & {\otimes^k V \times \otimes^\ell V} & {\otimes^{k+\ell}V} & {\Lambda^{k + \ell}V}
+	\arrow["{\text{inc}}", hook, from=1-1, to=1-2]
+	\arrow["\otimes", from=1-2, to=1-3]
+	\arrow["\pi", from=1-3, to=1-4]
+	\arrow["\Lambda"', curve={height=24pt}, from=1-1, to=1-4]
+\end{tikzcd}\]
+It is associative as $\otimes$ is associative. We have $\La^- V = \otimes^0 V = \R$, $\La^1 V = V$ and $\La^k V$ has dimension $n\choose k$, $n = \dim V$. If we have $v_1, \dots, v_n$ is a basis for $V$, then
+$$ \{ v_{i1} \wedge v_{i2} \wedge \dots \wedge v_{ik} : 1\le i_1 < i_2 < \dots < i_k \le n \}. $$
+In particulat $\La^n V \sub \R$ and $\La^k V = 0$ for $k > n = \dim V$.\\
+
+\noindent
+The \textbf{exterior algebra} is,
+$$ \La^* V = \bigoplus_{k=0}^{n = \dim V} \La^k V. $$
+It is also an associate algebra under the $\wedge$. It has identity $1 \in \R = \La^0 V$. It has dimension,
+$$ \sum_{k=0}^n {n \choose k} = 2^n. $$
+Tensor products and exterior products are functorial under linear maps of vector spaces. That is, if $\a : T \to V$, $\b : U \to W$ are maps of vector spaces, and we get the linear maps,
+$$ \a \ot \b : T \ot U \to V \ot W, $$
+defined by,
+$$ (\a \ot \b)(t \ot u) = (\a(t))\ot (\b(t)) \forall t \in T, u \in U. $$
+If $\a : V \to W$ is linear. we get,
+$$ \ot^k \a : \ot^k V \to \ot^k W $$
+defined by $\o^k\a : v_1 \ot \dots \ot v_k \mapsto \a(v_1) \ot \dots \ot \a(v_n)$
+and,
+$$ \La^k \a : \La^k V \to \La^k W. $$
+defined by,
+$$ \La^k \a : v_1 \wedge \dots \wedge v_k \mapsto \a(v_1) \wedge \dots \wedge \a(v_k). $$
+We can think of $\R^m \ot \R^n$ as $m \times n$ matrices.
+\begin{eg}
+  Let $A$ be an $m\ti n$ matrix, which is a linear map $A : \R^n \to \R^n$. Then $\La^n\R^n \cong \R$ and therefore, $\La^n A : \La^n\R^n \to \La^n\R^n$ which is just multiplication by a real number and this $\det A$.
+  \begin{exerise}
+    Prove this.
+  \end{exerise}
+\end{eg}
+
+\subsection{Algebraic Operations on vector bundles}
+Let $X$ be a manifold, our operations $V^*, V \oplus W, V \ot W, \ot^k V, \La^k V$ on vector spaces also make sense on vector bundles on $X$.
+\begin{nprop}
+   Let $E \to X$ and $F \to X$ to be vector bundles on a manfold $X$. Then there are natural vector bundles correpsonding to,
+   $$ E^*, E\oplus F, E\ot F, \ot^kE, \La^k V, $$
+   whose fibers satisfy, $\left.E^*\right|_x = (\left. E\right|_x)^*$, $\left.(E \oplus F)\right|_x = \left.E\right|_x \oplus \left.F\right|_x$, and so on.
+\end{nprop}
+\begin{proof}
+  Let's just talk about the tensor product. As a set we define $E \ot F$ to be,
+  $$ E \ot F = \{(x, \a) : x \in X, a \in E_x\ot F_x\}. $$
+  Our problem is to put a manifold on here so we get a vector bundle. The projection, $\pi : E \ot F \to X$ maps $\pi : (x, \a) \mapsto x$. Then we show there is a canonical manifold structure on this set $E \ot F$, making $E \ot F \to X$ into a vector bundle, such that if $U \sub X$ is an open neighbourhood of $x \in X$ with local trivialisation,
+    \[\begin{tikzcd}
+  	{\pi'_E(U)} & {U\times \R^k} \\
+  	U & U
+  	\arrow["\cong"{description}, draw=none, from=1-1, to=1-2]
+  	\arrow["{=}"{description}, draw=none, from=2-1, to=2-2]
+  	\arrow[from=1-1, to=2-1]
+  	\arrow[from=1-2, to=2-2]
+  \end{tikzcd}\]
+  and similarly for $F$. Then we get,
+  \[\begin{tikzcd}
+  	{\pi'_{E \otimes F}(U)} & {U\times (\R^k\otimes \R^\ell)} \\
+  	U & U
+  	\arrow["\cong"{description}, draw=none, from=1-1, to=1-2]
+  	\arrow["{=}"{description}, draw=none, from=2-1, to=2-2]
+  	\arrow[from=1-1, to=2-1]
+  	\arrow[from=1-2, to=2-2]
+  \end{tikzcd}\]
+\end{proof}

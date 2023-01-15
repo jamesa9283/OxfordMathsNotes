@@ -1,0 +1,56 @@
+% !TEX root = ../notes.tex
+
+\subsection{Stability of finite difference schemes}
+To replicate this property of the heat equation in the $L_2$ norm at the discrete level, we need a suitable notion of stability. We shall say that a finite difference scheme for the unsteadt heat equation is \textbf{(practically) stable in $\ell_2$ norm} if,
+$$ \norm{U^m}_{\ell_2} \le \norm{U^0}_{\ell_2} $$
+where,
+$$ \norm{U^m}_{\ell_2} = \left( \D x \sum_{j=-\infty}^\infty |U_j^m|^2 \right)^{\frac{1}{2}}. $$
+\noindent
+Thinking about before we need a Parsevals and a fourier transform, so we consider a semidiscrete fourier transform.
+\begin{ndefi}[]
+  The semidiscrete Fourier transform of a function $U$ defined on the infinite mesh $x_j = j\D x$, $j = 0, \pm 1, \pm 2, \dots$ is,
+  $$ \hat U(k) = \D x \sum_{j=-\infty}^\infty U_j e^{-i kx_j} \qquad k \in [-\pi / \D x, \pi / \D x]/ $$
+\end{ndefi}
+
+We also need an inverse for Parsevals identity that connects the transforms,
+\begin{ndefi}[]
+  Let $\hat U$ be defined on $[-\pi / \D x, \pi / \D x]$. The inverse of the semidiscrete Fourier transform of $\hat U$ is defined by,
+  $$ U_j := \frac{1}{2\pi} \int_{-pi / \D x}^{\pi / \D x} \hat U(k)e^{i k \D x} \rm d k $$
+\end{ndefi}
+
+\begin{nlemma}[Discrete parseval's identity]
+  If we have as before our norms, then, if $\norm{U}_{\ell_2}$ is finite, then also $\norm{\hat U}_{L_2}$ is finite, and
+  $$ \norm{U}_{\ell_2} = \frac{1}{\sqrt{2\pi}} \norm{\hat U}_{L_2}. $$
+\end{nlemma}
+
+\noindent
+Now we want to consider finite difference schemes. We want to solve,
+$$ \pd u t = \pdd u x \qquad x \in (-\infty, \infty), t > 0$$
+with respect to $u(x, 0) = u_0(x)$. Then we want to consider some grid $x_j = j\D x$ where $j \in \Z$. We insert,
+$$ U_m = \frac{1}{2\pi}\int_{-\pi/\D x}^{\pi/\D x} e^{ikj \D x} \hat U^m (k)\rm d k $$
+intro the euler scheme we can say,
+\begin{align*}
+  \frac{1}{2\pi} \int_{-\pi / \D x}^{\pi / \D x} e^{ikj \D x} \frac{\hat U^{m+1} - \hat U^m}{\D t} \rm d k &= \frac{1}{2\pi} \int_{-\pi / \D x}^{\pi / \D x} \frac{e^{ik(j+1)\D x} - 2 e^{ikj\D x} + e^{ik(j-1)\D x}}{(\D x)^2} \hat U^m \rm d k\\
+\end{align*}
+and so we have that,
+$$ \frac{1}{2\pi} \int_{-\pi / \D x}^{\pi / \D x} e^{ikj \D x} \frac{\hat U^{m+1} - \hat U^m}{\D t} \rm d k = \frac{1}{2\pi} \int_{-\pi / \D x}^{\pi / \D x} e^{ikj \D x} \frac{e^{ik\D x} - 2 + e^{-ik\D x}}{(\D x)^2} \hat U^m \rm d k $$
+We now we want to remove the integrals. We note that we have two inverse fourier transforms equalling eachother. Hence,
+$$ \hat U^{m+1}(k) = \hat U^m(k) + \mu (e^{ik\D x} - 2 + e^{-k\D x})\hat U^m(k) $$
+Thus we have,
+$$ \hat U^{m+1}(k) = \l(k)\hat U^m(k), $$
+where $\l(k) = 1 + \mu (e^{ik\D x} - 2 + e^{-k\D x})$. We want to bound $\l(k)$ by one. So consider,
+\begin{align*}
+  \norm{U^{m+1}}_{\ell_2} &= \frac{1}{\sqrt{2\pi}}\norm{\hat U^{m+1}}_{L_2} \\
+  &= \frac{1}{\sqrt{2\pi}}\norm{\l \hat U^m}_{L_2} \\
+  &\le \frac{1}{\sqrt{2\pi}} \max_k |\l(k)| \norm{\hat U^m}_{L_2} \\
+  &= \max_k |\l(k)| \norm{U^m}_{\ell_2}.
+\end{align*}
+We want,
+$$ \norm{U^{m+1}}_{\ell_2} \le \norm{U^m}_{\ell_2}, $$
+and to do this we demand, $\max_k |\l(k)| \le 1$. Hence we have a real number,
+$$ \max_k \left| 1 - 4\mu \sin^2 \left( \frac{k\D x}{2} \right) \right| \le 1.$$
+So we want to say,
+$$ -1 \le 1 - 4 \mu \sin^2 \left( \frac{k \D x}{2} \right) \le 1 $$
+The left hand side is easy, but the right hand side, not as trivial. We note,
+$$ \mu = \frac{\D t}{\D x^2} \le \frac{1}{2} $$
+for stability.w

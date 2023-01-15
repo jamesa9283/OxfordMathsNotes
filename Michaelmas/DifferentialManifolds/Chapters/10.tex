@@ -1,0 +1,93 @@
+% !TEX root = ../notes.tex
+
+\section{Integration}
+
+\subsection{Manifolds with Boundary}
+The interval $[0,1]$ and the unit disc are not manifolds, even topologically. They are not locally homoemorphic to $\R$, $\R^2$. But they are manifolds with boundary.
+\begin{ndefi}[Manifolds with Boundary]
+  \textbf{Manifolds with boundary} are defined as for manifolds, but using manximal atlases $\{(U_i, \phi_i) : i \in \mathcal{I}\}$ in which we allow $U \sub \R^n$ open or $U \sub [0, \infty) \ti \R^{n-1}$ open.
+\end{ndefi}
+
+\noindent
+To define compatible charts we need to define $f : U \to V$ is smooth for open $U, V \sub [0, \infty) \times \R^{n-1}$.
+
+
+\noindent
+This means that all derivatives $\frac{\partial^k f}{\partial {x_i}_1 \dots \partial {x_i}_k}$ exists and are contnuous on $U$ including one-sided derivatives. It is a theorem that this holds if and only if $f$ extends to smooth $\tilde f : \tilde U \to \tilde V$, $\tilde U$, $\tilde V$ open neighbourhoods of $U, V \in \R^n$.\\
+
+\begin{eg}
+  \begin{itemize}
+    \item $[0, 1]$ is a manifold with boundary.
+    \item $D^n = \{(x_1, \dots, x_n) \in \R^n : x_1^2 + \dots + x_n^2 \le 1\}$ is a manifold with boundary,
+    \item The square $[0, 1]^2$ is not a manifold with boundary, but it is one with corners.
+  \end{itemize}
+\end{eg}
+
+\begin{ndefi}[]
+  Let $X$ be a manifold with boundary, with dimension $n$, with maximal atlas $\{(U_i, \phi_i) : i \in \mathcal{I}\}$. The boundary of $X$ is,
+  $$ \partial X = \{ x \in X : \exists (U_i, phi_i) \text{ on } X, U_i \sub [0, \infty) \times \R^{n-1}, \mathcal{x = \phi_1(0, x_{2}, \dots x_n)} $$\footnote{$x_1 = 0$ as we want to be on the boundary of $[0, \infty)$}.
+\end{ndefi}
+
+\noindent
+We define $J$ to be the subset of $i \in \mathcal{I}$ with $U_i \sub [0, \infty) \times \R^{n-1}$ open. We set $V_j = \{y_1, \dots, y_{n-1}  \in \R^{n-1} : (0, y_1, \dots, y_{n-1}) \in U_j\}$. Now we let $\psi_j : V_j \to \partial X$ where we see, $\psi_j (y_1, \dots, y_{n-1}) = \phi_j(0, y_1, \dots, y_{n-1})$.
+We see this is $\psi_j$ defined a maximal atlas on $\partial X$, making it into an $(n-1)$-manifold without boundary.\\
+
+\noindent
+If $X$ is a manifold with boundary, with an orientation, we can define an orientation on $\partial X$. This requires an \textbf{orientation convention}. We convent that $(x_1, \dots, x_n) \in [0, \infty) \ti \R^{n-1}$ are oriented local coordinates on $X$, then, $(x_2, \dots, x_n)$ are anti-oriented local coordinates on $\partial X$. Equivalently $d_1 \wedge \dots \wedge dx_n$ defines the orientation on $X$, then $-dx_2 \wedge \dots \wedge dx_n$ defines the orientation on $\partial X$.
+
+\textbf{Aside:} The orientations is a map the base of $T_xX$, which is the determinant, so $\pm 1$. Then this gives an idea for manifold of dimension $0$.
+
+\begin{eg}
+  Lets take $[0, 1] = X$, with orientation $[dx]$. Then $\partial X = \{0\} \coprod \{1\}$, where $0$ has the negative orientation and $1$ has the positive orientation. This is consistent with,
+  $$ \int_0^1 \di f x \rm d x = -f(0) + f(1) $$
+  for smooth $f : [0, 1] \in \R$. This is an example of stokes theorem.
+\end{eg}
+
+\noindent
+Exterior forms $\a \in\O^k(X)$ on a manifold with boundary $X$ can be restricted to the boundary $\left. \a \right|_{\partial X} \in \O^k(\partial X)$. This can be regarded as a pullback, $\left. \a \right|_{\partial X} = i^*(\a)$, $i : \partial X \embd X$ the inclusion which is a smooth embedding.
+
+\subsection{Stokes Theorem}
+\begin{nthm}[Stokes Theorem]
+  Let $X$ be an oriented $n$-manifold with boundary, so that $\partial X$ is an oriented $(n-1)$-manifold, and let $\a \on \O^{n-1}(X)$ with $\rm{supp}(\a)$ compact. Then,
+  $$ \int_X \rm d \a = \int_{\partial X} \left.\a \right|_{\partial X}. $$
+\end{nthm}
+\begin{proof}
+  Choose an atlas $\{(U_i, \phi_i) : i \in \mathcal{I}\}$ of oriented charts on $X$, and we take a subordinate partion of unity $\{\eta_i : i \in \mathcal{I}\}$. Then let $J \sub \mathcal{I}$ be the subsrt of $j \in \mathcal{I}$ with $U_j \sub [0, \infty) \ti \R^{n-1}$ open, and set
+  $$ V_j = \{(y_1, \dots, y_{n-1}) \in \R^{n-1} : (0, y_1, \dots, y_{n-1}) \in U_j\}. $$
+  Now we let $\psi_j : V_j \to \partial X$ defined by $\psi_j(y_1, \dots, y_{n-1}) = \phi_j(0, y_1, \dots, y_{n-1})$. Then $\{(V_j, \psi_j) : j \in J\}$ is an atlas of anti-oriented charts of $\partial X$ and $\{\left.\eta_j|_{\partial X} : j \in J\}$ is a subordinate partition of unity. Since $\rm{supp} \a$ is compact and $\{\eta_i : i \in \mathcal{I}\}$ is locally finite,
+  $\supp \a \cap \supp \eta \ne \vn$ for only finitely many $i \in \mathcal{I}$. Thus $\a = \sum_{i \in \mathcal{I}} \eta_i \a$, with only finitely non-zero many terms. Hence,
+  \begin{align*}
+    \int_X \rm d \a &= \sum_{i \in \mathcal{I}}\int_X \rm d (\eta_i \a) \\
+    &= \sum_{i \in \mathcal{I}}\int_{U_i} d(\phi_i^* (\eta_i \a))
+  \end{align*}
+  Now we fix $i \in \mathcal{I}$, then we write,
+  \begin{align*}
+    \phi^*(\eta_i \a) &= \sum_{k=1}^n (-1)^{k-1} a_k \rm dx_1 \wedge \dots \wedge \rm d x_{k-1} \wedge \rm dx_{k+1} \wedge \dots \wedge \rm dx_n .
+  \end{align*}
+  where $a_k : U_i \to \R$ is smooth and compactly supported. Then,
+  $$ \rm d( \phi^* (\eta_i \a)) = \left( \sum_{k=1}^n \pd{a_k}{x_k} \right)\rm dx_1 \wedge \dots \wedge \rm dx_n. $$
+  So,
+  $$ \int_{U_i} \rm d(\phi_i^* (\eta_i \a)) = \sum_{k=1}^\infty \int_{U_i} \pd{a_k}{x_k}\rm dx_1 \wedge \dots \wedge dx_n. $$
+  If $i \in \mathcal{I}\sm J$, so $U \sin \R^n$ open. Then,
+  \begin{align*}
+    \int_{U_i} \pd{a_k}{x_k} \rm x_1 \wedge \dots \wedge \rm x_n &= \int\dots\int \left( \int \pd {a_k}{x_k} \right)\rm dx_1 \dots \rm dx_k \dots \rm dx_n \\
+    &= 0
+  \end{align*}
+  If $i \in J$, then $k = 1$ is different, we get,
+  \begin{align*}
+    \int_{U_i} \pd {a_1}{x_1} \rm dx_1 \dots \rm dx_n &= \int\dots \int \left( \int\pd{a_1}{x_1}\em \rm dx_1 \right) \rm dx_2 \dots \rm dx_n \\
+    &= \int \dots \int \left[ a_1 \right]_{0}^{x_1 \gg 0} \rm dx_2\dots \rm dx_n \\
+    &= \int \dots \int -a_1 (0, x_2, \dots, x_n) \rm dx_2\dots \rm dx_n \\
+    &= -\int_{V_i} \left. a_1 \right|_{x_1 = 0} \rm dx_2\dots \rm dx_n \\
+    &= \int_{V_i} \psi^*_i (\eta_i \left.\a\right|_{\partial X}).
+  \end{align*}
+  Hence,
+  \begin{align*}
+    \int_X \rm d \a &= \int_{i \in \mathcal{I}}\int_X \rm d (\eta_i \a) \\
+    &= \sum_{j \in J} \int_{\partial X} \eta_j \left.\a\right|_{\partial X} = \int_{\partial X} \left. \a \right|_{\partial X}.
+  \end{align*}
+\end{proof}
+
+\begin{remark}
+  Greens Theorem is a trivial consequence where $\a = P\rm dx + Q \rm d y$.  
+\end{remark}

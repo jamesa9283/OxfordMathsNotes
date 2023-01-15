@@ -1,0 +1,63 @@
+% !TEX root = ../notes.tex
+
+\section{Discussion of high-degree interpolation}
+There is some historical confusion here. There are two big theorems here, we have talked about Runge's Theorem, but not Faber's Theorem.
+\begin{nthm}[Faber, 1914]
+  There does not exist any family of grids for interpolation in which polynomial interpolants converge for all continuous $f \in C([-1, 1])$.
+\end{nthm}
+\noindent
+and Runge showed,
+\begin{nthm}[Runge, 1901]
+  Polynomials in equally spaced grids may diverge exponentially, even if $f$ is analytic.
+\end{nthm}
+\noindent
+These results made interpolation seem like an awful idea. These explanations are really off piece. The flaw in Faber, is that most functions are smoother than $\cC([-1, 1])$! For Runge, the point is not to use equally spaced points, Chebyshev points are great. Here two factors combine,
+\begin{itemize}
+  \item \textbf{Conditioning of the problem}, the interpolation of equally spaced points is exponentially ill-conditioned.
+  \item \textbf{Stability of the algorithms}, we have seen polyval and polyfit. These are unstable, exponentially unstable.
+\end{itemize}
+\noindent
+\begin{proof}[(Proof of Faber's Theorem)]
+  We define $L_n : f \mapsto p_n$. Suppose $L_n f \to f$ as $n \to \infty$ for all continuous functions $f \in \cC([-1, 1])$. Since $\cC([-1, 1])$ is a Banach space, it follows from the uniform boundedness principal that, $\{\norm{L_n}\}$ are bounded, but by Theorem 15.2,
+  $$ \norm{L_n} \ge \frac{2}{\pi}\ln (n+1) \to \infty $$
+\end{proof}
+
+\noindent
+For a historical note, we note that Faber and Bernstein used the bound,
+$$ \norm{L_n} \ge \frac{1}{12}\ln (n) $$
+
+\section{Lebesgue Constants}
+Imagine we have polynomial interpolation in distinct $x_0, \dots, x_n \in [-1, 1]$. Then we can,
+$$ p(x) = \sum_{j=0}^n \ell_j(x)f_j \qquad f_j = f(x_j), f \in \cC[-1, 1]. $$
+Then the Lesbegue constant, $\La$,
+$$ \La = \sup_f \frac{\norm{p}}{\norm{f}}. $$
+We see that $\La$ is just the infinity norm of the interpolation operator. We can compute it in such a simple way. It is equal to the maximum possible size of $p$, if all the data are at most $|f_j| \le 1$. The Lesbegue function, $\l$,
+$$ \l(x) = \sup_f \frac{|p(x)|}{\norm{f}} = \sum_{j=0}^n |\ell_j(x)|, $$
+and so we have the simple formula of,
+$$ \La = \sup_{x \in [-1, 1]} \l(x). $$
+
+\begin{nthm}
+  We interplate $f$, then,
+  $$ \norm{f - p} \le (\La + 1) \norm{f - p^*}, $$
+  that is, if $\La$ is small then polynomial interpolants are near best.
+\end{nthm}
+\begin{proof}
+  We note that $p$ is the interpolant to $f$. So, $p - p^*$ is the interpolant to $f - p^*$. We compute the error,
+  \begin{align*}
+    \norm{f - p} &\le \norm{f - p^*} + \norm{p - p^*} \\
+    &\le \norm{f - p^*} + \La \norm{f- p^*} \\
+    &= (\La + 1)\norm{f - p^*}.
+  \end{align*}
+\end{proof}
+
+\begin{nthm}
+  \textbf{Chebyshev points}, it is known,
+  $$ \La_n \sim \frac{2}{\pi}\log (n) \qquad n \to \infty $$
+  $$ \La_n \le \frac{2}{\pi}\log(n+1) + 1 \qquad n \ge 0 $$
+  \textbf{Optimal points (no good)} (minimise the Lesbegue constant),
+  $$ \La_n \sim \frac{2}{\pi}\log(n) \qquad n \to \infty $$
+  $$ \La_n \ge \frac{2}{\pi}\log(n+1) + 0.52125... \qquad n \ge 0  $$
+  \textbf{Equally spaced points}
+  $$ \La_n \sim \frac{2^{n+1}}{e n \log (n)} \qquad n\to\infty $$
+  $$ \La_n \ge \frac{2^{n-2}}{n^2} \qquad n \ge 1 $$
+\end{nthm}

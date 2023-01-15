@@ -1,0 +1,60 @@
+% !TEX root = ../notes.tex
+
+\section{Convergence for Analytic Functions}
+Assume we have $f$ which is analytic in $E_\rho$ for some $\rho > 1$ and also assume that $|f(x)| \le M$ in $E_\rho$.
+
+\begin{nthm}[Bernstein]
+  $$ |a_k| \le 2M\rho^{-k}\qquad \forall\, k \ge 0 $$
+\end{nthm}
+\begin{proof}
+  Let $f(x) = F(z) = F(z^{-1})$. That is, $F(z) = f(1/2(z + z^{-1})$, composition of two analytic functions, hence analytic. We know,
+  \begin{align*}
+    f(x) &= \sum_{k=0}^\infty a_kT_k(x) \\
+    F(z) &= \frac{1}{2}\sum_{k=0}^\infty a_k(z^k + z^{-k})
+  \end{align*}
+  are the same, where,
+  $$ a_k = \frac{1}{\pi i} \int_{|z| = 1} z^{-1-k}F(z)\rm d z $$
+  but this can be the same as, for $s < \rho$,
+  $$ a_k = \frac{1}{\pi i}\int_{|z| = s} z^{-1-k}F(z)\rm d z $$
+  and so this implies,
+  $$ |a_k| \le \frac{1}{\pi}s^{-1-k}M 2\pi s = 2Ms^{-k} $$
+  and hence,
+  $$ |a_k| \le 2M\rho^{-k}. $$
+\end{proof}
+From this, the following theorem follows,
+\begin{nthm}
+  $$ \norm{f - f_n} \le \frac{2M \rho^{-n}}{\rho - 1} $$
+  and,
+  $$ \norm{f - p_n} \le \frac{4M \rho^{-n}}{\rho -1} $$
+\end{nthm}
+\begin{proof}
+  We know,
+  \begin{align*}
+    f - f_n &= a_{n+1}T_{n+1} + a_{m+2}T_{m+2}+\dots \\
+    \norm{f - f_n} &\le \sum_{k=n+1}^\infty |a_k| \\
+    &\le 2M \sum_{k=n+1}^\infty \rho^{-k} \\
+    &= \frac{2M\rho^{-n-1}}{1 - 1/\rho} = \frac{2M \rho^{-n}}{\rho - 1}
+  \end{align*}
+  Similarly, for $f - p_n$.
+\end{proof}
+
+\noindent
+Here is a converse to the first result,
+\begin{nthm}
+  Suppose $f$ on $[1, -1]$ has approximations $q_n$ such that $\norm{q - q_n} \le C \rho^{-n}$ for some $p > 1$. Then $f$ is analytic in $E_\rho$.
+\end{nthm}
+\begin{proof}
+  This is based on $f = q_0 + (q_1 - q_0) + (q_2 - q_1) + \dots$ and the exponential convergence implies these are small and the result follows from this.
+\end{proof}
+
+\noindent
+How close is a point to the unit interval as measured by these ellipses. For two singularities, one at the minor axis and one at the major, then we need the changes to be $\e \approx \sqrt{2\d}$, where $\e$ is the distance on the minor axis and $\d$ at the major axis.
+
+\section{Gibbs Phenomenon}
+What is it? Algebraic overshoots near jumps. There are three cases,
+\begin{itemize}
+  \item Interpolation, with a jump midway between grid points. We get a $28.2\%$ overshoot.
+  \item Interpolation, with a jump at a point. We get a $6.6\%$ overshoot.
+  \item Projection. We get a $17.9\%$ overshoot.
+\end{itemize}
+The real reason we don't like this, is that we don't appromximate functions with jumps with polynomials. These are bad polynomials to approximate. There is an aspect here, the decay rate away from a singularity. It is inverse linear decay away, this is very bad. Polynomials: error decay, $\mathcal{O}(\frac{1}{x})$ away from jump. This is algebraic and slow. However, splines are piecewise polynomials, and they have error decay this is exponential!

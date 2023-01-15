@@ -1,0 +1,39 @@
+% !TEX root = ../notes.tex
+
+\section{Hermite Integral Formula}
+We firstly review residue calculus. We know that,
+$$ \oint_\Gamma g(z)\rm dz = \sum \mathrm{res} g(z)  $$
+If $g$ has a simple pole at a point $z_0$, the residue is,
+$$ \res = \lim_{z \to z_0} (z - z_0)g(z). $$
+
+\noindent
+Suppose that $g = 1/h(z)$ and $h$ has a simple zero at $z_0$. Then,
+$$ \res = \lim_{z \to z_0} \frac{z - z_0}{h(z)} = \frac{1}{h(z_0)}. $$
+That concludes the review of residue calculus. \\
+
+\noindent
+Let $f$ be analytic on and inside $\Gamma$, enclosing $[-1, 1]$ and let $x_0, \dots, x_n \in [-1, 1]$ be distinct. We let $p_n$ to be the degree $n$ interpolant to $f$ in $\{x_k\}$. We recall the node polynomial,
+$$ \ell(x) = \pi_{k=0}^n (x - x_k). $$
+
+\begin{nthm}[]
+  We have the following formulae,
+  $$ p(x) = \frac{1}{2\pi i}\oint_\Ga \frac{\ell(t) - \ell(x)}{\ell(t)} \frac{f(t)}{t - x} \rm d t $$
+  and the error,
+  $$ f - p(x) = \frac{1}{2\pi i}\oint_\Ga \frac{\ell(x)}{\ell(t)} \frac{f(t)}{t - x}\rm d t $$
+\end{nthm}
+\noindent
+Where does the power come from? Well from $\frac{\ell(x)}{\ell(t)}$. If we have $x$ close to the interpolation point and $t$ is far away on the contour, then we have $\frac{\ell(x)}{\ell(t)}$ is expoentially small as $n \to \infty$ if $f$ is analytic in a big region.
+
+\begin{proof}
+  We shall consider,
+  $$ \frac{1}{2\pi i}\oint_{\Gamma_j} \frac{\ell(x)}{\ell(t)(x - t)} $$
+  and define $\Ga_j$ as the contour that encloses $x_j$ but no other $x_k$ or $x$. The integrand has a simple pole at $t = x_j$, with residue,
+  $$ \frac{\ell(x)}{\ell'(x_j)(x - x_j)}. $$
+  This is the cardinal polynomial, $\ell_j$. Now we enlarge $\Ga_j$ ($\Ga'$) to enclose all of the $x_0, \dots, x_n$ but still not $x$. We get,
+  $$ p(x) = \frac{1}{2\pi i}\oint_{\Ga'} \frac{\ell(x)f(t)}{\ell(t) (x - t)}\rm d t. $$
+  Now enlarge $\Ga'$ to $\Ga$, enclosing $x$. We then get,
+  $$ p(x) - f(x) = \frac{1}{2\pi i}\oint_\Ga \frac{\ell(x)f(t)}{\ell(t)(x - t)}\rm t $$
+  because not we enclose one more pole at $t = x$, with residue $-f(x)$. This is the second equation in the result. For the rest of the result we need to show that,
+  $$ f(x) = \frac{1}{2\pi i}\oint_\Ga \frac{\ell(t)}{\ell(t)} \frac{f(t)}{t - x}\rm dx, $$
+  and this is true by residue calculus.
+\end{proof}
